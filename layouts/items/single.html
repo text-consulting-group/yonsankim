@@ -1,0 +1,257 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $title := .Title }}
+  {{ $description := .Params.description | default .Params.Description }}
+  {{ $summary := .Params.summary | default .Summary }}
+  {{ $level := .Params.level_of_description | default .Params.Level_of_description }}
+  {{ $mediaType := .Params.media_type | default .Params.Media_type }}
+  {{ $components := .Params.components | default .Params.Components }}
+  {{ $link := .Params.link | default .Params.Link }}
+  {{ $media := .Params.media | default .Params.Media }}
+  {{ $mediaEmbedURL := "" }}
+  {{ $mediaThumbnail := "" }}
+  {{ if and (not $mediaType) $media }}
+    {{ with index $media "type" }}{{ $mediaType = . }}{{ end }}
+  {{ end }}
+  {{ if $media }}
+    {{ with index $media "embed_url" }}{{ $mediaEmbedURL = . }}{{ end }}
+    {{ if eq $mediaEmbedURL "" }}
+      {{ with index $media "embeded_url" }}{{ $mediaEmbedURL = . }}{{ end }}
+    {{ end }}
+    {{ with index $media "thumbnail" }}{{ $mediaThumbnail = . }}{{ end }}
+    {{ if and (not $components) (index $media "components") }}
+      {{ with index $media "components" }}{{ $components = . }}{{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $normalizedComponents := slice }}
+  {{ $imageComponents := slice }}
+  {{ $pdfComponent := "" }}
+  {{ $imageComponent := "" }}
+  {{ range $components }}
+    {{ $componentURL := partial "roll/utils/normalize-component-url.html" (dict "src" .) }}
+    {{ $normalizedComponents = $normalizedComponents | append $componentURL }}
+    {{ if and (eq $pdfComponent "") (hasSuffix (lower $componentURL) ".pdf") }}
+      {{ $pdfComponent = $componentURL }}
+    {{ end }}
+    {{ if and (eq $imageComponent "") (or (hasSuffix (lower $componentURL) ".jpg") (hasSuffix (lower $componentURL) ".jpeg") (hasSuffix (lower $componentURL) ".png") (hasSuffix (lower $componentURL) ".gif") (hasSuffix (lower $componentURL) ".webp") (hasSuffix (lower $componentURL) ".heic") (hasSuffix (lower $componentURL) ".tif") (hasSuffix (lower $componentURL) ".tiff")) }}
+      {{ $imageComponent = $componentURL }}
+    {{ end }}
+    {{ if or (hasSuffix (lower $componentURL) ".jpg") (hasSuffix (lower $componentURL) ".jpeg") (hasSuffix (lower $componentURL) ".png") (hasSuffix (lower $componentURL) ".gif") (hasSuffix (lower $componentURL) ".webp") (hasSuffix (lower $componentURL) ".heic") (hasSuffix (lower $componentURL) ".tif") (hasSuffix (lower $componentURL) ".tiff") }}
+      {{ $imageComponents = $imageComponents | append $componentURL }}
+    {{ end }}
+  {{ end }}
+  {{ if and (eq $pdfComponent "") (eq $imageComponent "") $mediaThumbnail }}
+    {{ $imageComponent = partial "roll/utils/normalize-component-url.html" (dict "src" $mediaThumbnail) }}
+  {{ end }}
+  {{ $previewLink := $mediaEmbedURL | default $link }}
+  {{ $refCode := "" }}
+  {{ if and .Params.rg .Params.series .Params.file_number .Params.local_identifier }}
+    {{ $refCode = printf "%v-%v-%v-%v" .Params.rg .Params.series .Params.file_number .Params.local_identifier }}
+  {{ end }}
+
+  <section class="bg-[var(--theme-background)] text-[var(--theme-text)]">
+    <div class="container px-4 pb-10 pt-5 lg:px-10">
+      <div class="grid gap-6 md:grid-cols-[30%_minmax(0,70%)] md:items-start">
+        <aside class="md:sticky md:top-[80px] md:max-h-[calc(100vh-100px)] md:self-start md:overflow-y-auto">
+          {{ partial "roll/browse/aside-default.html" . }}
+        </aside>
+
+        <div class="min-w-0 space-y-4">
+          <div class="rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4 shadow-sm">
+            {{ partial "roll/browse/breadcrumb.html" . }}
+          </div>
+
+          <div class="rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 shadow-sm">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div class="max-w-4xl">
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Item Detail</p>
+                <h1 class="mt-3 text-3xl font-semibold leading-tight tracking-[0.01em] text-slate-900 lg:text-4xl">{{ $title }}</h1>
+                {{ with $summary }}
+                  <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-500 lg:text-base">{{ . }}</p>
+                {{ end }}
+              </div>
+              <div class="flex flex-wrap gap-2">
+                {{ with $level }}
+                  <span class="rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-600">{{ . }}</span>
+                {{ end }}
+                {{ with $mediaType }}
+                  <span class="rounded-full bg-blue-50 px-4 py-2 text-sm text-blue-600">{{ . }}</span>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+
+          <section class="rounded-[8px] border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Preview</p>
+                <h2 class="mt-2 text-xl font-semibold text-slate-900">{{ if $previewLink }}미디어{{ else if $components }}대표 컴포넌트{{ else }}미디어{{ end }}</h2>
+              </div>
+              {{ with .Parent }}
+              <a href="{{ .Permalink }}" class="rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-600 hover:text-blue-600">목록으로</a>
+              {{ end }}
+            </div>
+
+            <div class="facwa-item-media mt-5 rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-footer)]">
+              {{ if $previewLink }}
+                <div class="facwa-item-media__frame">
+                  <iframe
+                    class="facwa-item-media__iframe"
+                    src="{{ $previewLink }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              {{ else if gt (len $imageComponents) 1 }}
+                <div x-data="{ active: 0, prev() { const el = this.$refs.scroller; el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' }) }, next() { const el = this.$refs.scroller; el.scrollBy({ left: el.clientWidth, behavior: 'smooth' }) } }" class="space-y-4 bg-[var(--theme-surface)] p-4">
+                  <div class="overflow-hidden rounded-[8px] border border-[var(--theme-border)] bg-white">
+                    <div x-ref="scroller" class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth" style="scrollbar-width: none;" @scroll="active = Math.round($event.target.scrollLeft / $event.target.clientWidth)">
+                      {{ range $i, $img := $imageComponents }}
+                        <figure class="w-full shrink-0 snap-start">
+                          <img class="aspect-[4/5] w-full bg-white object-contain object-center" src="{{ $img }}" alt="{{ printf "%s %d" $title (add $i 1) }}">
+                        </figure>
+                      {{ end }}
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between gap-3 text-sm text-slate-600">
+                    <div>{{ add (len $imageComponents) 0 }}장 중 <span x-text="active + 1"></span>장</div>
+                    <div class="flex gap-2">
+                      <button type="button" class="rounded-full border border-[var(--theme-border)] px-3 py-1.5" @click="prev()">이전</button>
+                      <button type="button" class="rounded-full border border-[var(--theme-border)] px-3 py-1.5" @click="next()">다음</button>
+                    </div>
+                  </div>
+                </div>
+              {{ else if $imageComponent }}
+                <img class="aspect-[4/5] w-full bg-white object-contain object-center" src="{{ $imageComponent }}" alt="{{ $title }}">
+              {{ else if $pdfComponent }}
+                <div class="w-full overflow-hidden rounded-[8px] border border-[var(--theme-border)] bg-white" style="height: min(90vh, calc(100vw * 1.414));">
+                  <iframe
+                    class="h-full w-full bg-white"
+                    src="{{ printf "%s#page=1&zoom=page-width" $pdfComponent }}"
+                    frameborder="0"
+                  ></iframe>
+                </div>
+              {{ else if $normalizedComponents }}
+                <div class="space-y-4 p-4">
+                  {{ range $normalizedComponents }}
+                    <div class="overflow-hidden rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-surface)]">
+                      <img class="h-auto w-full object-cover object-center" src="{{ . }}" alt="{{ $title }}">
+                    </div>
+                  {{ end }}
+                </div>
+              {{ else }}
+                <div class="flex aspect-video items-center justify-center bg-slate-100 text-sm text-slate-500">미디어가 없습니다</div>
+              {{ end }}
+            </div>
+
+            {{ with .Params.shotlist }}
+              <div class="mt-5 rounded-[8px] bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600">
+                {{ . }}
+              </div>
+            {{ end }}
+          </section>
+
+          <aside class="space-y-4">
+            <div class="rounded-[8px] border border-slate-200 bg-white p-5 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Identity</p>
+              <h2 class="mt-2 text-xl font-semibold text-slate-900">기본 정보</h2>
+              <dl class="mt-4 divide-y divide-[var(--theme-border)] text-sm">
+                {{ if $refCode }}
+                  <div class="py-3">
+                    <dt class="text-slate-500">Reference code</dt>
+                    <dd class="mt-1 font-medium text-slate-900">{{ $refCode }}</dd>
+                  </div>
+                {{ end }}
+                <div class="py-3">
+                  <dt class="text-slate-500">Title</dt>
+                  <dd class="mt-1 font-medium text-slate-900">{{ $title }}</dd>
+                </div>
+                {{ with .Date }}
+                  <div class="py-3">
+                    <dt class="text-slate-500">Date</dt>
+                    <dd class="mt-1 font-medium text-slate-900">{{ . }}</dd>
+                  </div>
+                {{ end }}
+                {{ with $level }}
+                  <div class="py-3">
+                    <dt class="text-slate-500">Level of description</dt>
+                    <dd class="mt-1 font-medium text-slate-900">{{ . }}</dd>
+                  </div>
+                {{ end }}
+                {{ with $mediaType }}
+                  <div class="py-3">
+                    <dt class="text-slate-500">Media type</dt>
+                    <dd class="mt-1 font-medium text-slate-900">{{ . }}</dd>
+                  </div>
+                {{ end }}
+                {{ with $previewLink }}
+                  <div class="py-3">
+                    <dt class="text-slate-500">Link</dt>
+                    <dd class="mt-1 break-all font-medium text-blue-600">
+                      <a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ . }}</a>
+                    </dd>
+                  </div>
+                {{ end }}
+              </dl>
+            </div>
+
+            <div class="rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Context</p>
+              <h2 class="mt-2 text-xl font-semibold text-slate-900">연관 정보</h2>
+              <div class="mt-4 space-y-4 text-sm">
+                {{ partial "roll/browse/taxonomy-chip-list.html" (dict "page" . "taxonomy" "tags" "label" "Tags") }}
+                {{ partial "roll/browse/taxonomy-chip-list.html" (dict "page" . "taxonomy" "creators" "label" "Creators") }}
+                {{ partial "roll/browse/taxonomy-chip-list.html" (dict "page" . "taxonomy" "subjects" "label" "Subjects") }}
+                {{ partial "roll/browse/taxonomy-chip-list.html" (dict "page" . "taxonomy" "sources" "label" "Sources") }}
+                {{ partial "roll/browse/taxonomy-chip-list.html" (dict "page" . "taxonomy" "venues" "label" "Venues") }}
+              </div>
+            </div>
+          </aside>
+
+          <div class="rounded-[8px] border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Description</p>
+            <h2 class="mt-2 text-xl font-semibold text-slate-900">상세 정보</h2>
+            <dl class="mt-4 divide-y divide-[var(--theme-border)] text-sm">
+              <div class="py-3">
+                <dt class="text-slate-500">Title</dt>
+                <dd class="mt-1 font-medium text-slate-900">{{ $title }}</dd>
+              </div>
+              {{ with .Date }}
+                <div class="py-3">
+                  <dt class="text-slate-500">Date</dt>
+                  <dd class="mt-1 font-medium text-slate-900">{{ . }}</dd>
+                </div>
+              {{ end }}
+              {{ with $summary }}
+                <div class="py-3">
+                  <dt class="text-slate-500">Summary</dt>
+                  <dd class="mt-1 font-medium leading-7 text-slate-900">{{ . }}</dd>
+                </div>
+              {{ end }}
+              {{ with $description }}
+                <div class="py-3">
+                  <dt class="text-slate-500">Description</dt>
+                  <dd class="mt-1 whitespace-pre-line font-medium leading-7 text-slate-900">{{ . }}</dd>
+                </div>
+              {{ end }}
+              {{ with .Params.note }}
+                <div class="py-3">
+                  <dt class="text-slate-500">Note</dt>
+                  <dd class="mt-1 whitespace-pre-line font-medium leading-7 text-slate-900">{{ . }}</dd>
+                </div>
+              {{ end }}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

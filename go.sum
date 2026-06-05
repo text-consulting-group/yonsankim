@@ -1,0 +1,5 @@
+github.com/gohugoio/hugo-mod-heroicons v0.0.0-20230311221257-aa5a3a372386 h1:4ssTg+cPu0aiV35lrF2APJ+6d3/s909LcAyC30d+Sd8=
+github.com/gohugoio/hugo-mod-heroicons v0.0.0-20230311221257-aa5a3a372386/go.mod h1:Dr4s5WED0qTYSmJtl8LXknqSaO4Jmw5UF6OqKMCWaxo=
+github.com/tailwindlabs/heroicons v2.0.16+incompatible/go.mod h1:2SHGOdw86jviBkoeQINcTfkzAAao9dciip4RsMS9xIg=
+github.com/team-durumi/hugo-marketing v0.0.0-20240923062655-cd1ae422878d h1:xaBsEsNz83uQHPNSrFvSxEOXFeZ74q7cKZRXufn+HhQ=
+github.com/team-durumi/hugo-marketing v0.0.0-20240923062655-cd1ae422878d/go.mod h1:qSARfDNG7d0rbAkMd/Iy14GIdc1PokAvB8CqSHbMtfM=

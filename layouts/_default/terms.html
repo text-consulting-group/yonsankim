@@ -1,0 +1,71 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+{{ define "main" }}
+<section class="text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-900 body-font">
+  <div class="px-5 p-24 mx-auto">
+    <div class="flex flex-col text-center w-full">
+      <h1 class="sm:text-3xl text-4xl font-medium title-font mb-4 text-gray-900 dark:text-gray-100">{{ .Title }}</h1>
+      {{ $taxonomyDescriptions := site.Params.taxonomy_descriptions | default dict }}
+      {{ $desc := "" }}
+      {{ with index $taxonomyDescriptions .Type }}
+        {{ with .description }}{{ $desc = . }}{{ end }}
+      {{ end }}
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">{{ $desc }}</p>
+    </div>
+  </div>
+</section>
+<section class="text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap -m-4">
+      {{ $type := .Type }}
+      {{ range $key, $value := .Data.Terms.ByCount }}
+        {{ $name := .Name }}
+        {{ $count := .Count }}
+        {{ with $.Site.GetPage (printf "/%s/%s" $type $name) }}
+          {{ $termPages := .Pages.ByDate }}
+          {{ $thumbnail := "" }}
+          {{ $termComponents := slice }}
+          {{ with index $termPages 0 }}
+            {{ $termComponents = .Params.components | default .Params.Components }}
+            {{ $media := .Params.media | default .Params.Media }}
+            {{ if $media }}
+              {{ with index $media "thumbnail" }}{{ $thumbnail = . }}{{ end }}
+            {{ end }}
+            {{ if and (eq $thumbnail "") $termComponents }}
+              {{ $thumbnail = index $termComponents 0 }}
+            {{ end }}
+          {{ end }}
+        <div class="lg:w-1/4 sm:w-1/2 p-2">
+          <a class="flex relative h-full" href="{{ .Permalink }}">
+            <div class="rounded relative z-10 w-full overflow-hidden border-4 border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-900">
+              <div class="aspect-[462/384] w-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
+                {{ if $thumbnail }}
+                  <img class="h-full w-full object-cover" src="{{ partial "roll/utils/normalize-component-url.html" (dict "src" $thumbnail) }}" alt="{{ .Title }}">
+                {{ else }}
+                  <div class="flex h-full items-center justify-center text-gray-400 dark:text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                  </div>
+                {{ end }}
+              </div>
+              <div class="p-4">
+                <h2 class="title-font text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">{{ .Title }}</h2>
+                <p class="leading-relaxed text-sm text-gray-700 dark:text-gray-300">{{ printf "%d" $count }}개의 아이템</p>
+                {{ with .Params.description }}
+                  <p class="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">{{ . }}</p>
+                {{ end }}
+              </div>
+            </div>
+          </a>
+        </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

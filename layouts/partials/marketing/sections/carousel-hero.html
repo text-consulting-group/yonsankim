@@ -1,0 +1,53 @@
+{{/*  Carousel  */}}
+<script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.js"></script>
+<section id="carousel" class="{{ hugo.Data.marketing.carousel.bg }} mx-auto flex items-center flex-wrap z-100">
+  <div x-data="carousel" class="flex flex-col">
+    <div class="flex" x-on:keydown.right="next" x-on:keydown.left="prev" tabindex="0" role="region" aria-labelledby="carousel-label">
+      <button x-on:click="prev" class="text-6xl text-gray-100 absolute left-3 z-10 top-3/4 -mt-24">
+        <span aria-hidden="true">❮</span>
+        <span class="sr-only">이전 슬라이드로 이동</span>
+      </button>
+      <ul x-ref="slider" class="flex w-full overflow-x-scroll" tabindex="0" role="listbox" aria-labelledby="carousel-content-label">
+        {{ range hugo.Data.marketing.carousel.listItem }}
+          <li class="relative snap-star w-full shrink-0 flex flex-col items-center justify-center" role="option">
+            <a href="{{ .url | absURL }}">
+              <img class="mt-2 object-cover w-full" src="{{ .src | absURL }}" alt="{{ .alt }}">
+              <button x-bind="focusableWhenVisible" class="absolute inset-0 px-4 py-2 font-sans text-6xl">
+                <span class="text-white bg-blue-700 opacity-80 p-5">{{ .caption }}</span>
+              </button>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+      <button x-on:click="next" class="text-6xl text-gray-100 absolute right-3 top-3/4 -mt-24">
+        <span aria-hidden="true">❯</span>
+        <span class="sr-only">다음 슬라이드로 이동 </span>
+      </button>
+    </div>
+  </div>
+</section>
+<script>
+var carousel = {
+  skip: 1,
+  next() {
+    this.to((current, offset) => current + (offset * this.skip))
+  },
+  prev() {
+    this.to((current, offset) => current - (offset * this.skip))
+  },
+  to(strategy) {
+    let slider = this.$refs.slider
+    let current = slider.scrollLeft
+    let offset = slider.firstElementChild.getBoundingClientRect().width
+    slider.scrollTo({ left: strategy(current, offset), behavior: 'smooth' })
+  },
+  focusableWhenVisible: {
+    'x-intersect:enter'() {
+      this.$el.removeAttribute('tabindex')
+    },
+    'x-intersect:leave'() {
+      this.$el.setAttribute('tabindex', '-1')
+    },
+  }
+}
+</script>

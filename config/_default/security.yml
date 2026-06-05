@@ -1,0 +1,3 @@
+node:
+  permissions:
+    disable: true

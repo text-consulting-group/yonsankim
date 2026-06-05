@@ -1,0 +1,41 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $pages := .Pages.ByDate.Reverse }}
+  <section class="facwa-taxonomy-shell">
+    <div class="facwa-blog-index">
+      <header class="facwa-taxonomy-hero">
+        <p class="facwa-taxonomy-hero__kicker">{{ .Type }}</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.Description }}
+          <p>{{ . }}</p>
+        {{ end }}
+        <div class="facwa-blog-meta">
+          <span class="facwa-pill">{{ len $pages }}개의 글</span>
+          <span class="facwa-pill">분류 상세</span>
+        </div>
+      </header>
+
+      <div class="facwa-taxonomy-list">
+        {{ range $pages }}
+          <a class="facwa-taxonomy-list__item" href="{{ .Permalink }}">
+            <div class="facwa-taxonomy-list__meta">
+              <div>{{ .Date.Format "2006-01-02" }}</div>
+              {{ with .Params.author }}<div>{{ . }}</div>{{ end }}
+            </div>
+            <div>
+              <h2 class="facwa-taxonomy-list__title">{{ .Title }}</h2>
+              <p class="facwa-taxonomy-list__summary">{{ .Summary | plainify | truncate 240 }}</p>
+            </div>
+          </a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

@@ -1,0 +1,60 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  <section class="facwa-blog-shell">
+    <div class="facwa-blog-article">
+      <header class="facwa-blog-hero">
+        <p class="facwa-blog-kicker">{{ with .Section }}{{ . }}{{ else }}post{{ end }}</p>
+        <h1 class="facwa-blog-title">{{ .Title }}</h1>
+        {{ with .Summary }}
+          <p class="facwa-blog-lede">{{ . | plainify | truncate 240 }}</p>
+        {{ end }}
+        <div class="facwa-blog-meta">
+          <span class="facwa-pill">{{ .Date.Format "2006-01-02" }}</span>
+          {{ with .Params.author }}<span class="facwa-pill">{{ . }}</span>{{ end }}
+          {{ range .Params.categories }}
+            <a class="facwa-pill" href="{{ printf "/categories/%s/" (. | urlize) | relURL }}">{{ . }}</a>
+          {{ end }}
+          {{ range .Params.tags }}
+            <a class="facwa-pill" href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">{{ . }}</a>
+          {{ end }}
+        </div>
+      </header>
+
+      {{ if .Params.components }}
+        <div class="facwa-post-content">
+          <div class="grid gap-4 md:grid-cols-2">
+            {{ range $index, $component := .Params.components }}
+              <figure class="overflow-hidden rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface-soft)]">
+                <img src="{{ $component | absURL }}" alt="{{ $.Title }} 미디어 {{ add $index 1 }}" class="block h-auto w-full object-cover">
+              </figure>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+
+      <article class="facwa-post-content">
+        <div class="facwa-post-body">
+          {{ .Content }}
+        </div>
+      </article>
+
+      {{ if or .Params.article_materials .Params.post_materials }}
+        <aside class="facwa-post-aside">
+          <p class="facwa-post-aside__title">첨부 및 자료</p>
+          {{ with .Params.article_materials }}
+            <p class="facwa-post-aside__text">문서 자료: <a href="{{ . }}" download>링크 및 다운로드</a></p>
+          {{ end }}
+          {{ with .Params.post_materials }}
+            <p class="facwa-post-aside__text">포스트 자료: <a href="{{ . }}" download>링크 및 다운로드</a></p>
+          {{ end }}
+        </aside>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

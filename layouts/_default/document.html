@@ -1,0 +1,87 @@
+{{- define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end -}}
+
+{{- define "main" }}
+  {{- $breadcrumb := .Params.breadcrumb | default "연구노트" -}}
+  {{- $eyebrow := .Params.eyebrow | default "Research Note" -}}
+  {{- $heroDescription := .Params.hero_description | default "YJ 연구 설계를 기준으로 전여대협 아카이브를 서울 중심주의, 지역 주체, 지식 생산의 위계라는 문제의식 속에서 읽기 위한 소논문 설계 문서입니다." -}}
+  <main class="facwa-document-page">
+    <div class="site-container facwa-document-shell">
+      <nav class="facwa-document-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">홈</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ $breadcrumb }}</span>
+      </nav>
+
+      <section class="facwa-document-hero">
+        <div>
+          <p class="facwa-document-eyebrow">{{ $eyebrow }}</p>
+          <h1>{{ .Title }}</h1>
+          <p>{{ $heroDescription }}</p>
+        </div>
+        <dl class="facwa-document-meta">
+          {{- with .Params.meta }}
+            {{- range . }}
+              <div>
+                <dt>{{ .label }}</dt>
+                <dd>{{ .value }}</dd>
+              </div>
+            {{- end }}
+          {{- else }}
+            <div>
+              <dt>형식</dt>
+              <dd>A4 15장 소논문 설계</dd>
+            </div>
+            <div>
+              <dt>분석틀</dt>
+              <dd>페어클러 비판적 담론 분석</dd>
+            </div>
+            <div>
+              <dt>동기화</dt>
+              <dd>{{ .Params.last_synced_at | default "document.md" }}</dd>
+            </div>
+          {{- end }}
+        </dl>
+      </section>
+
+      <div class="facwa-document-grid">
+        <aside class="facwa-document-toc-card" aria-label="문서 목차">
+          <div class="facwa-document-toc-card__inner">
+            <p class="facwa-document-toc-title">목차</p>
+            {{ with .TableOfContents }}
+              {{ . }}
+            {{ else }}
+              <p class="facwa-document-toc-empty">목차를 생성할 수 없습니다.</p>
+            {{ end }}
+          </div>
+        </aside>
+
+        <article class="facwa-document-card">
+          <div class="facwa-document-content">
+            {{ .Content }}
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+{{ end -}}
+
+{{- define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end -}}
+
+{{- define "footerJs" }}
+  <script>
+    document.addEventListener("click", function (event) {
+      const link = event.target.closest(".facwa-document-content a[href^='/items/']");
+      if (!link) return;
+
+      const title = link.textContent.trim() || "item 페이지";
+      const shouldMove = window.confirm(`"${title}" 페이지로 이동할까요?`);
+      if (!shouldMove) {
+        event.preventDefault();
+      }
+    });
+  </script>
+{{ end -}}

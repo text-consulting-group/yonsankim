@@ -1,0 +1,25 @@
+{{/**
+  title : feature
+  layout :
+**/}}
+{{ with hugo.Data.marketing.feature }}
+<section id="feature" class="bg-repeat" style="background-image: url({{ .bgImage | absURL }})">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="text-center mb-20">
+      <h2 class="text-xl text-white tracking-widest mb-3">{{ .category }}</h2>
+      <h1 class="sm:text-3xl text-2xl font-bold title-font text-white mb-4">{{ .title }}</h1>
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-white mb-4">{{ .subtitle }}</h1>
+      <p class="text-md leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-white">{{ .content }}</p>
+      <div class="flex mt-6 justify-center">
+        <div class="w-16 h-1 rounded-full bg-blue-500 inline-flex"></div>
+      </div>
+    </div>
+    <div class="flex flex-wrap justify-center mb-20">
+      <img class="object-cover object-center rounded" alt="{{ .image }}_cover_image" src="{{ .image }}">
+    </div>
+      <a href="{{ .button.url }}">
+        <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded-full text-lg">{{ .button.label }}</button>
+      </a>
+  </div>
+</section>
+{{ end }}

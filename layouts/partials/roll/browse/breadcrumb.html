@@ -1,0 +1,17 @@
+<nav class="rounded-3xl border border-slate-200 bg-white px-6 py-5 text-sm text-slate-500 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+  <ol class="flex flex-wrap items-center gap-2">
+    {{ template "breadcrumbnav" (dict "p1" . "p2" .) }}
+  </ol>
+</nav>
+{{ define "breadcrumbnav" }}
+  {{ if .p1.Parent }}
+    {{ template "breadcrumbnav" (dict "p1" .p1.Parent "p2" .p2 ) }}
+    <li class="text-slate-300 dark:text-slate-600">/</li>
+  {{ else if not .p1.IsHome }}
+    {{ template "breadcrumbnav" (dict "p1" .p1.Site.Home "p2" .p2 ) }}
+    <li class="text-slate-300 dark:text-slate-600">/</li>
+  {{ end }}
+  <li{{ if eq .p1 .p2 }} class="font-semibold text-slate-900 dark:text-white"{{ end }}>
+    <a href="{{ .p1.Permalink }}" class="rounded-full px-2 py-1 transition hover:bg-white hover:text-slate-900 dark:hover:bg-slate-700 dark:hover:text-white">{{ .p1.Title }}</a>
+  </li>
+{{ end }}

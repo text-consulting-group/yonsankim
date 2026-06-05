@@ -1,0 +1,39 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+{{ define "main" }}
+  <section class="facwa-taxonomy-shell">
+    <div class="facwa-blog-index">
+      <header class="facwa-blog-hero">
+        <p class="facwa-blog-kicker">{{ .Type }}</p>
+        <h1 class="facwa-blog-title">{{ .Title }}</h1>
+        {{ with .Params.Description }}
+          <p class="facwa-blog-lede">{{ . }}</p>
+        {{ end }}
+      </header>
+
+      <div class="facwa-taxonomy-grid">
+        {{ $type := .Type }}
+        {{ range $key, $value := .Data.Terms.ByCount }}
+          {{ with $.Site.GetPage (printf "/%s/%s" $type .Name) }}
+            <article class="facwa-taxonomy-card">
+              <div class="facwa-taxonomy-card__head">
+                <h2 class="facwa-taxonomy-card__title">{{ .Title }}</h2>
+                <span class="facwa-taxonomy-card__count">{{ printf "%d" $value.Count }}개</span>
+              </div>
+              {{ if .Params.Description }}
+                <p class="facwa-taxonomy-card__desc">{{ .Params.Description }}</p>
+              {{ else }}
+                <p class="facwa-taxonomy-card__desc">이 분류에는 {{ printf "%d" $value.Count }}개의 아이템이 포함되어 있습니다.</p>
+              {{ end }}
+              <a class="facwa-taxonomy-card__link" href="{{ .Permalink }}">더 보기</a>
+            </article>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

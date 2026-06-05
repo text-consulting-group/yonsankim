@@ -1,0 +1,15 @@
+{{- define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end -}}
+
+{{- define "main" }}
+  {{ partial "marketing/banner--ww--slide.html" . }}
+  {{ partial "marketing/customs/tags.html" . }}
+  {{ partial "marketing/customs/feature-rg.html" . }}
+  {{ partial "marketing/customs/banner.html" . }}
+  {{ partial "marketing/sections/faqs.html" . }}
+{{ end -}}
+
+{{- define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end -}}

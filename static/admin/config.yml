@@ -1,0 +1,36 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update (optional; defaults to master)
+media_folder: static/img
+public_folder: /img
+collections:
+  - name: 'post'
+    label: '성과 게시판'
+    folder: 'content/posts'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    editor:
+      preview: true
+    fields:
+      - { label: '제목', name: 'title', widget: 'string' }
+      - { label: '작성자', name: 'author', widget: 'string' }      
+      - { label: '날짜', name: 'date', widget: 'datetime' }
+      - { label: '요약', name: 'summary', widget: 'string', required: false }
+      - { label: '대표이미지', name: 'image', widget: 'image', required: false }
+      - label: "첨부파일"
+        name: "post_materials"
+        widget: "file"
+        required: false
+        media_library:
+          config:
+            multiple: true 
+      - { label: '메인 공개', name: 'home_sticky', widget: 'boolean', default: false, hint: 'true 메인공개', required: false }
+      - { label: '메인 상단', name: 'pinned', widget: 'boolean', default: false, hint: 'true 메인 상단 노출', required: false }
+      - label: "분류"
+        name: "categories"
+        widget: "select"
+        multiple: true
+        options: [ "projects", "meetings", "articles", "books" ]
+        default: ["projects"]
+        hint: '프로젝트 projects / 학술행사 meetings / 논문 articles / 책 books'        
+      - { label: '본문', name: 'body', widget: 'markdown' }

@@ -1,0 +1,13 @@
+{{ $child_pages := union .Sections .Pages }}
+{{ if $child_pages }}
+  <ul class="mt-1 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+    {{ range $child_pages.ByWeight.ByTitle }}
+      <li class="rounded-[8px] transition hover:bg-[#f5f7fb] dark:hover:bg-slate-800">
+        <a href="{{ .Permalink }}" class="block rounded-[8px] px-3 py-2 text-xs text-slate-600 transition hover:text-blue-600 dark:text-slate-300 dark:hover:text-white">
+          {{ .Title }}
+        </a>
+        {{ partial "roll/browse/aside-recursive-multi.html" . }}
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

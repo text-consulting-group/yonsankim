@@ -1,0 +1,75 @@
+{{ define "header" }}
+<header class="facwa-inquiry-header">
+  {{ partial "marketing/elements/site-logo.html" . }}
+  <nav class="facwa-inquiry-nav" aria-label="inquiry navigation">
+    <a href="/">홈</a>
+    <a class="is-active" href="/inquiry/">제품신청</a>
+  </nav>
+  <a class="facwa-inquiry-github" href="{{ .Site.Params.footer.github | default "https://github.com/team-durumi" }}">GITHUB</a>
+</header>
+{{ end }}
+
+{{ define "main" }}
+<main class="facwa-inquiry-page">
+  <form class="facwa-inquiry-shell" id="facwa-inquiry-form">
+    <section class="facwa-inquiry-section">
+      <h1>제품신청</h1>
+    </section>
+
+    <section class="facwa-inquiry-section">
+      <h2>파일 업로드</h2>
+      <p>디지털 아카이브에서 사용하는 기본 파일을 드래그해서 드롭하세요. 목록이 조사된 엑셀 파일이나, CSV 파일을 업로드하셔도 됩니다.</p>
+
+      <label class="facwa-upload-dropzone" id="facwa-upload-dropzone">
+        <input id="facwa-upload-input" type="file" multiple>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.75a5.25 5.25 0 0 0-5.16 4.32A5.25 5.25 0 0 0 7.5 18.5h2.25v-1.8H7.5a3.45 3.45 0 0 1-.26-6.89l1.07-.08.15-1.06a3.6 3.6 0 0 1 6.94-.86l.34.86.9.2a3.96 3.96 0 0 1-.86 7.83H14.25v1.8h1.53a5.76 5.76 0 0 0 1.03-11.42A5.4 5.4 0 0 0 12 3.75Zm0 6.25-3 3h2.1v6h1.8v-6H15l-3-3Z" fill="currentColor"/>
+        </svg>
+        <span>드래그 해서 파일 가져다 놓으세요</span>
+        <em>또는</em>
+        <strong>파일 찾기</strong>
+      </label>
+    </section>
+
+    <section class="facwa-inquiry-section">
+      <h2>업로드 파일</h2>
+      <div class="facwa-upload-list" id="facwa-upload-list"></div>
+    </section>
+
+    <section class="facwa-inquiry-fields" aria-label="신청 정보">
+      <label class="facwa-inquiry-field">
+        <span>제목</span>
+        <input type="text" name="title" placeholder="제목입력">
+      </label>
+      <label class="facwa-inquiry-field">
+        <span>기본경로 URL</span>
+        <input type="text" name="path" placeholder="영문 및 숫자만 사용가능합니다.">
+      </label>
+      <label class="facwa-inquiry-field facwa-inquiry-field--textarea">
+        <span>설명</span>
+        <textarea name="description" rows="4" placeholder="사진에 대한 설명을 남겨주세요."></textarea>
+      </label>
+      <label class="facwa-inquiry-field">
+        <span>태그</span>
+        <input id="facwa-tag-input" type="text" placeholder="# 태그를 입력해주세요">
+      </label>
+      <div class="facwa-inquiry-tags" id="facwa-tag-list" aria-label="입력된 태그"></div>
+    </section>
+
+    <p class="facwa-inquiry-status" id="facwa-inquiry-status" role="status" aria-live="polite"></p>
+
+    <div class="facwa-inquiry-actions">
+      <button class="facwa-inquiry-cancel" type="reset">취소</button>
+      <button class="facwa-inquiry-submit" type="submit">신청</button>
+    </div>
+  </form>
+</main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}
+
+{{ define "footerJs" }}
+<script src="{{ "js/inquiry.js" | relURL }}" defer></script>
+{{ end }}

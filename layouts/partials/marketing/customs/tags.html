@@ -1,0 +1,15 @@
+<section class="tags container px-5 py-12 mx-auto">
+	<div class="text-center w-full mt-4 px-8">
+		<h2 class="text-xl text-blue-600 dark:text-blue-500 tracking-widest font-medium title-font mb-3">컬렉션</h2>
+		<h1 class="text-3xl md:text-4xl font-bold font-heading mb-3">생산장소별</h1>
+		<p class="lg:w-2/3 mx-auto leading-relaxed text-md mb-6">전여대협 아카이브의 자료는 전국 단위 조직과 지역 여대협, 개별 대학과 활동 현장의 맥락을 함께 갖고 있습니다. 생산장소와 활동 장소를 따라가면 각 자료가 어떤 지역적 조건과 조직적 관계 속에서 만들어졌는지 확인할 수 있습니다.</p>
+	</div>
+	<ul>
+		{{ range .Site.Taxonomies.venues }}
+			<li class="inline-block my-2 px-6 py-2.5 bg-gray-900 text-gray-100 font-medium text-md leading-tight uppercase rounded-full shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">
+				<a href="{{ .Page.Permalink }}">
+					{{ .Page.Title }}
+				</a> {{ .Count }}</li>
+		{{ end }}
+	</ul>
+</section>

@@ -1,0 +1,16 @@
+{{ $child_pages := union .Sections .Pages }}
+{{ if $child_pages }}
+  <ul class="space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+    {{ range $child_pages.ByWeight.ByTitle }}
+      <li class="rounded-[8px] transition hover:bg-[#f5f7fb] dark:hover:bg-slate-800">
+        <a href="{{ .Permalink }}" class="block rounded-[8px] px-3 py-3 text-sm text-slate-700 transition hover:text-blue-600 dark:text-slate-200 dark:hover:text-white">
+          <span class="block font-medium">{{ .Title }}</span>
+          {{ with .Params.level_of_description }}
+            <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">{{ . }}</span>
+          {{ end }}
+        </a>
+        {{ partial "roll/browse/aside-recursive-multi.html" . }}
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

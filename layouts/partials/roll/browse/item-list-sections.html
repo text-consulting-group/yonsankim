@@ -1,0 +1,57 @@
+{{ $childpages := union .Sections .Pages }}
+{{ $paginator := .Paginate $childpages 20 }}
+
+<div class="overflow-hidden rounded-[8px] border border-[#eeeff2] bg-white">
+  <div class="border-b border-[#eeeff2] px-5 py-4 text-sm font-medium text-slate-500 lg:px-6">
+    하위 목록
+  </div>
+
+  {{ if $paginator.Pages }}
+    <div class="divide-y divide-[#eeeff2]">
+      {{ range $index, $page := $paginator.Pages }}
+        <a href="{{ $page.Permalink }}" class="block px-5 py-5 transition hover:bg-[#f6f8ff] lg:px-6">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">{{ add $index 1 }}</span>
+                <h2 class="min-w-0 text-lg font-semibold leading-snug text-slate-900 lg:text-xl">
+                  {{ $page.Title }}
+                </h2>
+              </div>
+              {{ with $page.Params.description }}
+                <p class="mt-3 max-w-4xl text-sm leading-7 text-slate-600 lg:text-[15px]">
+                  {{ . }}
+                </p>
+              {{ end }}
+            </div>
+
+            <div class="flex flex-wrap gap-2 lg:w-[280px] lg:flex-col lg:items-end lg:gap-2">
+              {{ with $page.Params.level_of_description }}
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                  {{ . }}
+                </span>
+              {{ end }}
+              {{ with $page.Params.level__local_identifier }}
+                <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+                  {{ . }}
+                </span>
+              {{ else }}
+                {{ with $page.Params.identifier }}
+                  <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+                    {{ . }}
+                  </span>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="px-5 py-12 text-sm text-slate-500 lg:px-6">현재 포함된 자료가 없습니다.</div>
+  {{ end }}
+
+  <div class="border-t border-[#eeeff2] px-5 py-4 lg:px-6">
+    {{ template "_internal/pagination.html" . }}
+  </div>
+</div>

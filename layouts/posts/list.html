@@ -1,0 +1,42 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  <section class="facwa-blog-shell">
+    <div class="facwa-blog-index">
+      <header class="facwa-blog-hero">
+        <p class="facwa-blog-kicker">{{ .Section }}</p>
+        <h1 class="facwa-blog-title">{{ .Title }}</h1>
+        {{ with .Params.Description }}
+          <p class="facwa-blog-lede">{{ . }}</p>
+        {{ end }}
+        <div class="facwa-blog-meta">
+          <span class="facwa-pill">{{ len $posts }}개의 글</span>
+          <span class="facwa-pill">최신순 정렬</span>
+        </div>
+      </header>
+
+      <div class="facwa-post-grid">
+        {{ range $posts.ByDate.Reverse }}
+          <article class="facwa-post-card">
+            <div class="facwa-post-card__cover"></div>
+            <div class="facwa-post-card__meta">
+              <span>{{ .Date.Format "2006-01-02" }}</span>
+              {{ with .Params.author }}<span>· {{ . }}</span>{{ end }}
+              {{ with index .Params.categories 0 }}<span>· {{ . }}</span>{{ end }}
+            </div>
+            <h2 class="facwa-post-card__title">{{ .Title }}</h2>
+            <p class="facwa-post-card__summary">{{ .Summary | plainify | truncate 240 }}</p>
+            <a class="facwa-post-card__link" href="{{ .Permalink }}">더 읽기</a>
+          </article>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

@@ -1,0 +1,83 @@
+{{- $slides := hugo.Data.marketing.carousel.listItem -}}
+{{- if gt (len $slides) 0 -}}
+<section
+  class="facwa-ww-slide"
+  aria-label="ArchiveJ main slide"
+  x-data="{
+    current: 0,
+    count: {{ len $slides }},
+    timer: null,
+    init() {
+      this.start()
+    },
+    start() {
+      this.stop()
+      this.timer = window.setInterval(() => this.next(), 6500)
+    },
+    stop() {
+      if (this.timer) window.clearInterval(this.timer)
+      this.timer = null
+    },
+    prev() {
+      this.current = (this.current - 1 + this.count) % this.count
+    },
+    next() {
+      this.current = (this.current + 1) % this.count
+    },
+    go(index) {
+      this.current = index
+    }
+  }"
+  :class="{ 'is-ready': true }"
+  @mouseenter="stop()"
+  @mouseleave="start()"
+>
+  <div class="facwa-ww-slide__viewport">
+    {{- range $index, $item := $slides }}
+    <a
+      class="facwa-ww-slide__item"
+      href="{{ $item.url | relURL }}"
+      style="background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.42) 52%, rgba(0, 0, 0, 0.10) 82%), url('{{ $item.src | absURL }}');"
+      :class="{ 'is-active': current === {{ $index }} }"
+      aria-label="{{ $item.alt }}"
+    >
+      <div class="site-container facwa-ww-slide__content">
+        <p class="facwa-ww-slide__eyebrow">ArchiveJ Collection</p>
+        <h2>{{ $item.alt }}</h2>
+        {{- with $item.caption }}
+        <p class="facwa-ww-slide__description">{{ . }}</p>
+        {{- end }}
+        <span class="facwa-ww-slide__button">자료 보기</span>
+      </div>
+    </a>
+    {{- end }}
+  </div>
+
+  <div class="facwa-ww-slide__controls" aria-hidden="false">
+    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--prev" type="button" @click.prevent.stop="prev(); start()" aria-label="이전 슬라이드">
+      <svg viewBox="0 0 20 20" aria-hidden="true">
+        <path fill="currentColor" fill-rule="evenodd" d="M12.707 5.293a1 1 0 0 1 0 1.414L9.414 10l3.293 3.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0z" clip-rule="evenodd"/>
+      </svg>
+      <span>이전</span>
+    </button>
+    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--next" type="button" @click.prevent.stop="next(); start()" aria-label="다음 슬라이드">
+      <span>다음</span>
+      <svg viewBox="0 0 20 20" aria-hidden="true">
+        <path fill="currentColor" fill-rule="evenodd" d="M7.293 14.707a1 1 0 0 1 0-1.414L10.586 10 7.293 6.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="facwa-ww-slide__pagination" aria-label="슬라이드 페이지">
+    {{- range $index, $_ := $slides }}
+    <button
+      type="button"
+      class="facwa-ww-slide__dot"
+      :class="{ 'is-active': current === {{ $index }} }"
+      @click="go({{ $index }}); start()"
+      aria-label="{{ add $index 1 }}번 슬라이드"
+    ></button>
+    {{- end }}
+  </div>
+</section>
+{{- end -}}

@@ -1,0 +1,17 @@
+{{- $ctx := . -}}
+{{- if reflect.IsMap . -}}
+  {{- with .Page -}}
+    {{- $ctx = . -}}
+  {{- end -}}
+{{- end -}}
+{{- $logo := $ctx.Site.Params.logo -}}
+{{- $title := $ctx.Site.Title -}}
+<a class="facwa-header-logo" href="/" aria-label="{{ $title }}">
+  {{- if $logo -}}
+    <img class="facwa-header-logo__image" src="{{ $logo | absURL }}" alt="{{ $title }}">
+  {{- else -}}
+    <span class="facwa-header-logo__wordmark" aria-label="{{ $title }}">
+      <span class="facwa-header-logo__wordmark-archive">archive</span><span class="facwa-header-logo__wordmark-j">J</span>
+    </span>
+  {{- end -}}
+</a>

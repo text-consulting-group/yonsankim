@@ -1,0 +1,68 @@
+<div class="flex"
+  x-data="{atElement: 'introduce'}"
+  @scroll.window="atElement = document.querySelector('#more').getBoundingClientRect().top <= 0 ? 'more' : (document.querySelector('#news').getBoundingClientRect().top <= 0 ? 'news': (document.querySelector('#review').getBoundingClientRect().top <= 0 ? 'review' : 'introduce'))"
+>
+  
+    <aside class="  pt3 w-30 measure-narrow bg-black-05">
+        <ul class="sticky top-0">
+            <li
+                :class="{ 'bg-black-05' : atElement==='introduce' }"
+                class="ph3 ">
+                <a href="#introduce" class="link dim flex items-center pv3 black ">
+                    <span class="ml2"># introduce</span>
+                </a>
+            </li>
+            <li
+                :class="{ 'bg-black-05' : atElement==='review' }"
+                class="ph3 ">
+                <a href="#review" class="link dim flex items-center pv3 black ">
+                    <span class="ml2"># review</span>
+                </a>
+            </li>
+            <li
+                :class="{ 'bg-black-05' : atElement==='news' }"
+                class="ph3 ">
+                <a href="#news" class="link dim flex items-center pv3 black ">
+                    <span class="ml2"># news</span>
+                </a>
+            </li>
+            <li
+                :class="{ 'bg-black-05' : atElement==='more' }"
+                class="ph3 ">
+                <a href="#more" class="link dim flex items-center pv3 black ">
+                    <span class="ml2"># more</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <aside class="w-100">
+        <section class="bg-blue-600 w-full h-full" id="introduce">
+            #introduce
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+        </section>
+        <section class="bg-blue-300 w-full h-full" id="review">
+            #review
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+        </section>
+        <section class="bg-blue-100 w-full h-full" id="news">
+            #news
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+        </section>
+        <section class="bg-blue-900 w-full h-full" id="more">
+            #more
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+            <div class="h5">text</div>
+        </section>
+    </aside>
+</div>

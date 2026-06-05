@@ -1,0 +1,11 @@
+{{- $src := .src | strings.TrimSpace -}}
+{{- $normalized := $src -}}
+
+{{- if and (ne $normalized "") (not (hasPrefix $normalized "http://")) (not (hasPrefix $normalized "https://")) -}}
+  {{- $normalized = replace $normalized "\\" "/" -}}
+  {{- if not (hasPrefix $normalized "/") -}}
+    {{- $normalized = printf "/%s" $normalized -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $normalized -}}

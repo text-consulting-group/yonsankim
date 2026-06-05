@@ -1,0 +1,14 @@
+{{/** marketing/sections/org-chart
+@use
+{{ partial "marketing/sections/org-chart" . }}
+**/}}
+{{ with hugo.Data.marketing.orgChart }}
+<section id="org-chart" class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="w-full mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">{{ .title }}</h2>
+      <img class="mx-auto" src="{{ .image }}" alt="{{ .title }}">
+    </div>
+  </div>
+</section>
+{{ end }}

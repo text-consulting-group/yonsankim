@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ block "title" . }}{{ with .Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+    {{ hugo.Generator }}
+    {{- if hugo.IsProduction }}<meta name="robots" content="index, follow" />{{ else }}<meta name="robots" content="noindex, nofollow" />{{ end -}}
+    {{- template "_internal/google_analytics.html" . -}}
+    {{- template "_internal/opengraph.html" . -}}
+    {{- template "_internal/twitter_cards.html" . -}}
+    {{- template "_internal/schema.html" . -}}
+    {{- partial "google-fonts" .Site.Params -}}
+    {{- block "headCss" . }}{{ end -}}
+    {{- /* 1. 먼저 템플릿으로 실행하여 동적 변수 주입 */ -}}
+    {{- $styles := resources.Get "style.css" | resources.ExecuteAsTemplate "style.tmp.css" . -}}
+    {{- /* 2. PostCSS 및 Minify 적용 (PostProcess는 제거하거나 맨 마지막에) */ -}}
+    {{- $styles = $styles | postCSS (dict "inlineImports" true) | minify -}}
+    {{- /* 3. 결과물 출력 */ -}}
+    <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
+    {{- $js := resources.Get "index.js" | js.Build (dict "targetPath" "assets/index.js") -}}
+    {{- if hugo.IsProduction }}{{ $js = $js | minify }}{{ end -}}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+  </head>
+  <body>
+    {{- block "header" . }}{{- end }}
+    {{- block "main" . }}{{- end }}
+    {{- block "footer" . }}{{- end }}
+    {{- block "footerJs" . }}{{ end -}}
+  </body>
+</html>

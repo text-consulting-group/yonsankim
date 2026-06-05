@@ -1,0 +1,39 @@
+<footer class="facwa-footer">
+  <div class="site-container facwa-footer__inner">
+    <div class="facwa-footer__brand">
+      <a href="/" aria-label="{{ .Site.Title }}">
+        {{ if .Site.Params.footerLogo }}
+          <img src="{{ .Site.Params.footerLogo | absURL }}" alt="{{ .Site.Title }}">
+        {{ else if .Site.Params.logo }}
+          <img src="{{ .Site.Params.logo | absURL }}" alt="{{ .Site.Title }}">
+        {{ else }}
+          <span class="facwa-footer__brand-wordmark" aria-label="{{ .Site.Title }}">
+            <span class="facwa-footer__brand-wordmark-archive">archive</span><span class="facwa-footer__brand-wordmark-j">J</span>
+          </span>
+        {{ end }}
+      </a>
+      <p>{{ .Site.Title }}</p>
+    </div>
+
+    <nav class="facwa-footer__nav" aria-label="footer navigation">
+      {{ range site.Menus.main }}
+        <div>
+          <h2><a href="{{ .URL | absURL }}">{{ .Name }}</a></h2>
+          {{ if .HasChildren }}
+            <ul>
+              {{ range .Children }}
+                <li><a href="{{ .URL | absURL }}">{{ .Name }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </div>
+      {{ end }}
+    </nav>
+  </div>
+
+  <div class="site-container facwa-footer__bottom">
+    <p>© {{ .Site.Params.license.year_of_creation }} {{ .Site.Params.license.title_of_work }}</p>
+    <p><a href="{{ .Site.Params.license.link_to_work }}" rel="noopener noreferrer" target="_blank">{{ .Site.Params.license.link_to_work }}</a></p>
+    <p>Work With <a href="{{ .Site.Params.license.link_to_creator_profile }}" rel="noopener noreferrer" target="_blank">{{ .Site.Params.license.createor_of_work }}</a></p>
+  </div>
+</footer>

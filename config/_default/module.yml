@@ -1,0 +1,7 @@
+hugoVersion:
+  extended: true
+  min: "0.162.0"
+
+imports:
+- path: github.com/team-durumi/hugo-marketing
+- path: github.com/gohugoio/hugo-mod-heroicons

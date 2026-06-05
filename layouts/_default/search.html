@@ -1,0 +1,102 @@
+{{ define "main" }}
+{{ partial "marketing/elements/header.html" (dict "Page" . "hideNav" true) }}
+
+{{ $jsonURL := "/search/index.json" | relURL }}
+{{ with .OutputFormats.Get "json" }}
+  {{ $jsonURL = .RelPermalink }}
+{{ end }}
+
+<main class="facwa-search-page" data-search-json="{{ $jsonURL }}">
+  <section class="facwa-search-hero" aria-labelledby="search-page-title">
+    <div class="facwa-search-sticky">
+      <form class="facwa-search-form" id="facwa-search-form" action="{{ .RelPermalink }}" role="search">
+        <label class="sr-only" for="search-query">검색어 입력</label>
+        <svg class="facwa-search-form__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.8 4.5a6.3 6.3 0 0 1 5 10.1l3 3a.9.9 0 0 1-1.2 1.2l-3-3a6.3 6.3 0 1 1-3.8-11.3Zm0 1.8a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z" fill="currentColor"/>
+        </svg>
+        <input id="search-query" name="q" type="search" autocomplete="off" placeholder="검색어 입력" />
+        <button class="facwa-search-clear" type="button" id="facwa-search-clear" aria-label="검색 초기화">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m7.1 5.9 4.9 4.9 4.9-4.9 1.2 1.2-4.9 4.9 4.9 4.9-1.2 1.2-4.9-4.9-4.9 4.9-1.2-1.2 4.9-4.9-4.9-4.9 1.2-1.2Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+  <div class="site-container facwa-search-container px-5">
+    <aside class="facwa-search-filters" id="facwa-search-filters" aria-label="검색 필터">
+      <div class="facwa-filter-head">
+        <h1 id="search-page-title">검색</h1>
+        <button type="button" id="facwa-filter-reset">필터 초기화</button>
+      </div>
+
+      <div class="facwa-filter-group">
+        <h2>검색 범위</h2>
+        <div class="facwa-filter-note">검색어는 제목, 설명, 본문, 주제, 생산자, 장소, 출처를 함께 찾습니다.</div>
+      </div>
+
+      <div class="facwa-filter-divider" role="separator"><span>콘텐츠 분류</span></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="level__rg" data-facet-label="레코드그룹" data-facet-limit="10"></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="subjects" data-facet-label="주제" data-facet-limit="10"></div>
+
+      <div class="facwa-filter-divider" role="separator"><span>생산 맥락</span></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="creators" data-facet-label="생산자" data-facet-limit="10"></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="venues" data-facet-label="장소" data-facet-limit="10"></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="sources" data-facet-label="출처" data-facet-limit="10"></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="year" data-facet-label="생산일자" data-facet-limit="12"></div>
+
+      <div class="facwa-filter-divider" role="separator"><span>자료 형식</span></div>
+      <div class="facwa-filter-group facwa-dynamic-facet" data-facet-group="media_type" data-facet-label="첨부파일형식" data-facet-limit="8"></div>
+    </aside>
+
+    <section class="facwa-search-results" aria-live="polite">
+      <div class="facwa-results-head">
+        <div>
+          <p class="facwa-results-eyebrow">검색결과</p>
+          <div class="facwa-chip-list" id="facwa-active-filters"></div>
+        </div>
+        <div class="facwa-view-buttons" aria-label="보기 방식">
+          <button type="button" class="is-active" data-view="list" aria-label="리스트 보기" aria-pressed="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v2H5V6Zm0 5h14v2H5v-2Zm0 5h14v2H5v-2Z" fill="currentColor"/></svg>
+            <span>리스트</span>
+          </button>
+          <button type="button" data-view="thumbnail" aria-label="썸네일 보기" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h6v6H5V5Zm8 0h6v6h-6V5ZM5 13h6v6H5v-6Zm8 0h6v6h-6v-6Z" fill="currentColor"/></svg>
+            <span>썸네일</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="facwa-search-status" id="facwa-search-status">검색어를 입력하면 관련 사료를 찾습니다.</div>
+      <div class="facwa-result-list" id="search-results"></div>
+      <nav class="facwa-pagination" id="facwa-pagination" aria-label="검색 결과 페이지"></nav>
+    </section>
+  </div>
+</main>
+
+<template id="search-result-template">
+  <article class="facwa-result-card">
+    <a class="facwa-result-card__body search_link" href="">
+      <h2 class="search_title"></h2>
+      <p class="search_description"></p>
+    </a>
+    <div class="facwa-result-card__thumb" hidden>
+      <img class="search_image" src="" alt="">
+    </div>
+    <div class="facwa-result-card__meta">
+      <p class="search_category">카테고리</p>
+      <p class="search_date"></p>
+    </div>
+  </article>
+</template>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}
+
+{{ define "footerJs" }}
+<script src="{{ "js/search.js" | relURL }}" defer></script>
+{{ end }}

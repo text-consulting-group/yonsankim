@@ -1,0 +1,110 @@
+<!-- modified https://raw.githubusercontent.com/oschmid/website/master/layouts/partials/pagination.html with tailwindCSS -->
+<!-- Inspired by https://glennmccomb.com/articles/how-to-build-custom-hugo-pagination/
+    This paginator prints the first and last page number along with a configurable number of adjacent pages (see
+    $adjacent_links).
+
+        e.g. [1] ... [4] [5] [*6*] [7] [8] ... [12]
+
+        Rather than including "First" and "Last" links, including the page number of the first and last pages gives the
+    user some context into how far they've gone into the page list. With that info they can make better decisions about
+    whether or not to continue.
+
+    "Previous" and "Next" links are included even though the adjacent page numbers seemingly make them redundant. As
+    these are the most common paging actions (and often clicked repeatedly) we want them at the same location on each
+    page.
+
+    Additionally, if the user is on one of the first few pages (see $lower_limit) more pages are printed after the
+    current page.
+
+        e.g. [1] [*2*] [3] [4] [5] ... [12]
+
+    Similarly, if the user is on one of the last few pages (see $upper_limit) more pages are printed before the
+    current page.
+
+        e.g. [1] ... [8] [9] [10] [*11*] [12]
+-->
+{{ $paginator := . }}
+
+<!-- Number of links either side of the current page -->
+{{ $adjacent_links := 1 }}
+<!-- $max_links = ($adjacent_links * 2) + 1 -->
+{{ $max_links := (add (mul $adjacent_links 2) 1) }}
+<!-- Pages to print -->
+{{ $lower_limit := 1 }}
+{{ $upper_limit := $paginator.TotalPages }}
+{{ $include_lower_ellipsis := false }}
+{{ $include_upper_ellipsis := false }}
+
+{{ if gt $paginator.TotalPages (add $max_links 2) }}
+  <!-- If we have more pages before the current page than we can print -->
+  {{ if ge $paginator.PageNumber $adjacent_links }}
+    {{ $lower_limit = sub $paginator.PageNumber $adjacent_links }}
+    <!-- Show more pages at the end of the range -->
+    {{ if lt (sub $paginator.TotalPages $lower_limit) $max_links }}
+      {{ $lower_limit = add 1 (sub $paginator.TotalPages $max_links) }}
+    {{ end }}
+    <!-- Show ellipsis -->
+    {{ if gt (sub $lower_limit 1) 1 }}
+      {{ $include_lower_ellipsis = true }}
+    {{ end }}
+  {{ end }}
+
+  <!-- If we have more pages after the current page than we can print -->
+  {{ if gt (sub $paginator.TotalPages $paginator.PageNumber) $adjacent_links }}
+    {{ $upper_limit = add $paginator.PageNumber $adjacent_links }}
+    <!-- Show more pages at the beginning of the range -->
+    {{ if le $upper_limit $max_links }}
+      {{ $upper_limit = $max_links }}
+    {{ end }}
+    <!-- Show ellipsis -->
+    {{ if gt (sub $paginator.TotalPages $upper_limit) 1 }}
+      {{ $include_upper_ellipsis = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- If there's more than one page -->
+{{ if gt $paginator.TotalPages 1 }}
+<div class="text-center">
+    <ul class="inline-flex items-center gap-2 text-aa-gray-500 text-sm">
+        {{ if $paginator.HasPrev }}
+        <li>
+            <a href="{{ $paginator.Prev.URL }}"class="flex items-center text-aa-gray-400 py-2 px-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                이전
+            </a>
+        </li>
+        {{ end }}
+        {{ range $paginator.Pagers }}
+          <!-- Include first, last, and middle pages -->
+          {{ if or (or (eq .PageNumber 1) (eq .PageNumber $paginator.TotalPages)) (and (ge .PageNumber $lower_limit) (le .PageNumber $upper_limit)) }}
+            <!-- <a href="{{ .URL }}" class="pagination-link{{ if eq $paginator.PageNumber .PageNumber }} is-current{{ end }}">{{ .PageNumber }}</a> -->
+            {{ if eq $paginator.PageNumber .PageNumber }}
+              <li><span class="py-2 px-4 rounded-sm text-white bg-aa-purple-500">{{ .PageNumber }}</span></li>
+
+            {{ else }}
+              <li>
+                <a class="py-2 px-4 rounded-sm hover:text-white hover:bg-aa-purple-500" href="{{ .URL }}">{{ .PageNumber }}</a>
+              </li>
+            {{ end }}
+            <!-- If we're on the first page and inserting an ellipsis, or just before the last page and inserting an ellipsis -->
+            {{ if or (and (eq .PageNumber 1) (eq $include_lower_ellipsis true)) (and (eq .PageNumber $upper_limit) (eq $include_upper_ellipsis true)) }}
+              <span class="pagination-ellipsis">&hellip;</span>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ if $paginator.HasNext }}
+        <li>
+            <a href="{{ $paginator.Next.URL }}" class="flex items-center text-aa-purple-500 py-2 px-4 rounded-sm hover:text-white hover:bg-aa-purple-500">
+                다음
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
+{{ end }}

@@ -1,0 +1,25 @@
+{
+  "name": "FACWA.KR",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "PATH=./node_modules/.bin:$PATH hugo server -D",
+    "build": "PATH=./node_modules/.bin:$PATH hugo --minify",
+    "hugo": "PATH=./node_modules/.bin:$PATH hugo",
+    "deploy:live": "bash scripts/deploy-live.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/team-durumi/facwaw.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "alpinejs": "^3.9.0",
+    "autoprefixer": "^10.3.1",
+    "cssnano": "^5.0.17",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.19",
+    "@tailwindcss/typography": "^0.3.1"
+  }
+}

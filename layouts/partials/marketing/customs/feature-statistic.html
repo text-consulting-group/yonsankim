@@ -1,0 +1,35 @@
+{{- $archivej := site.Params.archivej | default dict -}}
+{{- $snapshot := $archivej.storage_snapshot | default dict -}}
+{{- $totals := $snapshot.totals | default dict -}}
+{{- $mediaTypes := $totals.by_media_type | default dict -}}
+
+<section class="text-gray-500 bg-gray-100 dark:text-gray-400 dark:bg-gray-900 body-font">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
+        <div class="w-full sm:p-4 px-4 mb-6">
+          <h1 class="title-font font-medium text-xl text-gray-900 dark:text-white">{{ hugo.Data.marketing.featuredNumbers.title }}</h1>
+          <h1 class="title-font font-medium text-xl mb-2 text-gray-900 dark:text-white">{{ hugo.Data.marketing.featuredNumbers.subtitle }}</h1>
+          <div class="leading-relaxed">{{ hugo.Data.marketing.featuredNumbers.content }}</div>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-5xl text-gray-900 dark:text-blue-500">{{ $totals.files | default 0 }}</h2>
+          <p class="leading-relaxed dark:text-gray-300">원본 파일</p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-5xl text-gray-900 dark:text-blue-500">{{ $totals.directories | default 0 }}</h2>
+          <p class="leading-relaxed dark:text-gray-300">폴더</p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-5xl text-gray-900 dark:text-blue-500">{{ index $mediaTypes "video" | default 0 }}</h2>
+          <p class="leading-relaxed dark:text-gray-300">영상</p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-5xl text-gray-900 dark:text-blue-500">{{ index $mediaTypes "image" | default 0 }}</h2>
+          <p class="leading-relaxed dark:text-gray-300">이미지</p>
+        </div>
+      </div>
+      <div class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+        <img class="object-cover object-center w-full h-full" src="{{ hugo.Data.marketing.featuredNumbers.image | absURL }}" alt="stats">
+      </div>
+    </div>
+  </section>

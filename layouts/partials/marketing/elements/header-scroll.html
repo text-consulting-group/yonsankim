@@ -1,0 +1,40 @@
+<header class="fixed top-0 w-full bg-white text-gray-900 mb-96 z-30">
+  <div x-data="nav" @scroll.window="setCurrentElement()" class="container mx-auto flex flex-wrap px-5 py-4 flex-col md:flex-row items-center">
+    <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+      {{ if .Site.Params.logo }}
+        <img class="max-w-xs" src="{{ .Site.Params.logo | absURL }}">
+      {{ else }}
+        <span class="flex items-baseline gap-1 font-black tracking-[-0.05em] text-2xl text-blue-600">
+          <span>archive</span><span class="text-gray-900">J</span>
+        </span>
+      {{ end }}
+    </a>
+    <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-md lg:text-lg justify-center">
+      {{ range site.Menus.main }}
+        <a :class="{ 'text-blue-500 border-blue-500 border-b-2' : atElement === '{{ .Identifier }}' }" class="mr-7 hover:border-b-2 hover:border-blue-500 hover:text-blue-500 " href="#{{ .Identifier }}">{{ .Name }}</a>
+      {{ end }}
+    </nav>
+    <ul class="mt-4 sm:mt-1">
+      {{ range site.Menus.button }}
+      <li class="inline-block">
+        <a class="block px-6 py-2 bg-white border-blue-600 dark:bg-black dark:border-blue-500 border box-border rounded-full text-md lg:text-lg text-blue-600 dark:text-blue-500 strong" href="{{ .URL }}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</header>
+<script>
+const nav = {
+  atElement: 'hero',
+  navItems: ['#hero', '#feature-program', '#feature', '#call-to-action', '#feature-projects'],
+  setCurrentElement() {
+    this.atElement = $('#feature-projects') && $('#feature-projects').getBoundingClientRect().top <= 0 ? 'feature-projects': (
+      $('#call-to-action') && $('#call-to-action').getBoundingClientRect().top <= 0 ? 'call-to-action' : (
+        $('#feature') && $('#feature').getBoundingClientRect().top <= 0 ? 'feature' : (
+          $('#feature-program') && $('#feature-program').getBoundingClientRect().top <= 0 ? 'feature-program' : 'hero'
+        )
+      )
+    )
+  }
+}
+</script>
