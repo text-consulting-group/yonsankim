@@ -1,0 +1,89 @@
+{{ $cards := slice }}
+{{ range where site.RegularPages "Section" "items" }}
+  {{ $thumbnail := "" }}
+  {{ $summary := .Params.summary | default .Params.description | default "" }}
+  {{ $summary = replace $summary "\n" " " }}
+  {{ $summary = replaceRE "\\s+" " " $summary }}
+  {{ $summary = strings.TrimSpace $summary }}
+  {{ if gt (len $summary) 160 }}
+    {{ $summary = printf "%s..." (slicestr $summary 0 160) }}
+  {{ end }}
+  {{ $media := .Params.media | default .Params.Media }}
+  {{ $components := .Params.components | default .Params.Components }}
+  {{ if $media }}
+    {{ with index $media "thumbnail" }}{{ $thumbnail = . }}{{ end }}
+    {{ if and (eq $thumbnail "") (not $components) (index $media "components") }}
+      {{ $components = index $media "components" }}
+    {{ end }}
+  {{ end }}
+  {{ if eq $thumbnail "" }}{{ $thumbnail = .Params.thumbnail | default .Params.Thumbnail }}{{ end }}
+  {{ if and (eq $thumbnail "") $components }}
+    {{ $thumbnail = index $components 0 }}
+  {{ end }}
+  {{ if and $thumbnail .Title $summary }}
+    {{ $cards = $cards | append (dict
+      "title" .Title
+      "summary" $summary
+      "url" .RelPermalink
+      "image" (partial "roll/utils/normalize-component-url.html" (dict "src" $thumbnail))
+    ) }}
+  {{ end }}
+{{ end }}
+
+{{ $fallback := dict
+  "title" "오늘의 용산킴을 준비 중입니다"
+  "summary" "메타데이터와 썸네일이 정리된 자료부터 차례로 오늘의 추천 카드에 연결됩니다."
+  "url" "/items/"
+  "image" "/img/home-rg111-aerial.jpg"
+}}
+
+{{ $initial := $fallback }}
+{{ if gt (len $cards) 0 }}
+  {{ $initial = index $cards 0 }}
+{{ end }}
+
+<section id="today-yongsankim" class="bg-slate-950 text-slate-50">
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="mb-6">
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">오늘의 용산킴</h2>
+    </div>
+
+    <div class="overflow-hidden rounded-[24px] border border-slate-800 bg-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.45)]">
+      <div class="grid gap-0 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <div class="overflow-hidden bg-slate-800">
+          <img id="today-yongsankim-image" src="{{ index $initial "image" }}" alt="{{ index $initial "title" }}" class="h-64 w-full object-cover md:h-72 lg:h-full">
+        </div>
+        <div class="flex flex-col justify-center gap-5 p-6 md:p-8">
+          <h3 id="today-yongsankim-title" class="text-2xl font-semibold leading-tight text-white md:text-3xl">{{ index $initial "title" }}</h3>
+          <p id="today-yongsankim-summary" class="text-sm leading-8 text-slate-300 md:text-base">{{ index $initial "summary" }}</p>
+          <div>
+            <a id="today-yongsankim-link" href="{{ index $initial "url" }}" class="inline-flex items-center gap-2 rounded-full border border-cyan-400/50 px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-300 hover:text-cyan-200">
+              아이템 이동
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const items = JSON.parse({{ $cards | default (slice $fallback) | jsonify }});
+      if (!items || !items.length) return;
+      const pick = items[Math.floor(Math.random() * items.length)];
+      const link = document.getElementById('today-yongsankim-link');
+      const image = document.getElementById('today-yongsankim-image');
+      const title = document.getElementById('today-yongsankim-title');
+      const summary = document.getElementById('today-yongsankim-summary');
+      if (!link || !image || !title || !summary) return;
+      link.href = pick.url || '/items/';
+      image.src = pick.image || '/img/home-rg111-aerial.jpg';
+      image.alt = pick.title || '오늘의 용산킴';
+      title.textContent = pick.title || '오늘의 용산킴';
+      summary.textContent = pick.summary || '오늘의 용산킴을 준비 중입니다.';
+    })();
+  </script>
+</section>

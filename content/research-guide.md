@@ -3,7 +3,7 @@ title: "용산 archivej 리서치 가이드"
 description: "용산 archivej 코퍼스의 큰 폴더, 시리즈, 메타데이터 축을 따라 자료를 찾도록 돕는 탐색 가이드입니다."
 layout: "document"
 generated_from: "research/research-guide.md"
-last_synced_at: "2026-06-06T01:17:01+09:00"
+last_synced_at: "2026-06-06T16:48:02+09:00"
 breadcrumb: "리서치 가이드"
 eyebrow: "Research Guide"
 hero_description: "그룹과 시리즈를 따라 자료를 탐색하고 검색할 수 있도록 정리한 안내 문서입니다."
@@ -13,7 +13,7 @@ meta:
   - label: "대상"
     value: "용산 archivej 코퍼스"
   - label: "동기화"
-    value: "2026-06-06T01:17:01+09:00"
+    value: "2026-06-06T16:48:02+09:00"
 ---
 
 이 문서는 `storage` 원본과 `content/items` 동기화 결과를 기준으로 현재 코퍼스를 어떻게 탐색하고 검색할지 정리한 중립 가이드입니다. 특정 항목을 대표 자료로 추천하기보다, 큰 폴더와 시리즈, 메타데이터 축을 따라 자료를 찾는 방법을 설명합니다.

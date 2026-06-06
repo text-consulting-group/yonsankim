@@ -96,16 +96,12 @@ html {
   gap: 0;
   font-size: 28px;
   font-weight: 900;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.04em;
   line-height: 1;
 }
 
-.facwa-header-logo__wordmark-archive {
-  color: var(--theme-text);
-}
-
-.facwa-header-logo__wordmark-j {
-  color: var(--theme-primary);
+.facwa-header-logo__wordmark-brand {
+  color: #2563eb;
 }
 
 .facwa-site-header {

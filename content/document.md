@@ -3,7 +3,7 @@ title: "용산 archivej 작업 및 연구 문서"
 description: "용산 archivej 코퍼스 동기화 결과를 바탕으로 사실 메모, 연구 질문, 대표 자료 묶음을 정리한 작업 문서입니다."
 layout: "document"
 generated_from: "research/document.md"
-last_synced_at: "2026-06-06T01:17:01+09:00"
+last_synced_at: "2026-06-06T16:51:24+09:00"
 ---
 
 `storage_sync` 계열 작업은 단순히 `content/items`를 생성하는 단계가 아니라, 관련 메타데이터와 프로젝트 문서까지 함께 갱신하는 흐름으로 본다.
@@ -70,11 +70,11 @@ last_synced_at: "2026-06-06T01:17:01+09:00"
 
 생산조직 taxonomy는 현재 가장 안정적으로 묶이는 축이다. 아래 자료들은 `U.S. Army`, `8th United States Army`, `USASTRATCOM`, `NARA`처럼 기록 생산 주체가 비교적 분명하게 드러난다.
 
-- [RG 111-CCK_B 1_CCK 41071.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/1.%20기록물%20원본%20파일/RG%20111%20-%20CCK%20B1/Korea%20Ceremonies/RG%20111-CCK_B%201_CCK%2041071.md)
+- [RG 111-CCK_B 1_CCK 41071](/items/rg-111-cck-b-1-cck-41071/)
   - `8th United States Army`, `Donald E. Teft`
-- [RG 111-CCK_B 1_CCK 95071.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/2.%20미군기지와%20도시산책/1.%20일본군%20병영에서%20미군기지까지%20_%20용산기지%20산책/용산미군기지%201번%20게이트/RG%20111-CCK_B%201_CCK%2095071.md)
+- [RG 111-CCK_B 1_CCK 95071](/items/rg-111-cck-b-1-cck-95071-yongsan-gate-1/)
   - `U.S. Army`, 용산기지 출입 통제 장면
-- [RG 111-CCS_B 49_CC 48794.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/1.%20기록물%20원본%20파일/RG%20111%20-%20CCS%20B%2049/RG%20111-CCS_B%2049_CC%2048794.md)
+- [RG 111-CCS_B 49_CC 48794](/items/rg-111-ccs-b-49-cc-48794/)
   - `USASTRATCOM`, `U.S. Army Photo Detachment`, `Robert T. Ellis`
 
 이 묶음은 "용산이 무엇을 담은 장소였는가"보다 "누가 어떤 목적과 시선으로 용산을 기록했는가"를 먼저 보여주는 데 적합하다.
@@ -83,9 +83,9 @@ last_synced_at: "2026-06-06T01:17:01+09:00"
 
 `NARA`는 아직 6건으로 적지만, 도시 변화와 군사 공간의 재편을 입체적으로 보여주는 강한 묶음을 만든다.
 
-- [1948년 미7사단 포병대 일대(오늘날 용산미군기지 캠프코이너) 항공사진 _ NARA.jpg.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/2.%20미군기지와%20도시산책/5.%20해방과%20찾아온%20미군시대%20_%20시대전환%20산책/남영동%20공설시장과%20스테이크%20골목/1948년%20미7사단%20포병대%20일대(오늘날%20용산미군기지%20캠프코이너)%20항공사진%20_%20NARA.jpg.md)
-- [1948년 미7사단 보병연대 및 삼각지 일대 항공사진 _ NARA.jpg.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/2.%20미군기지와%20도시산책/5.%20해방과%20찾아온%20미군시대%20_%20시대전환%20산책/삼각지%20화랑거리/1948년%20미7사단%20보병연대%20및%20삼각지%20일대%20항공사진%20_%20NARA.jpg.md)
-- [1948년 위수형무소 일대 항공사진 _ NARA.jpg.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/2.%20미군기지와%20도시산책/1.%20일본군%20병영에서%20미군기지까지%20_%20용산기지%20산책/위수감옥/1948년%20위수형무소%20일대%20항공사진%20_%20NARA.jpg.md)
+- [1948년 미7사단 포병대 일대(오늘날 용산미군기지 캠프코이너) 항공사진 _ NARA.jpg.md](/items/1948-7-nara-camp-coiner/)
+- [1948년 미7사단 보병연대 및 삼각지 일대 항공사진 _ NARA](/items/1948-7-nara-samgakji/)
+- [1948년 위수형무소 일대 항공사진 _ NARA](/items/1948-nara-weisu-prison/)
 
 이 묶음은 `미군기지와 도시산책` 안에서 해방 직후의 공간 전환을 읽는 기본 자료군으로 바로 활용할 수 있다.
 
@@ -93,9 +93,9 @@ last_synced_at: "2026-06-06T01:17:01+09:00"
 
 한쪽에는 1960년대 항공 전경과 군 기록사진이 있고, 다른 한쪽에는 현재의 답사 기록과 토론회 자료가 있다. 이 둘을 함께 묶으면 "기록사진"과 "현재의 해석"을 연결하는 연구 경로가 생긴다.
 
-- [1963년-사우스포스트 전경 항공사진.jpg.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/2.%20미군기지와%20도시산책/7.%20용산의%20과거와%20미래%20_%20이촌동%20산책/1964년%20용산미군기지%20사우스포스트와%20한강변/1963년-사우스포스트%20전경%20항공사진.jpg.md)
-- [2017년 4월 4일 - 용산공원 기본설계 논의.JPG.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/3.%20kim의%20사관/2017.04.04.%20용산공원%20기본설계자와%20함께하는%20토론회/2017년%204월%204일%20-%20용산공원%20기본설계%20논의.JPG.md)
-- [IMG_6628.jpg.md](/Users/woonjjang/ai/archivej/yongsankim/content/items/3.%20kim의%20사관/2014-05-21.%20용산%20국가공원%20전문가%20세미나/IMG_6628.jpg.md)
+- [1963년-사우스포스트 전경 항공사진](/items/1963/)
+- [2017년 4월 4일 - 용산공원 기본설계 논의](/items/2017-4-4/)
+- [IMG_6628](/items/img-6628/)
 
 이 묶음은 연구노트나 공개 콘텐츠에서 "과거 사진을 오늘의 공원 담론이 어떻게 다시 읽는가"라는 질문을 여는 출발점으로 적절하다.
 
