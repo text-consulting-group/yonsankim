@@ -13,6 +13,7 @@
   {{ $media := .Params.media | default .Params.Media }}
   {{ $mediaEmbedURL := "" }}
   {{ $mediaThumbnail := "" }}
+  {{ $thumbnailURL := "" }}
   {{ if and (not $mediaType) $media }}
     {{ with index $media "type" }}{{ $mediaType = . }}{{ end }}
   {{ end }}
@@ -26,25 +27,36 @@
       {{ with index $media "components" }}{{ $components = . }}{{ end }}
     {{ end }}
   {{ end }}
+  {{ if eq $mediaThumbnail "" }}
+    {{ $mediaThumbnail = .Params.thumbnail | default .Params.Thumbnail }}
+  {{ end }}
+  {{ if $mediaThumbnail }}
+    {{ $thumbnailURL = partial "roll/utils/normalize-component-url.html" (dict "src" $mediaThumbnail) }}
+  {{ end }}
   {{ $normalizedComponents := slice }}
   {{ $imageComponents := slice }}
+  {{ $imagePreviewComponents := slice }}
   {{ $pdfComponent := "" }}
   {{ $imageComponent := "" }}
   {{ range $components }}
     {{ $componentURL := partial "roll/utils/normalize-component-url.html" (dict "src" .) }}
+    {{ $componentThumbURL := partial "roll/utils/component-thumbnail-url.html" (dict "src" .) }}
     {{ $normalizedComponents = $normalizedComponents | append $componentURL }}
     {{ if and (eq $pdfComponent "") (hasSuffix (lower $componentURL) ".pdf") }}
       {{ $pdfComponent = $componentURL }}
     {{ end }}
     {{ if and (eq $imageComponent "") (or (hasSuffix (lower $componentURL) ".jpg") (hasSuffix (lower $componentURL) ".jpeg") (hasSuffix (lower $componentURL) ".png") (hasSuffix (lower $componentURL) ".gif") (hasSuffix (lower $componentURL) ".webp") (hasSuffix (lower $componentURL) ".heic") (hasSuffix (lower $componentURL) ".tif") (hasSuffix (lower $componentURL) ".tiff")) }}
-      {{ $imageComponent = $componentURL }}
+      {{ $imageComponent = $componentThumbURL | default $thumbnailURL | default $componentURL }}
     {{ end }}
     {{ if or (hasSuffix (lower $componentURL) ".jpg") (hasSuffix (lower $componentURL) ".jpeg") (hasSuffix (lower $componentURL) ".png") (hasSuffix (lower $componentURL) ".gif") (hasSuffix (lower $componentURL) ".webp") (hasSuffix (lower $componentURL) ".heic") (hasSuffix (lower $componentURL) ".tif") (hasSuffix (lower $componentURL) ".tiff") }}
       {{ $imageComponents = $imageComponents | append $componentURL }}
+      {{ if $componentThumbURL }}
+        {{ $imagePreviewComponents = $imagePreviewComponents | append $componentThumbURL }}
+      {{ end }}
     {{ end }}
   {{ end }}
-  {{ if and (eq $pdfComponent "") (eq $imageComponent "") $mediaThumbnail }}
-    {{ $imageComponent = partial "roll/utils/normalize-component-url.html" (dict "src" $mediaThumbnail) }}
+  {{ if and (eq $pdfComponent "") (eq $imageComponent "") $thumbnailURL }}
+    {{ $imageComponent = $thumbnailURL }}
   {{ end }}
   {{ $previewLink := $mediaEmbedURL | default $link }}
   {{ $refCode := "" }}
@@ -106,11 +118,11 @@
                     allowfullscreen
                   ></iframe>
                 </div>
-              {{ else if gt (len $imageComponents) 1 }}
+              {{ else if gt (len $imagePreviewComponents) 1 }}
                 <div x-data="{ active: 0, prev() { const el = this.$refs.scroller; el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' }) }, next() { const el = this.$refs.scroller; el.scrollBy({ left: el.clientWidth, behavior: 'smooth' }) } }" class="space-y-4 bg-[var(--theme-surface)] p-4">
                   <div class="overflow-hidden rounded-[8px] border border-[var(--theme-border)] bg-white">
                     <div x-ref="scroller" class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth" style="scrollbar-width: none;" @scroll="active = Math.round($event.target.scrollLeft / $event.target.clientWidth)">
-                      {{ range $i, $img := $imageComponents }}
+                      {{ range $i, $img := $imagePreviewComponents }}
                         <figure class="w-full shrink-0 snap-start">
                           <img class="aspect-[4/5] w-full bg-white object-contain object-center" src="{{ $img }}" alt="{{ printf "%s %d" $title (add $i 1) }}">
                         </figure>
@@ -118,7 +130,7 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-between gap-3 text-sm text-slate-600">
-                    <div>{{ add (len $imageComponents) 0 }}장 중 <span x-text="active + 1"></span>장</div>
+                    <div>{{ add (len $imagePreviewComponents) 0 }}장 중 <span x-text="active + 1"></span>장</div>
                     <div class="flex gap-2">
                       <button type="button" class="rounded-full border border-[var(--theme-border)] px-3 py-1.5" @click="prev()">이전</button>
                       <button type="button" class="rounded-full border border-[var(--theme-border)] px-3 py-1.5" @click="next()">다음</button>
@@ -134,14 +146,6 @@
                     src="{{ printf "%s#page=1&zoom=page-width" $pdfComponent }}"
                     frameborder="0"
                   ></iframe>
-                </div>
-              {{ else if $normalizedComponents }}
-                <div class="space-y-4 p-4">
-                  {{ range $normalizedComponents }}
-                    <div class="overflow-hidden rounded-[8px] border border-[var(--theme-border)] bg-[var(--theme-surface)]">
-                      <img class="h-auto w-full object-cover object-center" src="{{ . }}" alt="{{ $title }}">
-                    </div>
-                  {{ end }}
                 </div>
               {{ else }}
                 <div class="flex aspect-video items-center justify-center bg-slate-100 text-sm text-slate-500">미디어가 없습니다</div>

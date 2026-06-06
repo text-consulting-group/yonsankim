@@ -1,0 +1,167 @@
+########### 메인/소개 페이지에 노출되는 사용자 데이터를 편집합니다. ###########
+
+###################### user/org information #####################
+user:
+  title: 기억의 창고
+  tagLine: 용산의 군사 공간, 도시 변화, 공원화 과정을 기록사진과 항공사진, 답사 자료와 세미나 기록으로 함께 읽는 디지털 아카이브입니다.
+  tel: ""
+  fax: ""
+  email: hello@textconsulting.io
+  representative: archiveJ / Text Consulting Group
+  location: 서울
+  footer:
+    대표전화: ""
+    팩스: ""
+    주소: 서울
+    이메일: hello@textconsulting.io
+    운영: archiveJ
+    year: "2026"
+    url: https://yongsankim.textconsulting.io/
+    caption: 용산의 기억과 공간을 읽는 디지털 아카이브
+    fb: ""
+    tw: ""
+    instagram: ""
+    linkedin: ""
+
+########################## carousel ##########################
+carousel:
+  enable: true
+  bg: bg-gray-900
+  listItem:
+    - src: /img/home-aerial-1963.jpg
+      alt: 사우스포스트와 한강변
+      caption: 1963년 항공사진과 현재의 답사 기록을 함께 읽으며 용산의 공간 변화를 추적합니다.
+      url: /items/1963/
+    - src: /img/home-rg111-aerial.jpg
+      alt: 미군 기록사진의 시선
+      caption: 생산조직과 생산자를 따라 미군 기록사진이 용산을 어떻게 기록했는지 살펴봅니다.
+      url: /research-guide/
+    - src: /img/home-park-forum.jpg
+      alt: 기록에서 공원 담론으로
+      caption: 토론회와 세미나 기록을 통해 과거의 사진이 오늘의 공원 논의로 이어지는 과정을 읽습니다.
+      url: /document/
+    - src: /img/home-seminar-2014.jpg
+      alt: 오늘의 해석과 공론장
+      caption: 전문가 세미나와 현장 기록은 오래된 사료를 현재의 언어로 다시 번역하는 장면을 보여줍니다.
+      url: /posts/
+
+##################### hero-right/left ########################
+hero:
+  enable: true
+  layout: image-right
+  bg: bg-gray-100
+  bgImage: ""
+  category: 용산 archiveJ
+  title: 용산의 기억과 공간을 읽는 아카이브
+  subtitle: 군 기록사진과 도시산책, 공원 담론을 함께 묶는 코퍼스
+  content: |
+    이 아카이브는 1. 기록물 원본 파일, 2. 미군기지와 도시산책, 3. kim의 사관이라는 세 층위를 함께 보며
+    용산이 어떻게 기록되고 해석되는지 탐색하기 위한 작업 공간입니다.
+  image: /img/home-rg111-aerial.jpg
+  button:
+    buttonLeft:
+      enable: true
+      label: 리서치 가이드 보기
+      url: /research-guide/
+    buttonRight:
+      enable: true
+      label: 연구 문서 보기
+      url: /document/
+
+############################ card ##########################
+card:
+  layout: 3-column
+  bg: bg-gray-300
+  category: archiveJ 핵심 관점
+  title: 이 아카이브를 읽는 세 가지 방법
+  enable: true
+  content: 용산 아카이브는 생산조직, 시리즈 경로, 현재의 해석 기록을 함께 볼 때 가장 잘 읽힙니다.
+  listItem:
+    - category: 생산조직
+      title: 누가 기록했는가
+      description: U.S. Army, 8th United States Army, NARA 같은 생산조직을 따라 기록 생산의 구조를 읽습니다.
+      image: /img/home-rg111-aerial.jpg
+      date: 2026.06.06
+      identifier: yongsan-card-01
+      author: archiveJ
+      creator: U.S. Army / NARA
+      url: /sources/
+    - category: 시리즈
+      title: 어떤 경로로 읽을 것인가
+      description: 일본군 병영에서 미군기지까지, 해방과 시대전환, 이촌동 산책 같은 시리즈가 도시적 독해의 경로를 만듭니다.
+      image: /img/home-aerial-1963.jpg
+      date: 2026.06.06
+      identifier: yongsan-card-02
+      author: archiveJ
+      creator: archiveJ series
+      url: /research-guide/
+    - category: 현재의 해석
+      title: 과거 사진은 오늘 어떻게 다시 읽히는가
+      description: 세미나와 토론회, 현장 기록은 오래된 기록사진을 현재의 공원 담론과 공론장으로 연결합니다.
+      image: /img/home-park-forum.jpg
+      date: 2026.06.06
+      identifier: yongsan-card-03
+      author: archiveJ
+      creator: kim의 사관
+      url: /posts/
+
+############################ faqs ##########################
+faq:
+  title: 자주 묻는 질문
+  enable: true
+  content: 이 아카이브를 어떻게 읽고 활용할지에 관한 기본 질문을 모았습니다.
+  url: https://yongsankim.textconsulting.io/
+  listItem:
+    - question: 이 아카이브에는 어떤 자료가 들어 있나요?
+      answer: 미군이 생산한 기록사진, 해방 직후와 냉전기의 항공사진, 용산 답사 자료, 세미나와 토론회 기록이 함께 들어 있습니다.
+    - question: 어떤 순서로 탐색하면 가장 좋나요?
+      answer: 큰 폴더를 먼저 고르고, 그다음 시리즈명이나 레코드그룹을 본 뒤, 생산조직과 생산자, 날짜, 자유 검색으로 좁혀가는 방식이 가장 안정적입니다.
+    - question: 왜 공개 화면에서는 원본 대신 썸네일만 보이나요?
+      answer: 공개 사이트에서 원본 고해상도 이미지가 직접 노출되지 않도록, 대표 이미지와 상세 미리보기는 /_thumbs 경로의 파생 썸네일을 사용합니다.
+    - question: 1. 기록물 원본 파일과 2. 미군기지와 도시산책은 무엇이 다른가요?
+      answer: 전자는 군 기록의 행정 질서를 따르는 원본 자료군이고, 후자는 도시산책과 장소 해석의 경로를 따라 다시 구성한 공개용 읽기 층입니다.
+    - question: 이 아카이브는 어떤 질문을 던지나요?
+      answer: 누가 용산을 기록했는가, 그 기록은 어떤 권력과 행정 질서 속에서 생산되었는가, 그리고 오늘 우리는 그 기록을 어떤 공원 담론과 도시 기억으로 다시 읽는가를 묻습니다.
+
+########################### gallery #########################
+gallery:
+  section_title: 용산 archiveJ gallery
+  listItems:
+    - src: /img/home-aerial-1963.jpg
+      alt: 사우스포스트 전경
+    - src: /img/home-rg111-aerial.jpg
+      alt: 미군 항공 전경
+    - src: /img/home-park-forum.jpg
+      alt: 용산공원 토론회
+    - src: /img/home-seminar-2014.jpg
+      alt: 전문가 세미나
+    - src: /img/home-aerial-1963.jpg
+      alt: 항공사진
+    - src: /img/home-rg111-aerial.jpg
+      alt: 기록사진
+
+############################ featured-No ##########################
+featuredNumbers:
+  enable: true
+  title: 용산 archiveJ
+  subtitle: 수집 원본과 공개 코퍼스 현황
+  content: 현재 아카이브는 storage 원본 객체를 기준으로 479개 item과 연관 공개 문서를 구성하고 있습니다. 군 기록사진의 행정 질서와 도시산책·세미나 기록의 해석 질서를 함께 읽는 것이 이 코퍼스의 핵심입니다.
+  image: /img/home-rg111-aerial.jpg
+
+############################ two box ##########################
+twobox:
+  title: 용산 archiveJ를 읽는 두 개의 축
+  firstBox:
+    - title: 원본 기록사진
+      subtitle: 레코드그룹과 생산조직
+      image: /img/home-rg111-aerial.jpg
+      content: 1. 기록물 원본 파일에서는 RG 111, RG 342, RG 127, RG 80 같은 레코드그룹과 U.S. Army, NARA 같은 생산조직이 가장 중요한 탐색 축입니다. 이 층위는 누가 어떤 제도적 시선으로 용산을 기록했는지 보여줍니다.
+      urlLabel: 원본 자료 읽기
+      url: /research-guide/
+  secondBox:
+    - title: 현재의 해석 기록
+      subtitle: 도시산책과 공원 담론
+      image: /img/home-park-forum.jpg
+      content: 2. 미군기지와 도시산책과 3. kim의 사관에서는 시리즈 경로와 행사 기록이 더 중요합니다. 과거의 사진이 오늘의 답사, 토론회, 공원 논의 속에서 어떻게 다시 읽히는지를 보여주는 층위입니다.
+      urlLabel: 해석 경로 읽기
+      url: /document/

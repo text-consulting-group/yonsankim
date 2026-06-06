@@ -1,0 +1,27 @@
+{{- $src := .src | default "" | strings.TrimSpace -}}
+{{- $normalized := replace $src "\\" "/" -}}
+{{- if eq $normalized "" -}}
+  {{- "" -}}
+{{- else if hasPrefix $normalized "/_thumbs/" -}}
+  {{- $normalized -}}
+{{- else -}}
+  {{- $bucket := site.Params.bucket_hostname | default "" -}}
+  {{- $relative := "" -}}
+  {{- if or (hasPrefix $normalized "http://") (hasPrefix $normalized "https://") -}}
+    {{- $withoutQuery := replaceRE "\\?.*$" "" $normalized -}}
+    {{- if ne $bucket "" -}}
+      {{- $bucket = strings.TrimRight "/" $bucket -}}
+      {{- if hasPrefix $withoutQuery $bucket -}}
+        {{- $relative = strings.TrimLeft "/" (strings.TrimPrefix $bucket $withoutQuery) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $relative = strings.TrimLeft "/" $normalized -}}
+  {{- end -}}
+  {{- if eq $relative "" -}}
+    {{- "" -}}
+  {{- else -}}
+    {{- $thumbRel := replaceRE "\\.[^.\\/]+$" ".jpg" $relative -}}
+    {{- printf "/_thumbs/%s" $thumbRel -}}
+  {{- end -}}
+{{- end -}}

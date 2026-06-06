@@ -3,7 +3,16 @@
 
 {{- if and (ne $normalized "") (not (hasPrefix $normalized "http://")) (not (hasPrefix $normalized "https://")) -}}
   {{- $normalized = replace $normalized "\\" "/" -}}
-  {{- if not (hasPrefix $normalized "/") -}}
+  {{- $bucket := site.Params.bucket_hostname | default "" -}}
+  {{- if hasPrefix $normalized "/" -}}
+    {{- /* Keep site-local static assets like /_thumbs or /img untouched. */ -}}
+  {{- else if ne $bucket "" -}}
+    {{- $bucket = strings.TrimRight "/" $bucket -}}
+    {{- $normalized = strings.TrimLeft "/" $normalized -}}
+    {{- if ne $normalized "" -}}
+      {{- $normalized = printf "%s/%s" $bucket $normalized -}}
+    {{- end -}}
+  {{- else if not (hasPrefix $normalized "/") -}}
     {{- $normalized = printf "/%s" $normalized -}}
   {{- end -}}
 {{- end -}}
