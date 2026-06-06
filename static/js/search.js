@@ -90,7 +90,7 @@
     const metadata = item.metadata || item;
     const components = metadata.components || [];
     const thumbnail = metadata.thumbnail || metadata.image || metadata.media_thumbnail || "";
-    const image = thumbnail || (Array.isArray(components) ? components[0] : components);
+    const image = thumbnail || "";
     const category = metadata.level__rg || metadata.category || metadata.sources || metadata.subjects || "카테고리";
 
     return {

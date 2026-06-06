@@ -1,0 +1,51 @@
+# themeNoPipe: true
+title: yonsankim archives
+description: '용산킴 아카이브'
+images:
+  - img/team-durumi-cover.png
+
+bucket_hostname: https://pub-e4a4b8e377e749d1bc868a604cc6a0ed.r2.dev
+
+logo: ""
+footerLogo: ""
+
+license:
+  title_of_work: Text Consulting Group
+  link_to_work: https://yongsankim.textconsulting.io/
+  createor_of_work: TCG
+  link_to_creator_profile: https://textconsulting.io
+  year_of_creation: 2026
+
+footer:
+  logo: /img/peace-worlding-film-archives-logo-footer.png
+  대표전화: 02-0000-0000
+  팩스: 02-0000-0000
+  주소: Somewhere in Seoul
+  이메일: woonjjang@textconsulting.io
+  url: https://yongsankim.textconsulting.io/
+  caption: Github
+  github: http://github.com/team-durumi
+  fb:
+  tw:
+  instagram:
+  linkedin:
+
+cfImagePrefix: 'https://durumi.io/cdn-cgi/image'
+cfImageStyles:
+  thumb: 'fit=scale-down,width=300'
+  full: 'fit=scale-down,width=1920'
+
+themeColor:
+  primary: '#245ae4'
+  primaryDark: '#184aca'
+  primarySoft: '#edf3ff'
+  secondary: '#d9e6ff'
+  surface: '#ffffff'
+  surfaceSoft: '#f8fbff'
+  background: '#f1f5ff'
+  text: '#182033'
+  textMuted: '#60708f'
+  textSubtle: '#34415c'
+  border: '#c8d6f2'
+  footer: '#22355f'
+  footerText: '#d5e2ff'

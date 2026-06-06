@@ -1,0 +1,119 @@
+title: 기억의 창고
+baseURL: https://yongsankim.textconsulting.io/
+description: "용산의 군사 공간, 도시 변화, 공원화 과정을 기록사진, 항공사진, 답사 자료, 세미나 기록으로 함께 읽는 디지털 아카이브입니다."
+images:
+  - img/1-여성학회건설을 위한 토론회 자료집-표지.jpg
+deploy:
+  production:
+    enabled: true
+
+locale: ko-kr
+defaultContentLanguage: ko
+hasCJKLanguage: true
+paginate: 16
+
+build:
+  writeStats: true
+
+permalinks:
+  items: /:section/:slug/
+
+googleAnalytics:
+
+taxonomies:
+  tag: tags
+  subject: subjects
+  creator: creators
+  venue: venues
+  source: sources
+  category: categories
+
+params:
+  about:
+    eyebrow: 용산 아카이브
+    title: 용산의 기억과 공간 아카이브
+    description: >
+      용산의 군사 공간, 도시 변화, 공원화 과정을 기록사진, 항공사진, 답사 자료,
+      토론회 기록으로 함께 읽을 수 있도록 구성한 디지털 아카이브입니다.
+      원본 기록물의 행정 질서와 현재의 해석 기록을 한 자리에서 연결해 탐색할 수 있도록 정리합니다.
+    lead: >
+      이 아카이브는 미군 기록사진의 행정 질서와 도시산책·세미나 기록의 해석 질서를 함께 두고,
+      용산이라는 장소가 어떻게 기록되고 다시 읽히는지 탐색하기 위한 작업 공간입니다.
+    meta:
+      - label: 범위
+        value: 1945 - 2017, 479개 item
+      - label: 기준
+        value: storage 원본 + 공개 썸네일 + Hugo content/items 동기화
+      - label: 초점
+        value: 군 기록사진, 도시산책, 공원 담론, 연구/서비스 문서
+  taxonomy_descriptions:
+    tags:
+      title: 태그
+      description: >
+        태그는 용산 archivej 안의 세부 장면, 장소, 사건, 연결 고리를 빠르게 찾기 위한 보조 분류입니다.
+        같은 자료를 다른 맥락에서 다시 읽을 수 있도록 돕는 탐색용 레이블로 사용합니다.
+    subjects:
+      title: 주제
+      description: >
+        주제는 군 기록사진, 항공사진, 답사 기록, 토론 자료를 함께 읽기 위한 기본 분류입니다.
+        개별 항목보다 자료군 전체의 맥락과 반복 장면을 먼저 보도록 돕는 해석 경로로 사용합니다.
+    venues:
+      title: 장소
+      description: >
+        장소는 용산 기지, 사우스포스트, 삼각지, 남산자락처럼 자료에 등장하는 실제 공간을 묶어 보여주는 분류입니다.
+        군사 공간과 도시 공간이 어떻게 겹쳐지는지 따라가도록 돕습니다.
+    creators:
+      title: 생산자
+      description: >
+        생산자는 자료를 만든 개인, 사진가, 기록 담당자를 따라 기록 생산 구조를 살피기 위한 분류입니다.
+    sources:
+      title: 출처
+      description: >
+        출처는 자료가 어떤 기관과 조직을 통해 남겨졌는지 보여주는 분류입니다.
+        미군 조직 기록과 현재 수집 경로를 함께 읽기 위해 사용합니다.
+  archivej:
+    # Storage crawl snapshot copied from backups/data/config.yml.
+    # Keep this in sync when storage statistics are refreshed.
+    # When storage_sync changes component paths or term generation rules,
+    # update archivej/research/document.md together with this snapshot.
+    storage_snapshot:
+      last_sync_at: "2026-06-05T23:58:35+09:00"
+      totals:
+        files: 625
+        directories: 129
+        size_bytes: 7334510322
+        ignored_non_item_files: 4
+        ignored_non_item_size_bytes: 1030655
+        ignored_derived_files: 1
+        ignored_derived_directories: 1
+        ignored_derived_size_bytes: 11087
+        by_media_type:
+          document: 12
+          image: 593
+          other: 9
+          video: 11
+        by_top_level_folder:
+          2. 미군기지와 도시산책: 377
+          1. 기록물 원본 파일: 217
+          3. kim의 사관: 31
+        ignored_non_item_files_list:
+          - "storage/1. 기록물 원본 파일/document.md"
+          - "storage/2. 미군기지와 도시산책/document.md"
+          - "storage/2. 미군기지와 도시산책/document_book.html"
+          - "storage/3. kim의 사관/document.md"
+        ignored_derived_folders:
+          - "storage/2. 미군기지와 도시산책"
+      top_extensions:
+        ".jpg": 569
+        ".png": 19
+        ".txt": 11
+        ".mov": 6
+        ".jpeg": 5
+        ".mp4": 5
+        ".py": 2
+        ".sh": 2
+        ".hwp": 2
+        ".pyc": 1
+        ".log": 1
+        ".json": 1
+        ".pdf": 1
