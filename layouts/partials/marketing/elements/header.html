@@ -4,55 +4,72 @@
   {{ with .Page }}{{ $ctx = . }}{{ end }}
   {{ with .hideNav }}{{ $hideNav = . }}{{ end }}
   {{ end }}
-<header x-data="{ browseOverlayOpen: false, activeMenu: null }" @keydown.escape.window="activeMenu = null; browseOverlayOpen = false" @mouseleave="activeMenu = null" class="facwa-site-header sticky top-0 z-50 border-b border-slate-200 bg-white text-slate-900 relative">
-  <div class="site-container flex items-center justify-between px-5 py-5 relative">
-    {{ partial "marketing/elements/site-logo.html" $ctx }}
-
-    {{ if not $hideNav }}
-      <nav class="hidden items-center gap-2 lg:flex">
-        {{ range site.Menus.main }}
-          {{ $menuID := .Name | urlize }}
-          {{ if .HasChildren }}
-            <div class="relative" @mouseenter="activeMenu = '{{ $menuID }}'" @focusin="activeMenu = '{{ $menuID }}'">
-              <button
-                type="button"
-                @click="activeMenu = activeMenu === '{{ $menuID }}' ? null : '{{ $menuID }}'"
-                class="facwa-nav-link relative px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600 border-b-2 border-transparent"
-                :class="{ 'text-blue-600 border-blue-600' : activeMenu === '{{ $menuID }}' }"
-                aria-haspopup="true"
-                :aria-expanded="activeMenu === '{{ $menuID }}'"
-              >
-                <span>{{ .Name }}</span>
-                <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': activeMenu === '{{ $menuID }}', 'rotate-0': activeMenu !== '{{ $menuID }}'}" class="ml-1 inline h-4 w-4 transition-transform duration-200"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              </button>
-            </div>
-          {{ else }}
-            <a class="facwa-nav-link px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600" href="{{ .URL | absURL }}">{{ .Name }}</a>
-          {{ end }}
-        {{ end }}
-      </nav>
-    {{ end }}
-
-    <div class="flex items-center gap-2">
-      {{ $searchURL := "/search/" }}
-      {{ $searchLabel := "검색" }}
-      {{ with site.Menus.button }}
-        {{ with index . 0 }}
-          {{ with .URL }}{{ $searchURL = . }}{{ end }}
-          {{ with .Name }}{{ $searchLabel = . }}{{ end }}
-        {{ end }}
-      {{ end }}
-      <a class="facwa-header-search hidden items-center rounded-full border border-blue-600 px-5 py-2 text-[15px] font-medium text-blue-600 transition hover:bg-blue-50 sm:inline-flex" href="{{ $searchURL }}">{{ $searchLabel }}</a>
-      <button type="button" @click="browseOverlayOpen = true" class="facwa-header-browse inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-[15px] font-medium text-white transition hover:bg-blue-700" aria-label="탐색 열기">
-        <span>탐색</span>
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-        </svg>
-      </button>
+{{- $page := .Page | default . -}}
+{{- $isExhibition := eq $page.Type "exhibition" -}}
+{{ $searchURL := "/search/" }}
+{{ $searchLabel := "검색" }}
+{{ with site.Menus.button }}
+  {{ with index . 0 }}
+    {{ with .URL }}{{ $searchURL = . }}{{ end }}
+    {{ with .Name }}{{ $searchLabel = . }}{{ end }}
+  {{ end }}
+{{ end }}
+<header x-data="{ browseOverlayOpen: false, activeMenu: null }" @keydown.escape.window="activeMenu = null; browseOverlayOpen = false" @mouseleave="activeMenu = null" class="facwa-site-header {{ if eq $page.Type "exhibition" }}relative{{ else }}sticky top-0{{ end }} z-50 border-b border-slate-200 bg-white text-slate-900 relative">
+  {{ if $isExhibition }}
+    <div class="facwa-exhibition-header">
+      {{ partial "marketing/elements/site-logo.html" $ctx }}
+      <div class="facwa-exhibition-header__actions">
+        <a class="facwa-exhibition-header__action facwa-exhibition-header__action--search no-underline" href="{{ $searchURL }}">{{ $searchLabel }}</a>
+        <button type="button" @click="browseOverlayOpen = true" class="facwa-exhibition-header__action" aria-label="탐색 열기">
+          <span>탐색</span>
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
     </div>
-  </div>
+  {{ else }}
+    <div class="site-container flex items-center justify-between px-5 py-5 relative">
+      {{ partial "marketing/elements/site-logo.html" $ctx }}
 
-  {{ if not $hideNav }}
+      {{ if not $hideNav }}
+        <nav class="hidden items-center gap-2 lg:flex">
+          {{ range site.Menus.main }}
+            {{ $menuID := .Name | urlize }}
+            {{ if .HasChildren }}
+              <div class="relative" @mouseenter="activeMenu = '{{ $menuID }}'" @focusin="activeMenu = '{{ $menuID }}'">
+                <button
+                  type="button"
+                  @click="activeMenu = activeMenu === '{{ $menuID }}' ? null : '{{ $menuID }}'"
+                  class="facwa-nav-link relative px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600 border-b-2 border-transparent"
+                  :class="{ 'text-blue-600 border-blue-600' : activeMenu === '{{ $menuID }}' }"
+                  aria-haspopup="true"
+                  :aria-expanded="activeMenu === '{{ $menuID }}'"
+                >
+                  <span>{{ .Name }}</span>
+                  <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': activeMenu === '{{ $menuID }}', 'rotate-0': activeMenu !== '{{ $menuID }}'}" class="ml-1 inline h-4 w-4 transition-transform duration-200"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+              </div>
+            {{ else }}
+              <a class="facwa-nav-link px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600" href="{{ .URL | absURL }}">{{ .Name }}</a>
+            {{ end }}
+          {{ end }}
+        </nav>
+      {{ end }}
+
+      <div class="flex items-center gap-2">
+        <a class="facwa-header-search hidden items-center rounded-full border border-blue-600 px-5 py-2 text-[15px] font-medium text-blue-600 transition hover:bg-blue-50 sm:inline-flex" href="{{ $searchURL }}">{{ $searchLabel }}</a>
+        <button type="button" @click="browseOverlayOpen = true" class="facwa-header-browse inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-[15px] font-medium text-white transition hover:bg-blue-700" aria-label="탐색 열기">
+          <span>탐색</span>
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  {{ end }}
+
+  {{ if and (not $hideNav) (not $isExhibition) }}
     <div
       x-cloak
       x-show="activeMenu"

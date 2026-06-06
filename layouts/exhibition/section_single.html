@@ -1,0 +1,308 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $siblings := where site.RegularPages "Type" "exhibition" }}
+  {{ $siblings = where $siblings "Params.section_index" "ne" nil }}
+  {{ $siblings = sort $siblings "Params.section_index" }}
+  {{ $currentIndex := int (.Params.section_index | default 0) }}
+  {{ $sourceDir := "" }}
+  {{ with .Params.source_index_file }}
+    {{ $sourceDir = strings.TrimSuffix "/_index.md" . }}
+  {{ end }}
+  {{ $prev := false }}
+  {{ $next := false }}
+  {{ range $idx, $page := $siblings }}
+    {{ if eq (int $page.Params.section_index) $currentIndex }}
+      {{ if gt $idx 0 }}
+        {{ $prev = index $siblings (sub $idx 1) }}
+      {{ end }}
+      {{ if lt $idx (sub (len $siblings) 1) }}
+        {{ $next = index $siblings (add $idx 1) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ $sourcePages := slice }}
+  {{ $rootItems := slice }}
+  {{ $placeDirs := slice }}
+  {{ $places := .Params.places | default (slice) }}
+  {{ $fileBackedPages := where site.Pages "File" "ne" nil }}
+  {{ if $sourceDir }}
+    {{ $placeDirsScratch := newScratch }}
+    {{ $placeDirsScratch.Set "dirs" (slice) }}
+    {{ range site.RegularPages }}
+      {{ if and .File (hasPrefix .File.Path (printf "%s/" $sourceDir)) }}
+        {{ $sourcePages = $sourcePages | append . }}
+        {{ $itemDir := path.Dir .File.Path }}
+        {{ if eq $itemDir $sourceDir }}
+          {{ $rootItems = $rootItems | append . }}
+        {{ else }}
+          {{ $dirs := $placeDirsScratch.Get "dirs" }}
+          {{ if not (in $dirs $itemDir) }}
+            {{ $placeDirsScratch.Set "dirs" ($dirs | append $itemDir) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $rootItems = sort $rootItems "Title" }}
+    {{ $placeDirs = sort ($placeDirsScratch.Get "dirs") }}
+  {{ end }}
+
+  <main class="facwa-document-page">
+    {{ if gt (len $places) 0 }}
+      <section class="facwa-exhibition-sticky-map-shell">
+        <div class="facwa-exhibition-sticky-map-shell__inner">
+          <div
+            id="exhibition-map-{{ .Params.section_index }}"
+            class="facwa-exhibition-sticky-map"
+            data-map-lat="{{ .Params.map_lat }}"
+            data-map-lng="{{ .Params.map_lng }}"
+            data-map-zoom="{{ .Params.map_zoom | default 14 }}"
+            data-map-popup="{{ .Params.map_popup | default .Title }}">
+          </div>
+        </div>
+      </section>
+    {{ end }}
+
+    <div class="facwa-document-shell facwa-document-shell--wide">
+      <nav class="facwa-document-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">홈</a>
+        <span aria-hidden="true">/</span>
+        <a href="/exhibition/">전시</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ .Title }}</span>
+      </nav>
+
+      <section class="facwa-document-hero">
+        <div>
+          <p class="facwa-document-eyebrow">Section {{ printf "%02d" $currentIndex }}</p>
+          <h1>{{ .Title }}</h1>
+          <p>{{ .Summary }}</p>
+        </div>
+      </section>
+
+      <div class="facwa-document-grid">
+        <aside class="facwa-document-toc-card" aria-label="섹션 목차">
+          <div class="facwa-document-toc-card__inner">
+            <p class="facwa-document-toc-title">목차</p>
+            <nav class="text-sm leading-7">
+              <ul>
+                <li><a href="#overview">섹션 개요</a></li>
+                {{ if $sourceDir }}
+                  <li><a href="#archive">전체 자료 목록</a></li>
+                  {{ range $placeDirs }}
+                    {{ $placeMeta := index (where $fileBackedPages "File.Path" "eq" (printf "%s/_index.md" .)) 0 }}
+                    {{ $placeTitle := path.Base . }}
+                    {{ if $placeMeta }}
+                      {{ $placeTitle = $placeMeta.Title }}
+                    {{ end }}
+                    <li>
+                      <a href="#{{ $placeTitle | anchorize }}"
+                        {{ range $places }}{{ if eq .title $placeTitle }}data-map-target="true" data-map-title="{{ .title }}" data-map-lat="{{ .lat }}" data-map-lng="{{ .lng }}" data-map-zoom="{{ .zoom | default 16 }}"{{ end }}{{ end }}>
+                        {{ $placeTitle }}
+                      </a>
+                    </li>
+                  {{ end }}
+                {{ end }}
+              </ul>
+            </nav>
+          </div>
+        </aside>
+
+        <article class="facwa-document-card">
+          <div class="facwa-document-content">
+            <section id="overview">
+              <h2>섹션 개요</h2>
+              {{ .Content }}
+            </section>
+
+            {{ if $sourceDir }}
+              <section id="archive">
+                <h2>전체 자료 목록</h2>
+                <p>이 섹션에 포함된 전체 아이템을 장소별로 펼쳐 보여줍니다. 실제 코퍼스의 밀도와 장소 구성을 한 번에 확인할 수 있습니다.</p>
+                <p><strong>장소 {{ .Params.place_count }}곳</strong> / <strong>전체 {{ .Params.item_count }}건</strong></p>
+              </section>
+
+              {{ range $placeDirs }}
+                {{ $placeDir := . }}
+                {{ $placeItems := slice }}
+                {{ range $sourcePages }}
+                  {{ if eq (path.Dir .File.Path) $placeDir }}
+                    {{ $placeItems = $placeItems | append . }}
+                  {{ end }}
+                {{ end }}
+                {{ $placeItems = sort $placeItems "Title" }}
+                {{ $placeMeta := index (where $fileBackedPages "File.Path" "eq" (printf "%s/_index.md" $placeDir)) 0 }}
+                {{ $placeTitle := path.Base $placeDir }}
+                {{ if $placeMeta }}
+                  {{ $placeTitle = $placeMeta.Title }}
+                {{ end }}
+                <section id="{{ $placeTitle | anchorize }}">
+                  <h2>{{ $placeTitle }}</h2>
+                  <div class="not-prose mb-4">
+                    <button
+                      type="button"
+                      class="facwa-exhibition-map-jump"
+                      {{ range $places }}{{ if eq .title $placeTitle }}data-map-target="true" data-map-title="{{ .title }}" data-map-lat="{{ .lat }}" data-map-lng="{{ .lng }}" data-map-zoom="{{ .zoom | default 16 }}"{{ end }}{{ end }}>
+                      지도에서 이 위치 보기
+                    </button>
+                  </div>
+                  {{ with $placeMeta.Summary }}
+                    <p>{{ . }}</p>
+                  {{ end }}
+                  <p><strong>{{ len $placeItems }}건</strong></p>
+                  <div class="not-prose mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {{ range $placeItems }}
+                      {{ $thumb := "" }}
+                      {{ if .Params.media.thumbnail }}
+                        {{ $thumb = .Params.media.thumbnail }}
+                      {{ else if .Params.thumbnail }}
+                        {{ $thumb = .Params.thumbnail }}
+                      {{ end }}
+                      {{ $blurb := .Summary }}
+                      {{ if not $blurb }}
+                        {{ $blurb = .Params.summary }}
+                      {{ end }}
+                      <article class="overflow-hidden rounded-[18px] border border-slate-200 bg-white transition hover:border-blue-300 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
+                        <a href="{{ .RelPermalink }}" class="block no-underline">
+                          <div class="aspect-[4/3] overflow-hidden bg-slate-200">
+                            {{ if $thumb }}
+                              <img class="h-full w-full object-cover" src="{{ $thumb | safeURL }}" alt="{{ .Title }}">
+                            {{ else }}
+                              <div class="flex h-full items-center justify-center text-sm text-slate-500">이미지 없음</div>
+                            {{ end }}
+                          </div>
+                          <div class="p-4">
+                            <h3 class="m-0 text-lg font-semibold leading-7 text-slate-950">{{ .Title }}</h3>
+                            {{ with $blurb }}
+                              <p class="mt-2 text-sm leading-6 text-slate-600">{{ . }}</p>
+                            {{ end }}
+                          </div>
+                        </a>
+                      </article>
+                    {{ end }}
+                  </div>
+                </section>
+              {{ end }}
+            {{ end }}
+
+            <section id="navigation">
+              <h2>다음 이동</h2>
+              <div class="facwa-exhibition-section-nav not-prose mt-4">
+                <div class="facwa-exhibition-section-nav__slot facwa-exhibition-section-nav__slot--prev">
+                  {{ if $prev }}
+                    <a href="{{ $prev.RelPermalink }}" class="facwa-exhibition-section-nav__link facwa-exhibition-section-nav__link--secondary no-underline">
+                      <span class="facwa-exhibition-section-nav__eyebrow">Previous</span>
+                      <span class="facwa-exhibition-section-nav__title">이전 섹션</span>
+                      <span class="facwa-exhibition-section-nav__meta">{{ $prev.Title }}</span>
+                    </a>
+                  {{ end }}
+                </div>
+                <div class="facwa-exhibition-section-nav__slot facwa-exhibition-section-nav__slot--home">
+                  <a href="/exhibition/" class="facwa-exhibition-section-nav__link facwa-exhibition-section-nav__link--primary no-underline">
+                    <span class="facwa-exhibition-section-nav__eyebrow">Exhibition</span>
+                    <span class="facwa-exhibition-section-nav__title">전시 메인</span>
+                    <span class="facwa-exhibition-section-nav__meta">7개 산책 섹션 전체 보기</span>
+                  </a>
+                </div>
+                <div class="facwa-exhibition-section-nav__slot facwa-exhibition-section-nav__slot--next">
+                  {{ if $next }}
+                    <a href="{{ $next.RelPermalink }}" class="facwa-exhibition-section-nav__link facwa-exhibition-section-nav__link--secondary no-underline">
+                      <span class="facwa-exhibition-section-nav__eyebrow">Next</span>
+                      <span class="facwa-exhibition-section-nav__title">다음 섹션</span>
+                      <span class="facwa-exhibition-section-nav__meta">{{ $next.Title }}</span>
+                    </a>
+                  {{ end }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}
+
+{{ define "footerJs" }}
+  {{ if and .Params.map_lat .Params.map_lng }}
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    >
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer>
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mapEl = document.getElementById("exhibition-map-{{ .Params.section_index }}");
+        if (!mapEl || typeof L === "undefined") return;
+
+        const lat = Number(mapEl.dataset.mapLat);
+        const lng = Number(mapEl.dataset.mapLng);
+        const zoom = Number(mapEl.dataset.mapZoom || 14);
+        const popup = mapEl.dataset.mapPopup || "";
+
+        const map = L.map(mapEl, {
+          zoomControl: true,
+          scrollWheelZoom: false
+        }).setView([lat, lng], zoom);
+
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+          attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+          subdomains: 'abcd',
+          maxZoom: 20
+        }).addTo(map);
+
+        const baseMarker = L.marker([lat, lng]).addTo(map);
+        if (popup) baseMarker.bindPopup(popup);
+
+        const placeMarkers = {};
+        const placeButtons = document.querySelectorAll("[data-map-target='true']");
+        placeButtons.forEach((button) => {
+          const placeLat = Number(button.dataset.mapLat);
+          const placeLng = Number(button.dataset.mapLng);
+          const placeTitle = button.dataset.mapTitle || "";
+          if (!Number.isFinite(placeLat) || !Number.isFinite(placeLng) || !placeTitle) return;
+          if (placeMarkers[placeTitle]) return;
+          placeMarkers[placeTitle] = L.circleMarker([placeLat, placeLng], {
+            radius: 6,
+            color: "#0f172a",
+            weight: 1,
+            fillColor: "#2563eb",
+            fillOpacity: 0.9
+          }).addTo(map).bindTooltip(placeTitle, { direction: "top" });
+        });
+
+        function focusPlace(placeTitle, placeLat, placeLng, placeZoom) {
+          map.setView([placeLat, placeLng], placeZoom, { animate: true });
+          const marker = placeMarkers[placeTitle];
+          if (marker) marker.openTooltip();
+        }
+
+        if (popup) baseMarker.bindPopup(popup).openPopup();
+
+        placeButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const placeLat = Number(button.dataset.mapLat);
+            const placeLng = Number(button.dataset.mapLng);
+            const placeZoom = Number(button.dataset.mapZoom || 16);
+            const placeTitle = button.dataset.mapTitle || "";
+            if (!Number.isFinite(placeLat) || !Number.isFinite(placeLng) || !placeTitle) return;
+            focusPlace(placeTitle, placeLat, placeLng, placeZoom);
+          });
+        });
+      });
+    </script>
+  {{ end }}
+{{ end }}

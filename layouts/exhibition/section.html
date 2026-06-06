@@ -1,0 +1,194 @@
+{{ define "header" }}
+  {{ partial "marketing/elements/header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $sections := where .RegularPages "Params.section_index" "ne" nil }}
+  {{ $sections = sort $sections "Params.section_index" }}
+  {{ $featured := index $sections 0 }}
+
+  <main class="bg-slate-50 text-[var(--theme-text)]">
+    {{ if gt (len $sections) 0 }}
+      <section
+        class="facwa-ww-slide facwa-ww-slide--exhibition"
+        aria-label="YongsanKim exhibition main slide"
+        x-data="{
+          current: 0,
+          count: {{ len $sections }},
+          timer: null,
+          init() {
+            this.start()
+          },
+          start() {
+            this.stop()
+            this.timer = window.setInterval(() => this.next(), 7000)
+          },
+          stop() {
+            if (this.timer) window.clearInterval(this.timer)
+            this.timer = null
+          },
+          prev() {
+            this.current = (this.current - 1 + this.count) % this.count
+          },
+          next() {
+            this.current = (this.current + 1) % this.count
+          },
+          go(index) {
+            this.current = index
+          }
+        }"
+        :class="{ 'is-ready': true }"
+        @mouseenter="stop()"
+        @mouseleave="start()"
+      >
+        <div class="facwa-ww-slide__viewport">
+          {{ range $index, $section := $sections }}
+            {{ $coverPage := index (where site.RegularPages "File.Path" "eq" $section.Params.cover_file) 0 }}
+            {{ $thumb := "" }}
+            {{ if $coverPage }}
+              {{ if $coverPage.Params.media.thumbnail }}
+                {{ $thumb = $coverPage.Params.media.thumbnail }}
+              {{ else if $coverPage.Params.thumbnail }}
+                {{ $thumb = $coverPage.Params.thumbnail }}
+              {{ end }}
+            {{ end }}
+            {{ $style := "background-image: linear-gradient(90deg, rgba(3, 7, 18, 0.82) 0%, rgba(8, 47, 73, 0.56) 45%, rgba(14, 165, 233, 0.22) 82%);" }}
+            {{ if $thumb }}
+              {{ $style = printf "background-image: linear-gradient(90deg, rgba(3, 7, 18, 0.82) 0%%, rgba(8, 47, 73, 0.56) 45%%, rgba(14, 165, 233, 0.22) 82%%), url('%s');" ($thumb | absURL) }}
+            {{ end }}
+            <a
+              class="facwa-ww-slide__item"
+              href="{{ $section.RelPermalink }}"
+              style="{{ $style }}"
+              :class="{ 'is-active': current === {{ $index }} }"
+              aria-label="{{ $section.Title }}"
+            >
+              <div class="site-container facwa-ww-slide__content">
+                <div class="flex flex-wrap gap-2">
+                  <span class="rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white backdrop-blur">Section {{ printf "%02d" (int $section.Params.section_index) }}</span>
+                  {{ with $section.Params.place_count }}
+                    <span class="rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white backdrop-blur">장소 {{ . }}곳</span>
+                  {{ end }}
+                  {{ with $section.Params.item_count }}
+                    <span class="rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white backdrop-blur">아이템 {{ . }}건</span>
+                  {{ end }}
+                </div>
+                <p class="facwa-ww-slide__eyebrow">YongsanKim Exhibition</p>
+                <h2>{{ $section.Title }}</h2>
+                {{ with $section.Params.subtitle }}
+                  <p class="text-lg font-medium text-blue-100 lg:text-xl">{{ . }}</p>
+                {{ end }}
+                {{ with $section.Summary }}
+                  <p class="facwa-ww-slide__description">{{ . }}</p>
+                {{ end }}
+                <span class="facwa-ww-slide__button">섹션 보기</span>
+              </div>
+            </a>
+          {{ end }}
+        </div>
+
+        <div class="facwa-ww-slide__controls" aria-hidden="false">
+          <button class="facwa-ww-slide__nav facwa-ww-slide__nav--prev" type="button" @click.prevent.stop="prev(); start()" aria-label="이전 섹션">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path fill="currentColor" fill-rule="evenodd" d="M12.707 5.293a1 1 0 0 1 0 1.414L9.414 10l3.293 3.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>이전</span>
+          </button>
+          <button class="facwa-ww-slide__nav facwa-ww-slide__nav--next" type="button" @click.prevent.stop="next(); start()" aria-label="다음 섹션">
+            <span>다음</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path fill="currentColor" fill-rule="evenodd" d="M7.293 14.707a1 1 0 0 1 0-1.414L10.586 10 7.293 6.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="facwa-ww-slide__pagination" aria-label="전시 섹션 페이지">
+          {{ range $index, $_ := $sections }}
+            <button
+              type="button"
+              class="facwa-ww-slide__dot"
+              :class="{ 'is-active': current === {{ $index }} }"
+              @click="go({{ $index }}); start()"
+              aria-label="{{ add $index 1 }}번 섹션"
+            ></button>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
+    <section class="container px-4 pb-8 pt-6 lg:px-10">
+      <div class="rounded-[24px] border border-slate-200 bg-white/90 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.06)] backdrop-blur lg:p-8">
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(260px,0.85fr)] lg:items-start">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Exhibition Overview</p>
+            <h1 class="mt-3 text-3xl font-semibold leading-tight tracking-[0.01em] text-slate-950 lg:text-5xl">{{ .Title }}</h1>
+            {{ with .Description }}
+              <p class="mt-5 max-w-3xl text-base leading-8 text-slate-600 lg:text-lg">{{ . }}</p>
+            {{ end }}
+            <div class="mt-6 max-w-3xl text-sm leading-7 text-slate-600 lg:text-base">
+              {{ .Content }}
+            </div>
+          </div>
+          <div class="rounded-[20px] border border-blue-100 bg-blue-50/80 p-5">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">프롤로그</p>
+            <p class="mt-3 text-sm leading-7 text-slate-700">`0. 서문` 이미지군은 남산과 한강, 기지와 도시가 중첩된 용산 전체의 스케일을 여는 도입부로 유지합니다. 아래의 7개 섹션은 산책 구조를 그대로 번역한 본편 전시입니다.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm">{{ len $sections }}개 전시 섹션</span>
+              <span class="rounded-full bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm">1~7번 산책 코스</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container px-4 pb-16 lg:px-10">
+      <div class="grid gap-6 xl:grid-cols-2">
+        {{ range $index, $section := $sections }}
+          {{ $coverPage := index (where site.RegularPages "File.Path" "eq" $section.Params.cover_file) 0 }}
+          {{ $thumb := "" }}
+          {{ if $coverPage }}
+            {{ if $coverPage.Params.media.thumbnail }}
+              {{ $thumb = $coverPage.Params.media.thumbnail }}
+            {{ else if $coverPage.Params.thumbnail }}
+              {{ $thumb = $coverPage.Params.thumbnail }}
+            {{ end }}
+          {{ end }}
+          <article class="group overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)]">
+            <a href="{{ $section.RelPermalink }}" class="block">
+              <div class="grid md:grid-cols-[minmax(240px,0.95fr)_minmax(0,1.05fr)]">
+                <div class="relative min-h-[260px] overflow-hidden bg-slate-100">
+                  {{ if $thumb }}
+                    <img class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" src="{{ $thumb | safeURL }}" alt="{{ $section.Title }}">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-900/10 to-transparent md:bg-gradient-to-r md:from-slate-950/40 md:via-transparent md:to-transparent"></div>
+                  {{ else }}
+                    <div class="flex h-full items-center justify-center text-sm text-slate-500">대표 이미지 준비 중</div>
+                  {{ end }}
+                  <span class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm">Section {{ printf "%02d" (add $index 1) }}</span>
+                </div>
+                <div class="flex flex-col justify-between p-5 lg:p-6">
+                  <div>
+                    <p class="text-sm font-medium text-blue-700">{{ $section.Params.subtitle }}</p>
+                    <h2 class="mt-2 text-2xl font-semibold leading-tight text-slate-950">{{ $section.Title }}</h2>
+                    <p class="mt-3 line-clamp-4 text-sm leading-7 text-slate-600 lg:text-base">{{ $section.Summary }}</p>
+                  </div>
+                  <div class="mt-5 flex flex-wrap gap-2">
+                    {{ with $section.Params.place_count }}
+                      <span class="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">장소 {{ . }}곳</span>
+                    {{ end }}
+                    {{ with $section.Params.item_count }}
+                      <span class="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">아이템 {{ . }}건</span>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            </a>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "marketing/elements/footer-wide.html" . }}
+{{ end }}

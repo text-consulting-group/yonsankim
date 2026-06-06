@@ -14,11 +14,11 @@ main:
     parent: 홈
   - name: 리서치 가이드
     url: /research-guide/
-    weight: 3
+    weight: 4
     parent: 홈 
   - name: 블로그
     url: /posts/
-    weight: 4
+    weight: 5
     parent: 홈      
   - name: 영상 탐색
     url:
@@ -50,6 +50,9 @@ main:
     url: /creators/
     parent: 컬렉션
     weight: 4
+  - name: 전시
+    url: /exhibition/
+    weight: -70
 button:
 - name: 검색
   url: /search

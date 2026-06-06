@@ -6,7 +6,7 @@
   {{ $summary = replaceRE "\\s+" " " $summary }}
   {{ $summary = strings.TrimSpace $summary }}
   {{ if gt (len $summary) 160 }}
-    {{ $summary = printf "%s..." (slicestr $summary 0 160) }}
+    {{ $summary = truncate 160 $summary }}
   {{ end }}
   {{ $media := .Params.media | default .Params.Media }}
   {{ $components := .Params.components | default .Params.Components }}

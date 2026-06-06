@@ -1,0 +1,31 @@
+{{ $item := index .items 0 }}
+{{ $page := index (where site.RegularPages "File.Path" "eq" $item.file) 0 }}
+{{ $thumb := "" }}
+{{ if $page }}
+  {{ if $page.Params.media.thumbnail }}
+    {{ $thumb = $page.Params.media.thumbnail }}
+  {{ else if $page.Params.thumbnail }}
+    {{ $thumb = $page.Params.thumbnail }}
+  {{ end }}
+{{ end }}
+<section class="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5">
+  <div class="overflow-hidden rounded-[18px] bg-slate-100">
+    {{ if $thumb }}
+      <img class="aspect-[16/9] w-full object-cover" src="{{ $thumb | safeURL }}" alt="{{ $page.Title }}">
+    {{ end }}
+  </div>
+  <div class="mt-5 grid gap-4 lg:grid-cols-[160px_minmax(0,1fr)]">
+    <div>
+      {{ with $item.kicker }}
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">{{ . }}</p>
+      {{ end }}
+      <h2 class="mt-2 text-2xl font-semibold text-slate-900 lg:text-3xl">{{ $item.name | default $page.Title }}</h2>
+      {{ with $item.subname }}
+        <p class="mt-1 text-sm font-medium text-slate-500">{{ . }}</p>
+      {{ end }}
+    </div>
+    <div class="text-sm leading-7 text-slate-700 lg:text-base">
+      <p>{{ $item.description }}</p>
+    </div>
+  </div>
+</section>
