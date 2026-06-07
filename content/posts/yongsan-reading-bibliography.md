@@ -10,6 +10,7 @@ tags:
   - 참고묶음
   - 연구노트
   - 읽기경로
+translationKey: yongsan-reading-bibliography
 components:
   - /img/home-seminar-2014.jpg
 ---

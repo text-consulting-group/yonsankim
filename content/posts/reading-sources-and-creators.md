@@ -10,6 +10,7 @@ tags:
   - 생산조직
   - 생산자
   - 기록사진
+translationKey: reading-sources-and-creators
 components:
   - /img/home-gate-95071.jpg
 ---

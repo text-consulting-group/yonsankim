@@ -10,6 +10,7 @@ tags:
   - 용산
   - 항공사진
   - NARA
+translationKey: yongsan-from-above
 components:
   - /img/home-aerial-1963.jpg
 ---
@@ -25,4 +26,3 @@ components:
 - `/items/1963/`
 - `/items/rg-111-ccs-b-49-cc-48794/`
 - `/research-guide/`
-

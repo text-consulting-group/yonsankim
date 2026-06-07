@@ -10,6 +10,7 @@ tags:
   - 용산공원
   - 공원담론
   - 세미나
+translationKey: from-record-photo-to-park-discourse
 components:
   - /img/home-park-forum.jpg
 ---
@@ -25,4 +26,3 @@ components:
 - `/items/2017-4-4/`
 - `/items/1963/`
 - `/document/`
-

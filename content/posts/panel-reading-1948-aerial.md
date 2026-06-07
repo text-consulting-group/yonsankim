@@ -10,6 +10,7 @@ tags:
   - 전시패널
   - 1948
   - 항공사진
+translationKey: panel-reading-1948-aerial
 components:
   - /img/home-rg111-aerial.jpg
 ---

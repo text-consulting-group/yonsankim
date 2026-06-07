@@ -10,6 +10,7 @@ tags:
   - 용산
   - 미8군
   - U.S. Army
+translationKey: eusa-faces-of-yongsan
 components:
   - /img/home-gate-95071.jpg
 ---
@@ -25,4 +26,3 @@ components:
 - `/items/rg-111-cck-b-1-cck-95071/`
 - `/items/rg-111-cck-b-1-cck-41071/`
 - `/sources/`
-

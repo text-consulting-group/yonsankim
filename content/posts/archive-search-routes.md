@@ -10,6 +10,7 @@ tags:
   - 탐색가이드
   - 레코드그룹
   - 시리즈
+translationKey: archive-search-routes
 components:
   - /img/home-seminar-2014.jpg
 ---
@@ -25,4 +26,3 @@ components:
 - `/research-guide/`
 - `/sources/`
 - `/subjects/`
-

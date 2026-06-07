@@ -10,6 +10,7 @@ tags:
   - 오늘의사료
   - 사우스포스트
   - 항공사진
+translationKey: todays-record-south-post-1963
 components:
   - /img/home-aerial-1963.jpg
 ---
