@@ -163,7 +163,17 @@
 
         <nav class="rounded-[8px] border border-slate-200 bg-white">
           {{ with $ctx.Site.GetPage "section" "items" }}
-            {{ $child_pages := union .Sections .Pages }}
+            {{ $rawChildPages := union .Sections .Pages }}
+            {{ $child_pages := $rawChildPages }}
+            {{ if eq $ctx.Site.Language.Lang "en" }}
+              {{ $visiblePages := slice }}
+              {{ range $rawChildPages }}
+                {{ if not (partial "roll/utils/should-hide-in-english-item.html" .) }}
+                  {{ $visiblePages = $visiblePages | append . }}
+                {{ end }}
+              {{ end }}
+              {{ $child_pages = $visiblePages }}
+            {{ end }}
             {{ range $child_pages.ByWeight.ByTitle }}
               <div class="border-b border-slate-200 last:border-b-0">
                 <a href="{{ .Permalink }}" class="block px-5 py-5 transition hover:bg-[#f5f7fb] hover:text-blue-600">
@@ -182,7 +192,17 @@
           {{ else }}
             {{ with $ctx.Site.GetPage "/" }}
               {{ range where .Sections.ByTitle "Type" "items" }}
-                {{ $child_pages := union .Sections .Pages }}
+                {{ $rawChildPages := union .Sections .Pages }}
+                {{ $child_pages := $rawChildPages }}
+                {{ if eq $ctx.Site.Language.Lang "en" }}
+                  {{ $visiblePages := slice }}
+                  {{ range $rawChildPages }}
+                    {{ if not (partial "roll/utils/should-hide-in-english-item.html" .) }}
+                      {{ $visiblePages = $visiblePages | append . }}
+                    {{ end }}
+                  {{ end }}
+                  {{ $child_pages = $visiblePages }}
+                {{ end }}
               {{ range $child_pages.ByWeight.ByTitle }}
                 <div class="border-b border-slate-200 last:border-b-0">
                   <a href="{{ .Permalink }}" class="block px-5 py-5 transition hover:bg-[#f5f7fb] hover:text-blue-600">

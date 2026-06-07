@@ -1,0 +1,21 @@
+{{ $page := . }}
+{{ $filePath := "" }}
+{{ with $page.File }}
+  {{ $filePath = .Path }}
+{{ end }}
+{{ $filePath = lower $filePath }}
+{{ $series := lower (string ($page.Params.level__series | default $page.Params.series | default "")) }}
+{{ $title := lower (string ($page.Title | default "")) }}
+{{ $titleEn := lower (string ($page.Params.title_en | default "")) }}
+{{ $components := lower (delimit ($page.Params.media.components | default (slice)) " ") }}
+
+{{ $isQrSupportLayer := or (in $filePath "qr코드 - 주요 지점 유튜브 영상 연결/") (eq $series "qr코드 - 주요 지점 유튜브 영상 연결") }}
+{{ $isUploadSupportLayer := in $filePath "유튜브 업로드 파일/" }}
+{{ $isAutomatedTextArtifact := or
+  (findRE `\.(txt|rtf)\.md$` $filePath)
+  (findRE `image captions` $titleEn)
+  (findRE `이미지[ _-]*해제` $title)
+  (findRE `\.(txt|rtf)(\?|$)` $components)
+}}
+
+{{ return (or $isQrSupportLayer $isUploadSupportLayer $isAutomatedTextArtifact) }}

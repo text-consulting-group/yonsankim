@@ -116,3 +116,21 @@
   translation: "Places"
 - id: exhibition_items
   translation: "Items"
+- id: exhibition_section_overview
+  translation: "Section overview"
+- id: exhibition_archive_title
+  translation: "Full item list"
+- id: exhibition_archive_body
+  translation: "All items in this section are displayed by place so the density of the corpus and the place-based structure can be read at once."
+- id: exhibition_map_view
+  translation: "View this place on the map"
+- id: exhibition_navigation_title
+  translation: "Continue reading"
+- id: exhibition_navigation_prev
+  translation: "Previous section"
+- id: exhibition_navigation_next
+  translation: "Next section"
+- id: exhibition_navigation_home
+  translation: "Exhibition main"
+- id: exhibition_navigation_home_meta
+  translation: "See all seven walk sections"

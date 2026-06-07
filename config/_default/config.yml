@@ -1,4 +1,4 @@
-title: 기억의 창고
+title: YongsanKim Archives
 baseURL: https://yongsankim.pages.dev/
 description: "용산의 군사 공간, 도시 변화, 공원화 과정을 기록사진, 항공사진, 답사 자료, 세미나 기록으로 함께 읽는 디지털 아카이브입니다."
 images:
@@ -44,17 +44,17 @@ languages:
           pageRef: /posts
           weight: 5
           parent: 홈
-        - name: 영상 탐색
+        - name: 자료 탐색
           url:
           weight: -90
         - name: 탐색
           pageRef: /items
           weight: 1
-          parent: 영상 탐색
+          parent: 자료 탐색
         - name: 검색
           pageRef: /search
           weight: 2
-          parent: 영상 탐색
+          parent: 자료 탐색
         - name: 컬렉션
           url:
           weight: -80
@@ -116,16 +116,16 @@ languages:
           weight: 5
           parent: Home
         - name: Browse Media
-          url:
-          weight: -90
-        - name: Browse
+          pageRef: /items
+          weight: -100         
+        - name: Items
           pageRef: /items
           weight: 1
-          parent: Browse Media
+          parent: Browse Media         
         - name: Search
           pageRef: /search
           weight: 2
-          parent: Browse Media
+          parent: Browse Media          
         - name: Collections
           url:
           weight: -80

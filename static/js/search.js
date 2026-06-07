@@ -14,6 +14,8 @@
   const resetButton = document.getElementById("facwa-filter-reset");
   const clearButton = document.getElementById("facwa-search-clear");
   const template = document.getElementById("search-result-template");
+  const language = (document.documentElement.lang || "").toLowerCase();
+  const isEnglish = language.startsWith("en");
   const facetGroups = Array.from(document.querySelectorAll(".facwa-dynamic-facet")).map((el) => ({
     el,
     key: el.dataset.facetGroup,
@@ -42,6 +44,26 @@
     .filter(Boolean);
 
   const textValue = (value) => asArray(value).filter(Boolean).join(", ");
+
+  const shouldHideLowValueEnglishItem = (item) => {
+    if (!isEnglish) return false;
+
+    const metadata = item.metadata || item;
+    const series = textValue(metadata.level__series || metadata.series).toLowerCase();
+    const title = textValue(metadata.title || item.title).toLowerCase();
+    const titleEn = textValue(metadata.title_en).toLowerCase();
+    const path = textValue(metadata.path || metadata.file_path || metadata.source_path || metadata.permalink).toLowerCase();
+    const components = asArray(metadata.components || metadata.media?.components).join(" ").toLowerCase();
+
+    const isQrSupportLayer = path.includes("qr%") || path.includes("qr코드 - 주요 지점 유튜브 영상 연결") || series.includes("qr코드 - 주요 지점 유튜브 영상 연결");
+    const isUploadSupportLayer = path.includes("유튜브 업로드 파일");
+    const isAutomatedTextArtifact = /\.txt(\?|$)|\.rtf(\?|$)/.test(components)
+      || /\.txt\.md$|\.rtf\.md$/.test(path)
+      || /image captions/.test(titleEn)
+      || /이미지[\s_-]*해제/.test(title);
+
+    return isQrSupportLayer || isUploadSupportLayer || isAutomatedTextArtifact;
+  };
 
   const normaliseFacetValue = (value) => String(value).trim();
 
@@ -92,10 +114,16 @@
     const thumbnail = metadata.thumbnail || metadata.image || metadata.media_thumbnail || "";
     const image = thumbnail || "";
     const category = metadata.level__rg || metadata.category || metadata.sources || metadata.subjects || "카테고리";
+    const title = isEnglish
+      ? (metadata.title_en || metadata.title || item.title || "Untitled")
+      : (metadata.title || item.title || "제목 없음");
+    const description = isEnglish
+      ? (metadata.summary_en || metadata.description_en || metadata.summary || metadata.description || metadata.snippet || metadata.contents || item.text || "")
+      : (metadata.summary || metadata.description || metadata.snippet || metadata.contents || item.text || "");
 
     return {
-      title: metadata.title || item.title || "제목 없음",
-      description: metadata.description || metadata.snippet || metadata.contents || item.text || "",
+      title,
+      description,
       permalink: metadata.permalink || metadata.url || metadata.path || "#",
       category: textValue(category) || "카테고리",
       date: metadata.date || metadata.created_at || "",
@@ -306,7 +334,8 @@
   const runLocalSearch = async (query) => {
     const index = await fetchIndex();
     const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    const scoredByQuery = index
+    const visibleIndex = index.filter((item) => !shouldHideLowValueEnglishItem(item));
+    const scoredByQuery = visibleIndex
       .map((item) => ({ item, score: scoreItem(item, terms) }))
       .filter(({ score }) => score > 0)
       .sort((a, b) => b.score - a.score);

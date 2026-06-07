@@ -1,4 +1,14 @@
-{{ $child_pages := union .Sections .Pages }}
+{{ $rawChildPages := union .Sections .Pages }}
+{{ $child_pages := $rawChildPages }}
+{{ if eq .Site.Language.Lang "en" }}
+  {{ $visiblePages := slice }}
+  {{ range $rawChildPages }}
+    {{ if not (partial "roll/utils/should-hide-in-english-item.html" .) }}
+      {{ $visiblePages = $visiblePages | append . }}
+    {{ end }}
+  {{ end }}
+  {{ $child_pages = $visiblePages }}
+{{ end }}
 {{ if $child_pages }}
   <ul class="mt-1 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
     {{ range $child_pages.ByWeight.ByTitle }}

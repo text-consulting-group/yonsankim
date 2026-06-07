@@ -19,7 +19,17 @@
   <nav x-show="browseOpen" class="px-2 py-2">
     {{ with .Site.GetPage "/" }}
       {{ range where .Sections.ByTitle "Type" "items" }}
-        {{ $child_pages := union .Sections .Pages }}
+        {{ $rawChildPages := union .Sections .Pages }}
+        {{ $child_pages := $rawChildPages }}
+        {{ if eq $.Site.Language.Lang "en" }}
+          {{ $visiblePages := slice }}
+          {{ range $rawChildPages }}
+            {{ if not (partial "roll/utils/should-hide-in-english-item.html" .) }}
+              {{ $visiblePages = $visiblePages | append . }}
+            {{ end }}
+          {{ end }}
+          {{ $child_pages = $visiblePages }}
+        {{ end }}
         {{ range $child_pages.ByWeight.ByTitle }}
           <div x-data="{ open: false }" class="mb-2">
             <div class="flex items-center gap-2 rounded-[8px] px-3 py-3 transition hover:bg-[#f5f7fb] dark:hover:bg-slate-800 {{ if .IsAncestor $.CurrentSection }}bg-[#f0f4fd]{{ end }}">

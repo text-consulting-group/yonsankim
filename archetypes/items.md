@@ -24,8 +24,12 @@ level:
 
 title: "{{ replace .Name \"-\" \" \" | title }}"
 summary: ""
+title_en: ""
+summary_en: ""
 
 description_status: ""
+description_en: |-
+  ""
 
 venues: []
 sources: []

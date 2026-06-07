@@ -3,9 +3,15 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ $isEnglish := eq .Site.Language.Lang "en" }}
   {{ $title := .Title }}
-  {{ $description := .Params.description | default .Params.Description }}
   {{ $summary := .Params.summary | default .Summary }}
+  {{ $description := .Params.description | default .Params.Description }}
+  {{ if $isEnglish }}
+    {{ $title = .Params.title_en | default $title }}
+    {{ $summary = .Params.summary_en | default $summary }}
+    {{ $description = .Params.description_en | default $description }}
+  {{ end }}
   {{ $level := .Params.level_of_description | default .Params.Level_of_description }}
   {{ $mediaType := .Params.media_type | default .Params.Media_type }}
   {{ $components := .Params.components | default .Params.Components }}
