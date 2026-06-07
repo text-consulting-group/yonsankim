@@ -7,7 +7,23 @@
 {{- $page := .Page | default . -}}
 {{- $isExhibition := eq $page.Type "exhibition" -}}
 {{ $searchURL := "/search/" }}
-{{ $searchLabel := "검색" }}
+{{ $searchLabel := site.Language.Params.searchLabel | default (cond (eq site.Language.Lang "en") "Search" "검색") }}
+{{ $browseLabel := site.Language.Params.browseLabel | default (cond (eq site.Language.Lang "en") "Browse" "탐색") }}
+{{ $currentLang := site.Language.Lang }}
+{{ $targetLang := cond (eq $currentLang "ko") "en" "ko" }}
+{{ $languageSwitchURL := "" }}
+{{ with where $page.AllTranslations "Lang" $targetLang }}
+  {{ with index . 0 }}
+    {{ $languageSwitchURL = .RelPermalink }}
+  {{ end }}
+{{ end }}
+{{ if eq $languageSwitchURL "" }}
+  {{ with where site.Home.AllTranslations "Lang" $targetLang }}
+    {{ with index . 0 }}
+      {{ $languageSwitchURL = .RelPermalink }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 {{ with site.Menus.button }}
   {{ with index . 0 }}
     {{ with .URL }}{{ $searchURL = . }}{{ end }}
@@ -15,13 +31,28 @@
   {{ end }}
 {{ end }}
 <header x-data="{ browseOverlayOpen: false, activeMenu: null }" @keydown.escape.window="activeMenu = null; browseOverlayOpen = false" @mouseleave="activeMenu = null" class="facwa-site-header {{ if eq $page.Type "exhibition" }}relative{{ else }}sticky top-0{{ end }} z-50 border-b border-slate-200 bg-white text-slate-900 relative">
+  <div class="border-b border-slate-100 bg-slate-50">
+    <div class="site-container flex items-center justify-end px-5 py-1.5">
+      <nav aria-label="Language switcher" class="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
+        {{ if eq $currentLang "en" }}
+          <a href="{{ $languageSwitchURL | default "/" }}" class="transition hover:text-blue-600" aria-label="한국어 보기">KOR</a>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-900">ENG</span>
+        {{ else }}
+          <span class="text-slate-900">KOR</span>
+          <span class="text-slate-300">/</span>
+          <a href="{{ $languageSwitchURL | default "/en/" }}" class="transition hover:text-blue-600" aria-label="영문 보기">ENG</a>
+        {{ end }}
+      </nav>
+    </div>
+  </div>
   {{ if $isExhibition }}
     <div class="facwa-exhibition-header">
       {{ partial "marketing/elements/site-logo.html" $ctx }}
       <div class="facwa-exhibition-header__actions">
         <a class="facwa-exhibition-header__action facwa-exhibition-header__action--search no-underline" href="{{ $searchURL }}">{{ $searchLabel }}</a>
-        <button type="button" @click="browseOverlayOpen = true" class="facwa-exhibition-header__action" aria-label="탐색 열기">
-          <span>탐색</span>
+        <button type="button" @click="browseOverlayOpen = true" class="facwa-exhibition-header__action" aria-label="{{ T "browse_open" }}">
+          <span>{{ $browseLabel }}</span>
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
@@ -59,8 +90,8 @@
 
       <div class="flex items-center gap-2">
         <a class="facwa-header-search hidden items-center rounded-full border border-blue-600 px-5 py-2 text-[15px] font-medium text-blue-600 transition hover:bg-blue-50 sm:inline-flex" href="{{ $searchURL }}">{{ $searchLabel }}</a>
-        <button type="button" @click="browseOverlayOpen = true" class="facwa-header-browse inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-[15px] font-medium text-white transition hover:bg-blue-700" aria-label="탐색 열기">
-          <span>탐색</span>
+        <button type="button" @click="browseOverlayOpen = true" class="facwa-header-browse inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-[15px] font-medium text-white transition hover:bg-blue-700" aria-label="{{ T "browse_open" }}">
+          <span>{{ $browseLabel }}</span>
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
@@ -84,11 +115,7 @@
           {{ if .HasChildren }}
             <div x-show="activeMenu === '{{ $menuID }}'" x-transition class="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
               <div class="rounded-[8px] bg-slate-50 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">Menu</p>
-                <h3 class="mt-2 text-2xl font-semibold text-slate-950">{{ .Name }}</h3>
-                {{ if .URL }}
-                  <a class="mt-4 inline-flex items-center rounded-full border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-50" href="{{ .URL | absURL }}">열기</a>
-                {{ end }}
+                <h3 class="text-2xl font-semibold text-slate-950">{{ .Name }}</h3>
               </div>
               <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 {{ range .Children }}
@@ -111,11 +138,11 @@
     <div class="site-container min-h-screen px-5 py-8">
       <div class="flex items-start justify-between gap-6 border-b border-slate-200 pb-6">
         <div>
-          <p class="text-sm font-medium text-blue-600">Browse Archive</p>
-          <h2 class="mt-2 text-4xl font-semibold leading-tight tracking-normal text-slate-950">탐색 경로</h2>
-          <p class="mt-3 max-w-2xl text-base leading-7 text-slate-500">컬렉션 경로를 따라 자료 위치를 확인하거나 검색 페이지로 이동합니다.</p>
+          <p class="text-sm font-medium text-blue-600">{{ T "browse_archive" }}</p>
+          <h2 class="mt-2 text-4xl font-semibold leading-tight tracking-normal text-slate-950">{{ T "browse_title" }}</h2>
+          <p class="mt-3 max-w-2xl text-base leading-7 text-slate-500">{{ T "browse_body" }}</p>
         </div>
-        <button type="button" @click="browseOverlayOpen = false" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-600 hover:text-blue-600" aria-label="탐색 닫기">
+        <button type="button" @click="browseOverlayOpen = false" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-600 hover:text-blue-600" aria-label="{{ T "browse_close" }}">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
@@ -125,7 +152,7 @@
       <div class="grid gap-8 py-8 lg:grid-cols-[30%_minmax(0,70%)]">
         <aside class="space-y-3">
           <a class="flex items-center justify-between rounded-[8px] border border-slate-200 bg-slate-50 px-5 py-4 text-base font-medium text-slate-900 transition hover:border-blue-600 hover:text-blue-600" href="/items/">
-            <span>전체 탐색</span>
+            <span>{{ T "browse_all" }}</span>
             <span aria-hidden="true">/items</span>
           </a>
           <a class="flex items-center justify-between rounded-[8px] border border-slate-200 bg-slate-50 px-5 py-4 text-base font-medium text-slate-900 transition hover:border-blue-600 hover:text-blue-600" href="{{ $searchURL }}">

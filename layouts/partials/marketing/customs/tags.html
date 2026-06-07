@@ -1,8 +1,9 @@
+{{ $isEn := eq site.Language.Lang "en" }}
 <section class="tags container px-5 py-12 mx-auto">
 	<div class="text-center w-full mt-4 px-8">
-		<h2 class="text-xl text-blue-600 dark:text-blue-500 tracking-widest font-medium title-font mb-3">탐색 축</h2>
-		<h1 class="text-3xl md:text-4xl font-bold font-heading mb-3">생산조직별</h1>
-		<p class="lg:w-2/3 mx-auto leading-relaxed text-md mb-6">현재 메타데이터에서 가장 안정적으로 작동하는 분류는 생산조직입니다. U.S. Army, NARA, 8th United States Army 같은 축을 따라가면 누가 어떤 행정 질서와 시선으로 용산을 기록했는지 확인할 수 있습니다.</p>
+		<h2 class="text-xl text-blue-600 dark:text-blue-500 tracking-widest font-medium title-font mb-3">{{ T "home_axes_eyebrow" }}</h2>
+		<h1 class="text-3xl md:text-4xl font-bold font-heading mb-3">{{ T "home_axes_title" }}</h1>
+		<p class="lg:w-2/3 mx-auto leading-relaxed text-md mb-6">{{ T "home_axes_description" }}</p>
 	</div>
 	<ul>
 		{{ range .Site.Taxonomies.sources }}

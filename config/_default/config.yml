@@ -9,8 +9,153 @@ deploy:
 
 locale: ko-kr
 defaultContentLanguage: ko
+defaultContentLanguageInSubdir: false
 hasCJKLanguage: true
 paginate: 16
+
+languages:
+  ko:
+    disabled: false
+    label: 한국어
+    locale: ko-KR
+    title: 기억의 창고
+    weight: 1
+    params:
+      languageLabel: 한국어
+      localizationStage: primary
+    menus:
+      main:
+        - name: 홈
+          pageRef: /
+          weight: -110
+        - name: 소개
+          pageRef: /about
+          weight: 1
+          parent: 홈
+        - name: 연구노트
+          pageRef: /document
+          weight: 2
+          parent: 홈
+        - name: 리서치 가이드
+          pageRef: /research-guide
+          weight: 4
+          parent: 홈
+        - name: 블로그
+          pageRef: /posts
+          weight: 5
+          parent: 홈
+        - name: 영상 탐색
+          url:
+          weight: -90
+        - name: 탐색
+          pageRef: /items
+          weight: 1
+          parent: 영상 탐색
+        - name: 검색
+          pageRef: /search
+          weight: 2
+          parent: 영상 탐색
+        - name: 컬렉션
+          url:
+          weight: -80
+        - name: 태그
+          pageRef: /tags
+          weight: 1
+          parent: 컬렉션
+        - name: 장소
+          pageRef: /venues
+          weight: 2
+          parent: 컬렉션
+        - name: 주제
+          pageRef: /subjects
+          weight: 3
+          parent: 컬렉션
+        - name: 생산조직
+          pageRef: /sources
+          parent: 컬렉션
+          weight: 4
+        - name: 생산자
+          pageRef: /creators
+          parent: 컬렉션
+          weight: 5
+        - name: 전시
+          pageRef: /exhibition
+          weight: -70
+      button:
+        - name: 검색
+          pageRef: /search
+          weight: -90
+  en:
+    disabled: false
+    label: English
+    locale: en-US
+    title: YongsanKim Archive
+    weight: 2
+    params:
+      languageLabel: English
+      localizationStage: draft
+    menus:
+      main:
+        - name: Home
+          pageRef: /
+          weight: -110
+        - name: About
+          pageRef: /about
+          weight: 1
+          parent: Home
+        - name: Document
+          pageRef: /document
+          weight: 2
+          parent: Home
+        - name: Research Guide
+          pageRef: /research-guide
+          weight: 4
+          parent: Home
+        - name: Posts
+          pageRef: /posts
+          weight: 5
+          parent: Home
+        - name: Browse Media
+          url:
+          weight: -90
+        - name: Browse
+          pageRef: /items
+          weight: 1
+          parent: Browse Media
+        - name: Search
+          pageRef: /search
+          weight: 2
+          parent: Browse Media
+        - name: Collections
+          url:
+          weight: -80
+        - name: Tags
+          pageRef: /tags
+          weight: 1
+          parent: Collections
+        - name: Venues
+          pageRef: /venues
+          weight: 2
+          parent: Collections
+        - name: Subjects
+          pageRef: /subjects
+          weight: 3
+          parent: Collections
+        - name: Sources
+          pageRef: /sources
+          parent: Collections
+          weight: 4
+        - name: Creators
+          pageRef: /creators
+          parent: Collections
+          weight: 5
+        - name: Exhibition
+          pageRef: /exhibition
+          weight: -70
+      button:
+        - name: Search
+          pageRef: /search
+          weight: -90
 
 build:
   writeStats: true

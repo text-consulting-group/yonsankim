@@ -30,20 +30,31 @@ carousel:
   listItem:
     - src: /img/home-aerial-1963.jpg
       alt: 사우스포스트와 한강변
+      alt_en: South Post and the Han River edge
       caption: 1963년 항공사진과 현재의 답사 기록을 함께 읽으며 용산의 공간 변화를 추적합니다.
+      caption_en: Read the 1963 aerial view beside present-day field records to trace spatial change in Yongsan.
       url: /items/1963/
     - src: /img/home-rg111-aerial.jpg
       alt: 미군 기록사진의 시선
+      alt_en: The gaze of U.S. military record photography
       caption: 생산조직과 생산자를 따라 미군 기록사진이 용산을 어떻게 기록했는지 살펴봅니다.
+      caption_en: Follow source organizations and producers to see how U.S. military record photography described Yongsan.
       url: /research-guide/
+      url_en: /en/research-guide/
     - src: /img/home-park-forum.jpg
       alt: 기록에서 공원 담론으로
+      alt_en: From records to park discourse
       caption: 토론회와 세미나 기록을 통해 과거의 사진이 오늘의 공원 논의로 이어지는 과정을 읽습니다.
+      caption_en: Use seminar and forum records to read how older photographs continue into today's park discussions.
       url: /document/
+      url_en: /en/document/
     - src: /img/home-seminar-2014.jpg
       alt: 오늘의 해석과 공론장
+      alt_en: Present-day interpretation and the public forum
       caption: 전문가 세미나와 현장 기록은 오래된 사료를 현재의 언어로 다시 번역하는 장면을 보여줍니다.
+      caption_en: Expert seminars and field records show how older materials are translated into present-day language.
       url: /posts/
+      url_en: /en/posts/
 
 ##################### hero-right/left ########################
 hero:
@@ -122,6 +133,22 @@ faq:
       answer: 전자는 군 기록의 행정 질서를 따르는 원본 자료군이고, 후자는 도시산책과 장소 해석의 경로를 따라 다시 구성한 공개용 읽기 층입니다.
     - question: 이 아카이브는 어떤 질문을 던지나요?
       answer: 누가 용산을 기록했는가, 그 기록은 어떤 권력과 행정 질서 속에서 생산되었는가, 그리고 오늘 우리는 그 기록을 어떤 공원 담론과 도시 기억으로 다시 읽는가를 묻습니다.
+faq_en:
+  title: Frequently Asked Questions
+  enable: true
+  content: A short set of basic questions about how to read and use this archive.
+  url: https://yongsankim.textconsulting.io/
+  listItem:
+    - question: What kinds of materials are in this archive?
+      answer: The corpus includes U.S. military record photographs, post-liberation and Cold War aerial views, Yongsan walk materials, and records from seminars and public discussions.
+    - question: What is the most stable way to navigate it?
+      answer: Start with the larger folder, then narrow by series name or record group, then use source organization, creator, date, and free search.
+    - question: Why do public pages show thumbnails instead of originals?
+      answer: To avoid exposing high-resolution originals directly on the public site, visible previews use derived thumbnails under the /_thumbs path.
+    - question: What is the difference between Original Record Files and Guided Walks through the U.S. Base and the City?
+      answer: The former follows the administrative order of military records, while the latter reorganizes materials through curated routes of place reading and urban interpretation.
+    - question: What question does this archive ultimately ask?
+      answer: It asks who recorded Yongsan, under what power and administrative order those records were produced, and how we reread them today through park discourse and urban memory.
 
 ########################### gallery #########################
 gallery:

@@ -6,19 +6,19 @@
 <div class="bg-aa-gray-700 bg-no-repeat bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(15,23,42,0.86) 0%, rgba(15,23,42,0.58) 58%, rgba(15,23,42,0.3) 100%), url('/img/home-aerial-1963.jpg');">
   <div class="py-36">
     <div class="text-center">
-      <h2 class="mb-8 text-4xl leading-none text-white">용산 archiveJ</h2>
-      <h2 class="mb-8 text-4xl leading-none text-white">기억의 창고</h2>
+      <h2 class="mb-8 text-4xl leading-none text-white">{{ T "home_banner_title_top" }}</h2>
+      <h2 class="mb-8 text-4xl leading-none text-white">{{ T "home_banner_title_bottom" }}</h2>
       <div class="mx-auto mb-8 max-w-4xl text-base leading-7 text-white lg:text-lg">
-        <p>이 디지털아카이브는 용산의 군사 공간, 도시 변화, 공원화 과정을 서로 다른 시기의 기록으로 함께 읽기 위해 구성한 공개 코퍼스입니다.</p>
-        <p>군 기록사진의 행정 질서와 도시산책·세미나 기록의 해석 질서를 나란히 두고, 과거의 사진이 오늘의 논의로 어떻게 이어지는지 보여줍니다.</p>
-        <p>원본 객체는 `storage`에 보존하고, 공개 화면에서는 썸네일과 요약 메타데이터를 중심으로 탐색하도록 설계했습니다.</p>
+        <p>{{ T "home_banner_p1" }}</p>
+        <p>{{ T "home_banner_p2" }}</p>
+        <p>{{ T "home_banner_p3" }}</p>
       </div>
       <div class="flex flex-wrap justify-center gap-3">
-        <a href="/document/">
-          <button class="inline-flex rounded-full border-0 bg-blue-500 px-6 py-2 text-lg text-white hover:bg-blue-600 focus:outline-none">연구 문서 보기</button>
+        <a href="{{ "document/" | relLangURL }}">
+          <button class="inline-flex rounded-full border-0 bg-blue-500 px-6 py-2 text-lg text-white hover:bg-blue-600 focus:outline-none">{{ T "home_banner_document" }}</button>
         </a>
-        <a href="/research-guide/">
-          <button class="inline-flex rounded-full border border-white px-6 py-2 text-lg text-white hover:bg-white hover:text-gray-900 focus:outline-none">탐색 가이드 보기</button>
+        <a href="{{ "research-guide/" | relLangURL }}">
+          <button class="inline-flex rounded-full border border-white px-6 py-2 text-lg text-white hover:bg-white hover:text-gray-900 focus:outline-none">{{ T "home_banner_guide" }}</button>
         </a>
       </div>
     </div>

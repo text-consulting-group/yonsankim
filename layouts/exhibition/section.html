@@ -5,12 +5,15 @@
 {{ define "main" }}
   {{ $sections := where .RegularPages "Params.section_index" "ne" nil }}
   {{ $sections = sort $sections "Params.section_index" }}
+  {{ $sectionLabel := T "exhibition_section" }}
+  {{ $placesLabel := T "exhibition_places" }}
+  {{ $itemsLabel := T "exhibition_items" }}
 
   <main class="bg-slate-50 text-[var(--theme-text)]">
     <section class="site-container px-4 pb-8 pt-10 lg:px-10">
       <div class="facwa-exhibition-showcase-intro">
         <div class="facwa-exhibition-showcase-intro__main">
-          <p class="facwa-exhibition-showcase-intro__eyebrow">Exhibition Overview</p>
+          <p class="facwa-exhibition-showcase-intro__eyebrow">{{ T "exhibition_overview" }}</p>
           <h1>{{ .Title }}</h1>
           {{ with .Description }}
             <p class="facwa-exhibition-showcase-intro__lead">{{ . }}</p>
@@ -21,19 +24,19 @@
         </div>
         <aside class="facwa-exhibition-showcase-intro__side">
           <div class="facwa-exhibition-showcase-intro__metric">
-            <span class="facwa-exhibition-showcase-intro__metric-label">전시 본편</span>
-            <strong>{{ len $sections }}개 섹션</strong>
-            <p>산책 구조를 그대로 유지한 `section-01`부터 `section-07`까지의 본편 흐름입니다.</p>
+            <span class="facwa-exhibition-showcase-intro__metric-label">{{ T "exhibition_main" }}</span>
+            <strong>{{ len $sections }} {{ if eq site.Language.Lang "en" }}sections{{ else }}개 섹션{{ end }}</strong>
+            <p>{{ T "exhibition_main_desc" }}</p>
           </div>
           <div class="facwa-exhibition-showcase-intro__metric">
-            <span class="facwa-exhibition-showcase-intro__metric-label">프롤로그</span>
-            <strong>`0. 서문` 유지</strong>
-            <p>남산, 한강, 기지, 도시가 겹치는 전체 스케일을 여는 도입부로 별도 유지합니다.</p>
+            <span class="facwa-exhibition-showcase-intro__metric-label">{{ T "exhibition_prologue" }}</span>
+            <strong>{{ if eq site.Language.Lang "en" }}`0. Prologue` retained{{ else }}`0. 서문` 유지{{ end }}</strong>
+            <p>{{ T "exhibition_prologue_desc" }}</p>
           </div>
           <div class="facwa-exhibition-showcase-intro__chips">
-            <span>장소 기반 읽기</span>
-            <span>전체 자료 노출</span>
-            <span>회색 지도 연동</span>
+            <span>{{ T "exhibition_chip_places" }}</span>
+            <span>{{ T "exhibition_chip_items" }}</span>
+            <span>{{ T "exhibition_chip_map" }}</span>
           </div>
         </aside>
       </div>
@@ -42,10 +45,10 @@
     <section class="site-container px-4 pb-16 lg:px-10">
       <div class="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-700">Sections</p>
-          <h2 class="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950 lg:text-3xl">전체 전시 섹션</h2>
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-700">{{ T "exhibition_sections_eyebrow" }}</p>
+          <h2 class="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950 lg:text-3xl">{{ T "exhibition_sections_title" }}</h2>
         </div>
-        <p class="max-w-xl text-sm leading-7 text-slate-500">각 섹션은 같은 크기의 카드로 정렬되어, 위에서 아래로 전시 순서를 따라 읽을 수 있습니다.</p>
+        <p class="max-w-xl text-sm leading-7 text-slate-500">{{ T "exhibition_sections_body" }}</p>
       </div>
 
       <div class="facwa-exhibition-showcase-stack">
@@ -72,9 +75,9 @@
                 </div>
                 <div class="facwa-exhibition-showcase-card__panel facwa-exhibition-showcase-card__panel--stack">
                   <div class="facwa-exhibition-showcase-card__chips facwa-exhibition-showcase-card__chips--panel">
-                    <span>Section {{ printf "%02d" (int $section.Params.section_index) }}</span>
-                    {{ with $section.Params.place_count }}<span>장소 {{ . }}곳</span>{{ end }}
-                    {{ with $section.Params.item_count }}<span>아이템 {{ . }}건</span>{{ end }}
+                    <span>{{ $sectionLabel }} {{ printf "%02d" (int $section.Params.section_index) }}</span>
+                    {{ with $section.Params.place_count }}<span>{{ $placesLabel }} {{ . }}{{ if eq site.Language.Lang "en" }}{{ else }}곳{{ end }}</span>{{ end }}
+                    {{ with $section.Params.item_count }}<span>{{ $itemsLabel }} {{ . }}{{ if eq site.Language.Lang "en" }}{{ else }}건{{ end }}</span>{{ end }}
                   </div>
                   {{ with $section.Params.subtitle }}
                     <p class="facwa-exhibition-showcase-card__kicker facwa-exhibition-showcase-card__kicker--panel">{{ . }}</p>

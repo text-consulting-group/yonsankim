@@ -1,4 +1,5 @@
 ---
 title: 포스트
 description: 연구 문서와 서비스 기획 문서를 바탕으로 만든 샘플 글 모음입니다.
+translationKey: posts
 ---

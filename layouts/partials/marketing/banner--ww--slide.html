@@ -1,8 +1,9 @@
 {{- $slides := hugo.Data.marketing.carousel.listItem -}}
+{{- $isEn := eq site.Language.Lang "en" -}}
 {{- if gt (len $slides) 0 -}}
 <section
   class="facwa-ww-slide"
-  aria-label="ArchiveJ main slide"
+  aria-label="{{ T "home_slider_eyebrow" }}"
   x-data="{
     current: 0,
     count: {{ len $slides }},
@@ -36,46 +37,47 @@
     {{- range $index, $item := $slides }}
     <a
       class="facwa-ww-slide__item"
-      href="{{ $item.url | relURL }}"
+      href="{{ if and $isEn $item.url_en }}{{ $item.url_en | relURL }}{{ else }}{{ $item.url | relURL }}{{ end }}"
       style="background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.42) 52%, rgba(0, 0, 0, 0.10) 82%), url('{{ $item.src | absURL }}');"
       :class="{ 'is-active': current === {{ $index }} }"
-      aria-label="{{ $item.alt }}"
+      aria-label="{{ if and $isEn $item.alt_en }}{{ $item.alt_en }}{{ else }}{{ $item.alt }}{{ end }}"
     >
       <div class="site-container facwa-ww-slide__content">
-        <p class="facwa-ww-slide__eyebrow">ArchiveJ Collection</p>
-        <h2>{{ $item.alt }}</h2>
-        {{- with $item.caption }}
+        <p class="facwa-ww-slide__eyebrow">{{ T "home_slider_eyebrow" }}</p>
+        <h2>{{ if and $isEn $item.alt_en }}{{ $item.alt_en }}{{ else }}{{ $item.alt }}{{ end }}</h2>
+        {{- $caption := cond (and $isEn $item.caption_en) $item.caption_en $item.caption -}}
+        {{- with $caption }}
         <p class="facwa-ww-slide__description">{{ . }}</p>
         {{- end }}
-        <span class="facwa-ww-slide__button">자료 보기</span>
+        <span class="facwa-ww-slide__button">{{ T "home_slider_view_item" }}</span>
       </div>
     </a>
     {{- end }}
   </div>
 
   <div class="facwa-ww-slide__controls" aria-hidden="false">
-    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--prev" type="button" @click.prevent.stop="prev(); start()" aria-label="이전 슬라이드">
+    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--prev" type="button" @click.prevent.stop="prev(); start()" aria-label="{{ T "home_slider_prev_aria" }}">
       <svg viewBox="0 0 20 20" aria-hidden="true">
         <path fill="currentColor" fill-rule="evenodd" d="M12.707 5.293a1 1 0 0 1 0 1.414L9.414 10l3.293 3.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0z" clip-rule="evenodd"/>
       </svg>
-      <span>이전</span>
+      <span>{{ T "home_slider_prev" }}</span>
     </button>
-    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--next" type="button" @click.prevent.stop="next(); start()" aria-label="다음 슬라이드">
-      <span>다음</span>
+    <button class="facwa-ww-slide__nav facwa-ww-slide__nav--next" type="button" @click.prevent.stop="next(); start()" aria-label="{{ T "home_slider_next_aria" }}">
+      <span>{{ T "home_slider_next" }}</span>
       <svg viewBox="0 0 20 20" aria-hidden="true">
         <path fill="currentColor" fill-rule="evenodd" d="M7.293 14.707a1 1 0 0 1 0-1.414L10.586 10 7.293 6.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z" clip-rule="evenodd"/>
       </svg>
     </button>
   </div>
 
-  <div class="facwa-ww-slide__pagination" aria-label="슬라이드 페이지">
+  <div class="facwa-ww-slide__pagination" aria-label="{{ T "home_slider_eyebrow" }}">
     {{- range $index, $_ := $slides }}
     <button
       type="button"
       class="facwa-ww-slide__dot"
       :class="{ 'is-active': current === {{ $index }} }"
       @click="go({{ $index }}); start()"
-      aria-label="{{ add $index 1 }}번 슬라이드"
+      aria-label="{{ T "home_slide_number" (dict "Count" (add $index 1)) }}"
     ></button>
     {{- end }}
   </div>

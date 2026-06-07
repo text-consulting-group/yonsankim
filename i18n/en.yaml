@@ -1,0 +1,118 @@
+- id: home_slider_eyebrow
+  translation: "ArchiveJ Collection"
+- id: home_slider_view_item
+  translation: "View item"
+- id: home_slider_prev
+  translation: "Previous"
+- id: home_slider_next
+  translation: "Next"
+- id: home_slider_prev_aria
+  translation: "Previous slide"
+- id: home_slider_next_aria
+  translation: "Next slide"
+- id: home_slide_number
+  translation: "Slide {{ .Count }}"
+- id: home_axes_eyebrow
+  translation: "Discovery Axes"
+- id: home_axes_title
+  translation: "By source organization"
+- id: home_axes_description
+  translation: "The most stable discovery axis in the current metadata is the producing organization. Following U.S. Army, NARA, or 8th United States Army reveals who recorded Yongsan and through what administrative gaze."
+- id: home_paths_eyebrow
+  translation: "Reading Paths"
+- id: home_paths_title
+  translation: "Representative ways to read the Yongsan archive"
+- id: home_paths_description
+  translation: "Move across military record photographs, aerial views, urban walks, and park debates to see how Yongsan can be read through different paths."
+- id: home_path_1_title
+  translation: "Read through aerial photography"
+- id: home_path_1_body
+  translation: "Track 1948 and 1963 aerial views to see where military space and urban space overlap in Yongsan."
+- id: home_path_1_cta
+  translation: "Read related post"
+- id: home_path_2_title
+  translation: "Read through source organizations"
+- id: home_path_2_body
+  translation: "Follow U.S. Army, 8th United States Army, and NARA to understand how the records were produced and from what institutional viewpoint."
+- id: home_path_2_cta
+  translation: "Browse sources"
+- id: home_path_3_title
+  translation: "Read through urban walks"
+- id: home_path_3_body
+  translation: "Follow the series path to connect traces of the Japanese military barracks, the post-liberation transition, and changes around Ichon-dong and the Namsan foothills."
+- id: home_path_3_cta
+  translation: "Open research guide"
+- id: home_path_4_title
+  translation: "Read through park discourse"
+- id: home_path_4_body
+  translation: "Use seminars and public discussions to see how archival photographs are translated into present-day debates on the park."
+- id: home_path_4_cta
+  translation: "Open related posts"
+- id: home_banner_title_top
+  translation: "Yongsan archiveJ"
+- id: home_banner_title_bottom
+  translation: "Memory Warehouse"
+- id: home_banner_p1
+  translation: "This digital archive is a public corpus built to read Yongsan's military space, urban change, and park transformation across records from different moments."
+- id: home_banner_p2
+  translation: "It places the administrative order of military record photography beside the interpretive order of urban walks and seminars, showing how past images continue into today's discussions."
+- id: home_banner_p3
+  translation: "Original objects remain in storage, while the public interface is designed around thumbnails and summary metadata."
+- id: home_banner_document
+  translation: "Open document"
+- id: home_banner_guide
+  translation: "Open research guide"
+- id: today_title
+  translation: "Today's YongsanKim"
+- id: today_fallback_title
+  translation: "Today's YongsanKim is being prepared"
+- id: today_fallback_summary
+  translation: "Items with organized metadata and thumbnails will be connected to this daily featured card."
+- id: today_link
+  translation: "Go to item"
+- id: faq_category
+  translation: "Category"
+- id: browse_archive
+  translation: "Browse Archive"
+- id: browse_title
+  translation: "Browse paths"
+- id: browse_body
+  translation: "Follow collection paths to locate materials or move to the search page."
+- id: browse_all
+  translation: "Browse all"
+- id: browse_open
+  translation: "Open browse"
+- id: browse_close
+  translation: "Close browse"
+- id: menu_label
+  translation: "Menu"
+- id: menu_open
+  translation: "Open"
+- id: exhibition_overview
+  translation: "Exhibition Overview"
+- id: exhibition_main
+  translation: "Main exhibition"
+- id: exhibition_main_desc
+  translation: "This is the core flow from section-01 to section-07, preserving the walk structure as the main exhibition sequence."
+- id: exhibition_prologue
+  translation: "Prologue"
+- id: exhibition_prologue_desc
+  translation: "0. Prologue remains separate as an opening scale where Namsan, the Han River, the base, and the city overlap."
+- id: exhibition_chip_places
+  translation: "Place-based reading"
+- id: exhibition_chip_items
+  translation: "Full item list"
+- id: exhibition_chip_map
+  translation: "Grayscale map link"
+- id: exhibition_sections_eyebrow
+  translation: "Sections"
+- id: exhibition_sections_title
+  translation: "All exhibition sections"
+- id: exhibition_sections_body
+  translation: "Each section is arranged as a card of the same size so the exhibition sequence can be read from top to bottom."
+- id: exhibition_section
+  translation: "Section"
+- id: exhibition_places
+  translation: "Places"
+- id: exhibition_items
+  translation: "Items"

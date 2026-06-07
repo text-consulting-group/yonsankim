@@ -1,0 +1,118 @@
+- id: home_slider_eyebrow
+  translation: "ArchiveJ Collection"
+- id: home_slider_view_item
+  translation: "자료 보기"
+- id: home_slider_prev
+  translation: "이전"
+- id: home_slider_next
+  translation: "다음"
+- id: home_slider_prev_aria
+  translation: "이전 슬라이드"
+- id: home_slider_next_aria
+  translation: "다음 슬라이드"
+- id: home_slide_number
+  translation: "{{ .Count }}번 슬라이드"
+- id: home_axes_eyebrow
+  translation: "탐색 축"
+- id: home_axes_title
+  translation: "생산조직별"
+- id: home_axes_description
+  translation: "현재 메타데이터에서 가장 안정적으로 작동하는 분류는 생산조직입니다. U.S. Army, NARA, 8th United States Army 같은 축을 따라가면 누가 어떤 행정 질서와 시선으로 용산을 기록했는지 확인할 수 있습니다."
+- id: home_paths_eyebrow
+  translation: "자료탐색"
+- id: home_paths_title
+  translation: "용산 archiveJ의 대표 읽기 경로"
+- id: home_paths_description
+  translation: "원본 군 기록사진, 항공 전경, 도시산책, 공원 토론 자료를 오가며 용산을 어떤 경로로 읽을 수 있는지 소개합니다."
+- id: home_path_1_title
+  translation: "항공사진으로 읽기"
+- id: home_path_1_body
+  translation: "1948년과 1963년의 항공 전경을 따라 용산의 군사 공간과 도시 공간이 겹쳐지는 장면을 확인합니다."
+- id: home_path_1_cta
+  translation: "관련 글 보기"
+- id: home_path_2_title
+  translation: "생산조직으로 읽기"
+- id: home_path_2_body
+  translation: "U.S. Army, 8th United States Army, NARA 같은 생산조직을 따라 기록 생산의 구조와 시선을 살펴봅니다."
+- id: home_path_2_cta
+  translation: "출처 분류 보기"
+- id: home_path_3_title
+  translation: "도시산책으로 읽기"
+- id: home_path_3_body
+  translation: "시리즈 경로를 따라 일본군 병영의 흔적, 해방 직후 전환, 이촌동과 남산자락의 변화를 하나의 도시사로 엮어 봅니다."
+- id: home_path_3_cta
+  translation: "탐색 가이드 보기"
+- id: home_path_4_title
+  translation: "공원 담론으로 읽기"
+- id: home_path_4_body
+  translation: "토론회와 세미나 기록을 통해 과거의 사진이 현재의 공원화 논의와 어떻게 이어지는지 확인합니다."
+- id: home_path_4_cta
+  translation: "관련 포스트 보기"
+- id: home_banner_title_top
+  translation: "용산 archiveJ"
+- id: home_banner_title_bottom
+  translation: "기억의 창고"
+- id: home_banner_p1
+  translation: "이 디지털아카이브는 용산의 군사 공간, 도시 변화, 공원화 과정을 서로 다른 시기의 기록으로 함께 읽기 위해 구성한 공개 코퍼스입니다."
+- id: home_banner_p2
+  translation: "군 기록사진의 행정 질서와 도시산책·세미나 기록의 해석 질서를 나란히 두고, 과거의 사진이 오늘의 논의로 어떻게 이어지는지 보여줍니다."
+- id: home_banner_p3
+  translation: "원본 객체는 storage에 보존하고, 공개 화면에서는 썸네일과 요약 메타데이터를 중심으로 탐색하도록 설계했습니다."
+- id: home_banner_document
+  translation: "연구 문서 보기"
+- id: home_banner_guide
+  translation: "탐색 가이드 보기"
+- id: today_title
+  translation: "오늘의 용산킴"
+- id: today_fallback_title
+  translation: "오늘의 용산킴을 준비 중입니다"
+- id: today_fallback_summary
+  translation: "메타데이터와 썸네일이 정리된 자료부터 차례로 오늘의 추천 카드에 연결됩니다."
+- id: today_link
+  translation: "아이템 이동"
+- id: faq_category
+  translation: "Category"
+- id: browse_archive
+  translation: "Browse Archive"
+- id: browse_title
+  translation: "탐색 경로"
+- id: browse_body
+  translation: "컬렉션 경로를 따라 자료 위치를 확인하거나 검색 페이지로 이동합니다."
+- id: browse_all
+  translation: "전체 탐색"
+- id: browse_open
+  translation: "탐색 열기"
+- id: browse_close
+  translation: "탐색 닫기"
+- id: menu_label
+  translation: "Menu"
+- id: menu_open
+  translation: "열기"
+- id: exhibition_overview
+  translation: "Exhibition Overview"
+- id: exhibition_main
+  translation: "전시 본편"
+- id: exhibition_main_desc
+  translation: "산책 구조를 그대로 유지한 section-01부터 section-07까지의 본편 흐름입니다."
+- id: exhibition_prologue
+  translation: "프롤로그"
+- id: exhibition_prologue_desc
+  translation: "0. 서문은 남산, 한강, 기지, 도시가 겹치는 전체 스케일을 여는 도입부로 별도 유지합니다."
+- id: exhibition_chip_places
+  translation: "장소 기반 읽기"
+- id: exhibition_chip_items
+  translation: "전체 자료 노출"
+- id: exhibition_chip_map
+  translation: "회색 지도 연동"
+- id: exhibition_sections_eyebrow
+  translation: "Sections"
+- id: exhibition_sections_title
+  translation: "전체 전시 섹션"
+- id: exhibition_sections_body
+  translation: "각 섹션은 같은 크기의 카드로 정렬되어, 위에서 아래로 전시 순서를 따라 읽을 수 있습니다."
+- id: exhibition_section
+  translation: "Section"
+- id: exhibition_places
+  translation: "장소"
+- id: exhibition_items
+  translation: "아이템"
