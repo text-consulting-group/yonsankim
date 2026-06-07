@@ -31,17 +31,17 @@
   {{ end }}
 {{ end }}
 <header x-data="{ browseOverlayOpen: false, activeMenu: null }" @keydown.escape.window="activeMenu = null; browseOverlayOpen = false" @mouseleave="activeMenu = null" class="facwa-site-header {{ if eq $page.Type "exhibition" }}relative{{ else }}sticky top-0{{ end }} z-50 border-b border-slate-200 bg-white text-slate-900 relative">
-  <div class="border-b border-slate-100 bg-slate-50">
-    <div class="site-container flex items-center justify-end px-5 py-1.5">
-      <nav aria-label="Language switcher" class="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
+  <div class="border-b border-slate-100 bg-slate-50/70 backdrop-blur-[2px]">
+    <div class="site-container flex items-center justify-end px-5 py-1">
+      <nav aria-label="Language switcher" class="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400">
         {{ if eq $currentLang "en" }}
-          <a href="{{ $languageSwitchURL | default "/" }}" class="transition hover:text-blue-600" aria-label="한국어 보기">KOR</a>
+          <a href="{{ $languageSwitchURL | default "/" }}" class="rounded-full px-1.5 py-0.5 transition hover:bg-slate-200 hover:text-slate-700" aria-label="한국어 보기">KOR</a>
           <span class="text-slate-300">/</span>
-          <span class="text-slate-900">ENG</span>
+          <span class="rounded-full border border-slate-200 bg-white px-1.5 py-0.5 text-slate-700">ENG</span>
         {{ else }}
-          <span class="text-slate-900">KOR</span>
+          <span class="rounded-full border border-slate-200 bg-white px-1.5 py-0.5 text-slate-700">KOR</span>
           <span class="text-slate-300">/</span>
-          <a href="{{ $languageSwitchURL | default "/en/" }}" class="transition hover:text-blue-600" aria-label="영문 보기">ENG</a>
+          <a href="{{ $languageSwitchURL | default "/en/" }}" class="rounded-full px-1.5 py-0.5 transition hover:bg-slate-200 hover:text-slate-700" aria-label="영문 보기">ENG</a>
         {{ end }}
       </nav>
     </div>
