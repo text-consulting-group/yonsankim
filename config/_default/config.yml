@@ -77,16 +77,16 @@ params:
     # When storage_sync changes component paths or term generation rules,
     # update archivej/research/document.md together with this snapshot.
     storage_snapshot:
-      last_sync_at: "2026-06-05T23:58:35+09:00"
+      last_sync_at: "2026-06-07T00:24:57+09:00"
       totals:
         files: 625
         directories: 129
         size_bytes: 7334510322
-        ignored_non_item_files: 4
-        ignored_non_item_size_bytes: 1030655
-        ignored_derived_files: 1
-        ignored_derived_directories: 1
-        ignored_derived_size_bytes: 11087
+        ignored_non_item_files: 5
+        ignored_non_item_size_bytes: 1036803
+        ignored_derived_files: 0
+        ignored_derived_directories: 0
+        ignored_derived_size_bytes: 0
         by_media_type:
           document: 12
           image: 593
@@ -98,11 +98,11 @@ params:
           3. kim의 사관: 31
         ignored_non_item_files_list:
           - "storage/1. 기록물 원본 파일/document.md"
+          - "storage/2. 미군기지와 도시산책/.DS_Store"
           - "storage/2. 미군기지와 도시산책/document.md"
           - "storage/2. 미군기지와 도시산책/document_book.html"
           - "storage/3. kim의 사관/document.md"
         ignored_derived_folders:
-          - "storage/2. 미군기지와 도시산책"
       top_extensions:
         ".jpg": 569
         ".png": 19

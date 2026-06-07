@@ -37,19 +37,23 @@ main:
   - name: 태그
     url: /tags/
     weight: 1
-    parent: 컬렉션    
+    parent: 컬렉션
+  - name: 장소
+    url: /venues/
+    weight: 2
+    parent: 컬렉션       
   - name: 주제
     url: /subjects/
-    weight: 2
+    weight: 3
     parent: 컬렉션
   - name: 생산조직
     url: /sources/
     parent: 컬렉션
-    weight: 3
+    weight: 4
   - name: 생산자
     url: /creators/
     parent: 컬렉션
-    weight: 4
+    weight: 5
   - name: 전시
     url: /exhibition/
     weight: -70

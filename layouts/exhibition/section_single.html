@@ -92,15 +92,21 @@
                 <li><a href="#overview">섹션 개요</a></li>
                 {{ if $sourceDir }}
                   <li><a href="#archive">전체 자료 목록</a></li>
-                  {{ range $placeDirs }}
-                    {{ $placeMeta := index (where $fileBackedPages "File.Path" "eq" (printf "%s/_index.md" .)) 0 }}
-                    {{ $placeTitle := path.Base . }}
+                  {{ range $idx, $placeDir := $placeDirs }}
+                    {{ $placeMeta := index (where $fileBackedPages "File.Path" "eq" (printf "%s/_index.md" $placeDir)) 0 }}
+                    {{ $placeTitle := path.Base $placeDir }}
                     {{ if $placeMeta }}
                       {{ $placeTitle = $placeMeta.Title }}
                     {{ end }}
+                    {{ $placeData := dict }}
+                    {{ if lt $idx (len $places) }}
+                      {{ $placeData = index $places $idx }}
+                    {{ else }}
+                      {{ range $places }}{{ if eq (.title | anchorize) ($placeTitle | anchorize) }}{{ $placeData = . }}{{ end }}{{ end }}
+                    {{ end }}
                     <li>
                       <a href="#{{ $placeTitle | anchorize }}"
-                        {{ range $places }}{{ if eq .title $placeTitle }}data-map-target="true" data-map-title="{{ .title }}" data-map-lat="{{ .lat }}" data-map-lng="{{ .lng }}" data-map-zoom="{{ .zoom | default 16 }}"{{ end }}{{ end }}>
+                        {{ with $placeData.title }}data-map-target="true" data-map-title="{{ . }}" data-map-lat="{{ $placeData.lat }}" data-map-lng="{{ $placeData.lng }}" data-map-zoom="{{ $placeData.zoom | default 16 }}"{{ end }}>
                         {{ $placeTitle }}
                       </a>
                     </li>
@@ -125,8 +131,7 @@
                 <p><strong>장소 {{ .Params.place_count }}곳</strong> / <strong>전체 {{ .Params.item_count }}건</strong></p>
               </section>
 
-              {{ range $placeDirs }}
-                {{ $placeDir := . }}
+              {{ range $idx, $placeDir := $placeDirs }}
                 {{ $placeItems := slice }}
                 {{ range $sourcePages }}
                   {{ if eq (path.Dir .File.Path) $placeDir }}
@@ -139,13 +144,19 @@
                 {{ if $placeMeta }}
                   {{ $placeTitle = $placeMeta.Title }}
                 {{ end }}
+                {{ $placeData := dict }}
+                {{ if lt $idx (len $places) }}
+                  {{ $placeData = index $places $idx }}
+                {{ else }}
+                  {{ range $places }}{{ if eq (.title | anchorize) ($placeTitle | anchorize) }}{{ $placeData = . }}{{ end }}{{ end }}
+                {{ end }}
                 <section id="{{ $placeTitle | anchorize }}">
                   <h2>{{ $placeTitle }}</h2>
                   <div class="not-prose mb-4">
                     <button
                       type="button"
                       class="facwa-exhibition-map-jump"
-                      {{ range $places }}{{ if eq .title $placeTitle }}data-map-target="true" data-map-title="{{ .title }}" data-map-lat="{{ .lat }}" data-map-lng="{{ .lng }}" data-map-zoom="{{ .zoom | default 16 }}"{{ end }}{{ end }}>
+                      {{ with $placeData.title }}data-map-target="true" data-map-title="{{ . }}" data-map-lat="{{ $placeData.lat }}" data-map-lng="{{ $placeData.lng }}" data-map-zoom="{{ $placeData.zoom | default 16 }}"{{ end }}>
                       지도에서 이 위치 보기
                     </button>
                   </div>
@@ -268,6 +279,8 @@
         if (popup) baseMarker.bindPopup(popup);
 
         const placeMarkers = {};
+        const placeCoords = [];
+        let activeMarker = null;
         const placeButtons = document.querySelectorAll("[data-map-target='true']");
         placeButtons.forEach((button) => {
           const placeLat = Number(button.dataset.mapLat);
@@ -275,6 +288,7 @@
           const placeTitle = button.dataset.mapTitle || "";
           if (!Number.isFinite(placeLat) || !Number.isFinite(placeLng) || !placeTitle) return;
           if (placeMarkers[placeTitle]) return;
+          placeCoords.push([placeLat, placeLng]);
           placeMarkers[placeTitle] = L.circleMarker([placeLat, placeLng], {
             radius: 6,
             color: "#0f172a",
@@ -284,10 +298,40 @@
           }).addTo(map).bindTooltip(placeTitle, { direction: "top" });
         });
 
+        if (placeCoords.length > 0) {
+          const bounds = L.latLngBounds(placeCoords.concat([[lat, lng]]));
+          map.fitBounds(bounds, {
+            padding: [36, 36],
+            maxZoom: zoom
+          });
+        }
+
         function focusPlace(placeTitle, placeLat, placeLng, placeZoom) {
-          map.setView([placeLat, placeLng], placeZoom, { animate: true });
+          map.flyTo([placeLat, placeLng], placeZoom, {
+            animate: true,
+            duration: 0.8
+          });
+          if (activeMarker) {
+            activeMarker.setStyle({
+              radius: 6,
+              color: "#0f172a",
+              weight: 1,
+              fillColor: "#2563eb",
+              fillOpacity: 0.9
+            });
+          }
           const marker = placeMarkers[placeTitle];
-          if (marker) marker.openTooltip();
+          if (marker) {
+            marker.setStyle({
+              radius: 9,
+              color: "#1d4ed8",
+              weight: 2,
+              fillColor: "#60a5fa",
+              fillOpacity: 1
+            });
+            marker.openTooltip();
+            activeMarker = marker;
+          }
         }
 
         if (popup) baseMarker.bindPopup(popup).openPopup();
