@@ -216,6 +216,31 @@ params:
       description: >
         출처는 자료가 어떤 기관과 조직을 통해 남겨졌는지 보여주는 분류입니다.
         미군 조직 기록과 현재 수집 경로를 함께 읽기 위해 사용합니다.
+  taxonomy_descriptions_en:
+    tags:
+      title: Tags
+      description: >
+        Tags are supporting labels for quickly tracing scenes, places, events, and cross-links inside the YongsanKim archive.
+        They help readers reopen the same records through a different interpretive path.
+    subjects:
+      title: Subjects
+      description: >
+        Subjects are the broadest reading categories for moving across military record photographs, aerial views, fieldwalk documentation, and discussion materials.
+        They are most useful when read together with series, sources, and venues.
+    venues:
+      title: Venues
+      description: >
+        Venues gather the actual spaces that appear across the archive, from Yongsan Garrison and South Post to Samgakji and the Namsan foothills.
+        This taxonomy helps trace how military space and urban space overlap in Yongsan.
+    creators:
+      title: Creators
+      description: >
+        Creators follow the individuals, photographers, and record-makers behind each item so that the structure of record production can be read more clearly.
+    sources:
+      title: Sources
+      description: >
+        Sources show which institutions and organizations produced or transmitted the records.
+        This taxonomy is especially useful for reading U.S. military documentation alongside the present archival collection path.
   archivej:
     # Storage crawl snapshot copied from backups/data/config.yml.
     # Keep this in sync when storage statistics are refreshed.

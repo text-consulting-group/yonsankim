@@ -1,8 +1,8 @@
 <div x-data="{ browseOpen: false }" class="overflow-hidden rounded-[8px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
   <button type="button" @click="browseOpen = !browseOpen" class="flex w-full items-center gap-3 border-b border-slate-100 px-5 py-5 text-left transition hover:bg-[#f5f7fb] dark:border-slate-800 dark:hover:bg-slate-800" :aria-expanded="browseOpen.toString()">
     <span class="min-w-0 flex-1">
-      <span class="block text-2xl font-semibold text-slate-900 dark:text-white">탐색</span>
-      <span class="mt-2 block text-sm leading-6 text-slate-500 dark:text-slate-400">섹션을 열어 하위 자료로 바로 이동합니다.</span>
+      <span class="block text-2xl font-semibold text-slate-900 dark:text-white">{{ if eq $.Site.Language.Lang "en" }}Browse{{ else }}탐색{{ end }}</span>
+      <span class="mt-2 block text-sm leading-6 text-slate-500 dark:text-slate-400">{{ if eq $.Site.Language.Lang "en" }}Open a section to move directly into nested records.{{ else }}섹션을 열어 하위 자료로 바로 이동합니다.{{ end }}</span>
     </span>
     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] border border-slate-200 text-slate-500 transition dark:border-slate-700 dark:text-slate-300">
       <svg class="h-4 w-4 transition-transform duration-200" :class="browseOpen ? 'rotate-180 text-blue-600' : ''" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,10 +11,10 @@
     </span>
   </button>
   <div x-show="browseOpen">
-    <div class="sr-only" aria-live="polite" x-text="browseOpen ? '탐색 열림' : '탐색 닫힘'"></div>
+    <div class="sr-only" aria-live="polite" x-text="browseOpen ? '{{ if eq $.Site.Language.Lang "en" }}Browse opened{{ else }}탐색 열림{{ end }}' : '{{ if eq $.Site.Language.Lang "en" }}Browse closed{{ else }}탐색 닫힘{{ end }}'"></div>
   </div>
   <div x-show="!browseOpen" class="px-5 py-3 text-sm text-slate-500 dark:text-slate-400">
-    탐색을 열려면 위 영역을 클릭하세요.
+    {{ if eq $.Site.Language.Lang "en" }}Click the header above to open the browse tree.{{ else }}탐색을 열려면 위 영역을 클릭하세요.{{ end }}
   </div>
   <nav x-show="browseOpen" class="px-2 py-2">
     {{ with .Site.GetPage "/" }}

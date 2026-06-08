@@ -5,7 +5,7 @@
 {{- define "main" }}
   {{- $breadcrumb := .Params.breadcrumb | default "연구노트" -}}
   {{- $eyebrow := .Params.eyebrow | default "Research Note" -}}
-  {{- $heroDescription := .Params.hero_description | default "YJ 연구 설계를 기준으로 전여대협 아카이브를 서울 중심주의, 지역 주체, 지식 생산의 위계라는 문제의식 속에서 읽기 위한 소논문 설계 문서입니다." -}}
+  {{- $heroDescription := .Params.hero_description | default .Description -}}
   <main class="facwa-document-page">
     <div class="site-container facwa-document-shell">
       <nav class="facwa-document-breadcrumb" aria-label="Breadcrumb">
@@ -18,7 +18,9 @@
         <div>
           <p class="facwa-document-eyebrow">{{ $eyebrow }}</p>
           <h1>{{ .Title }}</h1>
-          <p>{{ $heroDescription }}</p>
+          {{- with $heroDescription }}
+            <p>{{ . }}</p>
+          {{- end }}
         </div>
         <dl class="facwa-document-meta">
           {{- with .Params.meta }}
@@ -29,14 +31,6 @@
               </div>
             {{- end }}
           {{- else }}
-            <div>
-              <dt>형식</dt>
-              <dd>A4 15장 소논문 설계</dd>
-            </div>
-            <div>
-              <dt>분석틀</dt>
-              <dd>페어클러 비판적 담론 분석</dd>
-            </div>
             <div>
               <dt>동기화</dt>
               <dd>{{ .Params.last_synced_at | default "document.md" }}</dd>
