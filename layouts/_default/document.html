@@ -9,7 +9,7 @@
   <main class="facwa-document-page">
     <div class="site-container facwa-document-shell">
       <nav class="facwa-document-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">홈</a>
+        <a href="{{ .Site.Home.RelPermalink }}">{{ if eq .Site.Language.Lang "en" }}Home{{ else }}홈{{ end }}</a>
         <span aria-hidden="true">/</span>
         <span>{{ $breadcrumb }}</span>
       </nav>

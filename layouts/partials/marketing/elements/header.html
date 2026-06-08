@@ -24,11 +24,17 @@
     {{ end }}
   {{ end }}
 {{ end }}
+{{ if eq $languageSwitchURL "" }}
+  {{ $languageSwitchURL = cond (eq $targetLang "en") (relLangURL "en/") site.Home.RelPermalink }}
+{{ end }}
 {{ with site.Menus.button }}
   {{ with index . 0 }}
     {{ with .URL }}{{ $searchURL = . }}{{ end }}
     {{ with .Name }}{{ $searchLabel = . }}{{ end }}
   {{ end }}
+{{ end }}
+{{ if or (eq $searchURL "/search/") (eq $searchURL "/search") }}
+  {{ $searchURL = relLangURL "search/" }}
 {{ end }}
 <header x-data="{ browseOverlayOpen: false, activeMenu: null }" @keydown.escape.window="activeMenu = null; browseOverlayOpen = false" @mouseleave="activeMenu = null" class="facwa-site-header {{ if eq $page.Type "exhibition" }}relative{{ else }}sticky top-0{{ end }} z-50 border-b border-slate-200 bg-white text-slate-900 relative">
   <div class="border-b border-slate-100 bg-slate-50/70 backdrop-blur-[2px]">
@@ -82,7 +88,7 @@
                 </button>
               </div>
             {{ else }}
-              <a class="facwa-nav-link px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600" href="{{ .URL | absURL }}">{{ .Name }}</a>
+              <a class="facwa-nav-link px-4 py-3 text-[16px] font-medium text-slate-700 transition hover:text-blue-600" href="{{ partial "marketing/utils/menu-link.html" . }}">{{ .Name }}</a>
             {{ end }}
           {{ end }}
         </nav>
@@ -119,7 +125,7 @@
               </div>
               <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 {{ range .Children }}
-                  <a href="{{ .URL | absURL }}" class="group rounded-[8px] border border-slate-200 bg-white p-4 transition hover:border-blue-600 hover:bg-[#f7faff]">
+                  <a href="{{ partial "marketing/utils/menu-link.html" . }}" class="group rounded-[8px] border border-slate-200 bg-white p-4 transition hover:border-blue-600 hover:bg-[#f7faff]">
                     <span class="block text-lg font-semibold text-slate-950 transition group-hover:text-blue-600">{{ .Name }}</span>
                     {{ if .Page }}
                       <span class="mt-2 block text-sm leading-6 text-slate-500">{{ .Page.Params.description | default .Page.Description }}</span>
@@ -151,7 +157,7 @@
 
       <div class="grid gap-8 py-8 lg:grid-cols-[30%_minmax(0,70%)]">
         <aside class="space-y-3">
-          <a class="flex items-center justify-between rounded-[8px] border border-slate-200 bg-slate-50 px-5 py-4 text-base font-medium text-slate-900 transition hover:border-blue-600 hover:text-blue-600" href="/items/">
+          <a class="flex items-center justify-between rounded-[8px] border border-slate-200 bg-slate-50 px-5 py-4 text-base font-medium text-slate-900 transition hover:border-blue-600 hover:text-blue-600" href="{{ "items/" | relLangURL }}">
             <span>{{ T "browse_all" }}</span>
             <span aria-hidden="true">/items</span>
           </a>

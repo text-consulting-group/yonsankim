@@ -1,7 +1,7 @@
 <footer class="facwa-footer">
   <div class="site-container facwa-footer__inner">
     <div class="facwa-footer__brand">
-      <a href="/" aria-label="{{ .Site.Title }}">
+      <a href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }}">
         {{ if .Site.Params.footerLogo }}
           <img src="{{ .Site.Params.footerLogo | absURL }}" alt="{{ .Site.Title }}">
         {{ else if .Site.Params.logo }}
@@ -18,11 +18,11 @@
     <nav class="facwa-footer__nav" aria-label="footer navigation">
       {{ range site.Menus.main }}
         <div>
-          <h2><a href="{{ .URL | absURL }}">{{ .Name }}</a></h2>
+          <h2><a href="{{ partial "marketing/utils/menu-link.html" . }}">{{ .Name }}</a></h2>
           {{ if .HasChildren }}
             <ul>
               {{ range .Children }}
-                <li><a href="{{ .URL | absURL }}">{{ .Name }}</a></li>
+                <li><a href="{{ partial "marketing/utils/menu-link.html" . }}">{{ .Name }}</a></li>
               {{ end }}
             </ul>
           {{ end }}

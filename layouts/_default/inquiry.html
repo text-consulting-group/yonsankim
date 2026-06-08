@@ -2,8 +2,8 @@
 <header class="facwa-inquiry-header">
   {{ partial "marketing/elements/site-logo.html" . }}
   <nav class="facwa-inquiry-nav" aria-label="inquiry navigation">
-    <a href="/">홈</a>
-    <a class="is-active" href="/inquiry/">제품신청</a>
+    <a href="{{ .Site.Home.RelPermalink }}">{{ if eq .Site.Language.Lang "en" }}Home{{ else }}홈{{ end }}</a>
+    <a class="is-active" href="{{ "inquiry/" | relLangURL }}">{{ if eq .Site.Language.Lang "en" }}Inquiry{{ else }}제품신청{{ end }}</a>
   </nav>
   <a class="facwa-inquiry-github" href="{{ .Site.Params.footer.github | default "https://github.com/team-durumi" }}">GITHUB</a>
 </header>

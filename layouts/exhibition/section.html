@@ -53,7 +53,15 @@
 
       <div class="facwa-exhibition-showcase-stack">
         {{ range $section := $sections }}
-          {{ $coverPage := index (where site.RegularPages "File.Path" "eq" $section.Params.cover_file) 0 }}
+          {{ $coverPath := $section.Params.cover_file }}
+          {{ $coverPage := "" }}
+          {{ if and (eq site.Language.Lang "en") $coverPath }}
+            {{ $coverPathEn := replaceRE "\\.md$" ".en.md" $coverPath }}
+            {{ $coverPage = index (where site.RegularPages "File.Path" "eq" $coverPathEn) 0 }}
+          {{ end }}
+          {{ if not $coverPage }}
+            {{ $coverPage = index (where site.RegularPages "File.Path" "eq" $coverPath) 0 }}
+          {{ end }}
           {{ $thumb := "" }}
           {{ if $coverPage }}
             {{ if $coverPage.Params.media.thumbnail }}

@@ -1,0 +1,16 @@
+{{- $url := .URL -}}
+{{- with .Page -}}
+  {{- $url = .RelPermalink -}}
+{{- end -}}
+{{- if not $url -}}
+  {{- $url = "/" -}}
+{{- end -}}
+{{- if hasPrefix $url "http://" -}}
+  {{- $url -}}
+{{- else if hasPrefix $url "https://" -}}
+  {{- $url -}}
+{{- else if hasPrefix $url "/" -}}
+  {{- relLangURL (replaceRE "^/" "" $url) -}}
+{{- else -}}
+  {{- $url -}}
+{{- end -}}
